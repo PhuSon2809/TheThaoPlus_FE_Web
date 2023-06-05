@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { loginOwnerThunk, logoutThunk } from './authThunk';
+import { loginOwnerThunk, logoutThunk, registerOwnerThunk } from './authThunk';
 import { toast } from 'react-toastify';
 
 const getUserfromLocalStorage = localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : null;
@@ -13,20 +13,40 @@ const initialState = {
   message: '',
 };
 
+export const RegisterOwner = createAsyncThunk('auth/RegisterOwner', registerOwnerThunk);
 export const LoginOwner = createAsyncThunk('auth/LoginOwner', loginOwnerThunk);
 export const logoutAccount = createAsyncThunk('auth/Logout', logoutThunk);
 
 const authSlice = createSlice({
   name: 'auth',
   initialState,
-  reducers: {},
+  reducers: {
+    setMessageSuccess: (state, action) => {
+      state.message = action.payload;
+      toast.success(state.message);
+    },
+  },
   extraReducers: (builder) => {
     builder
+      .addCase(RegisterOwner.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(RegisterOwner.fulfilled, (state, action) => {
+        console.log(action.payload);
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+      })
+      .addCase(RegisterOwner.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        toast.error(action.payload?.data.message);
+      })
       .addCase(LoginOwner.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(LoginOwner.fulfilled, (state, action) => {
-        console.log(action.payload);
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
@@ -39,6 +59,7 @@ const authSlice = createSlice({
         state.isError = true;
         state.isSuccess = false;
         state.message = action.payload;
+        toast.error(action.payload);
       })
       .addCase(logoutAccount.pending, (state) => {
         state.isLoading = true;
@@ -58,4 +79,5 @@ const authSlice = createSlice({
   },
 });
 
+export const { setMessageSuccess } = authSlice.actions;
 export default authSlice.reducer;

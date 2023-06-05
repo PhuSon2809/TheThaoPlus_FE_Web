@@ -43,12 +43,10 @@ export const getSportOfOwnerThunk = async (_, thunkAPI) => {
     .split('; ')
     .find((row) => row.startsWith('accessToken'))
     ?.split('=')[1];
-  console.log('token', accessToken);
   if (accessToken) {
     axiosClient.setHeaderAuth(accessToken);
     try {
       const response = await axiosClient.getByUrl('/user/get-sport-list');
-      console.log(response);
       return response;
     } catch (error) {
       console.log('sport error thunk: ', error);

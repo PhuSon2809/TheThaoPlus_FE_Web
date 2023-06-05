@@ -1,7 +1,6 @@
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
-import MapIcon from '@mui/icons-material/Map';
 import {
   Button,
   Card,
@@ -42,7 +41,6 @@ import Iconify from '../../components/iconify';
 import Label from '../../components/label';
 import Scrollbar from '../../components/scrollbar';
 import { TableListHead, UserListToolbar } from '../../sections/@dashboard/table';
-import SportCenterMapView from 'src/sections/@dashboard/sportCenter/SportCenterMapView';
 
 // ----------------------------------------------------------------------
 
@@ -88,18 +86,20 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-function SportCenterPage() {
+function BookingPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const { toogleOpen, isOpen } = useModal();
-  const { toogleOpen: toogleOpenMap, isOpen: isOpenMap } = useModal();
 
   const { sportCenterOfOwner } = useSelector((state) => state.sportCenter);
+  console.log(sportCenterOfOwner);
 
   const [open, setOpen] = useState(null);
 
   const [idToDelete, setIdToDelete] = useState(null);
+
+  console.log(idToDelete);
 
   const [page, setPage] = useState(0);
 
@@ -178,34 +178,29 @@ function SportCenterPage() {
   return (
     <>
       <Helmet>
-        <title> Sport center | TheThaoPlus </title>
+        <title> Booking | TheThaoPlus </title>
       </Helmet>
 
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-            Sport Center
+            All Booking
           </Typography>
-          <Stack direction="row" alignItems="center" gap={2}>
-            <Button variant="contained" startIcon={<MapIcon />} onClick={toogleOpenMap}>
-              Map View
-            </Button>
-            <Button
-              variant="contained"
-              startIcon={<AddRoundedIcon />}
-              sx={{
-                backgroundColor: '#00C187',
-                '&:hover': {
-                  backgroundColor: '#30ca9c',
-                },
-              }}
-              onClick={() => {
-                navigate('/dashboard/add-sport-center');
-              }}
-            >
-              New Sport Center
-            </Button>
-          </Stack>
+          <Button
+            variant="contained"
+            startIcon={<AddRoundedIcon />}
+            sx={{
+              backgroundColor: '#00C187',
+              '&:hover': {
+                backgroundColor: '#30ca9c',
+              },
+            }}
+            onClick={() => {
+              navigate('/dashboard/add-booking');
+            }}
+          >
+            New Booking
+          </Button>
         </Stack>
 
         <Card>
@@ -359,8 +354,6 @@ function SportCenterPage() {
         </Card>
       </Container>
 
-      {isOpenMap && <SportCenterMapView isOpenMap={isOpenMap} toogleOpenMap={toogleOpenMap} />}
-
       <Popover
         open={Boolean(open)}
         anchorEl={open}
@@ -426,4 +419,4 @@ function SportCenterPage() {
   );
 }
 
-export default SportCenterPage;
+export default BookingPage;

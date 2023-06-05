@@ -8,32 +8,36 @@ import Router from './routes/routes';
 import { store } from './services/configureStore';
 import ThemeProvider from './theme';
 import { ToastContainer } from 'react-toastify';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 export default function App() {
   return (
     <Provider store={store}>
-      <HelmetProvider>
-        <BrowserRouter>
-          <ThemeProvider>
-            <ScrollToTop />
-            <StyledChart />
-            <Router />
-            <ToastContainer
-              position="top-right"
-              autoClose={1500}
-              hideProgressBar={false}
-              newestOnTop={false}
-              closeOnClick
-              rtl={false}
-              pauseOnFocusLoss
-              draggable
-              pauseOnHover
-              theme="light"
-              limit={1}
-            />
-          </ThemeProvider>
-        </BrowserRouter>
-      </HelmetProvider>
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <HelmetProvider>
+          <BrowserRouter>
+            <ThemeProvider>
+              <ScrollToTop />
+              <StyledChart />
+              <Router />
+              <ToastContainer
+                position="top-right"
+                autoClose={1500}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+                limit={1}
+              />
+            </ThemeProvider>
+          </BrowserRouter>
+        </HelmetProvider>
+      </LocalizationProvider>
     </Provider>
   );
 }

@@ -1,10 +1,9 @@
 import ReactDOM from 'react-dom/client';
-
-//
-import App from './App';
-import * as serviceWorker from './serviceWorker';
-import reportWebVitals from './reportWebVitals';
 import 'react-toastify/dist/ReactToastify.css';
+import App from './App';
+import reportWebVitals from './reportWebVitals';
+import * as serviceWorker from './serviceWorker';
+import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 // ----------------------------------------------------------------------
 

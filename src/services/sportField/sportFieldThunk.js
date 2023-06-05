@@ -1,7 +1,8 @@
 import axiosClient from 'src/api/axiosClient';
-import { getSportCentersOfOwner, setMessageSuccess } from './sportCenterSlice';
+import { getAllSportFields, setMessageSuccess } from './sportFieldSlice';
+import { getSportCenterDetail } from '../sportCenter/sportCenterSlice';
 
-export const getAllSportCentersThunk = async (_, thunkAPI) => {
+export const getAllSportFieldsThunk = async (sportCenterId, thunkAPI) => {
   const accessToken = document.cookie
     .split('; ')
     .find((row) => row.startsWith('accessToken'))
@@ -9,8 +10,7 @@ export const getAllSportCentersThunk = async (_, thunkAPI) => {
   if (accessToken) {
     axiosClient.setHeaderAuth(accessToken);
     try {
-      const response = await axiosClient.getByUrl('/user/get-sport-center-list');
-      console.log(response);
+      const response = await axiosClient.getByUrl(`/sport-center/get-sport-field-list/${sportCenterId}`);
       return response;
     } catch (error) {
       console.log('sport error thunk: ', error);
@@ -19,7 +19,7 @@ export const getAllSportCentersThunk = async (_, thunkAPI) => {
   }
 };
 
-export const getSportCentersOfOwnerThunk = async (_, thunkAPI) => {
+export const getSportFieldDetailThunk = async (sportFieldId, thunkAPI) => {
   const accessToken = document.cookie
     .split('; ')
     .find((row) => row.startsWith('accessToken'))
@@ -27,8 +27,7 @@ export const getSportCentersOfOwnerThunk = async (_, thunkAPI) => {
   if (accessToken) {
     axiosClient.setHeaderAuth(accessToken);
     try {
-      const response = await axiosClient.getByUrl('/sport-center/sport-center-of-owner');
-      console.log(response);
+      const response = await axiosClient.getByUrl(`/sport-field/${sportFieldId}`);
       return response;
     } catch (error) {
       console.log('sport error thunk: ', error);
@@ -37,7 +36,7 @@ export const getSportCentersOfOwnerThunk = async (_, thunkAPI) => {
   }
 };
 
-export const getSportCenterDetailThunk = async (sportCenterId, thunkAPI) => {
+export const createNewSportFieldThunk = async (params, thunkAPI) => {
   const accessToken = document.cookie
     .split('; ')
     .find((row) => row.startsWith('accessToken'))
@@ -45,27 +44,10 @@ export const getSportCenterDetailThunk = async (sportCenterId, thunkAPI) => {
   if (accessToken) {
     axiosClient.setHeaderAuth(accessToken);
     try {
-      const response = await axiosClient.getByUrl(`/sport-center/${sportCenterId}`);
-      return response;
-    } catch (error) {
-      console.log('sport error thunk: ', error);
-      return thunkAPI.rejectWithValue(error);
-    }
-  }
-};
-
-export const createNewSportCenterThunk = async (params, thunkAPI) => {
-  const accessToken = document.cookie
-    .split('; ')
-    .find((row) => row.startsWith('accessToken'))
-    ?.split('=')[1];
-  if (accessToken) {
-    axiosClient.setHeaderAuth(accessToken);
-    try {
-      const response = await axiosClient.post('/sport-center/', params.newSportCenter);
+      const response = await axiosClient.post('/sport-field/', params.newSportField);
       if (response) {
-        params.navigate('/dashboard/sport-center');
-        thunkAPI.dispatch(setMessageSuccess('Created new sport center successfully'));
+        thunkAPI.dispatch(getAllSportFields(params.sportCenterId));
+        params.navigate(`/dashboard/sport-center-detail/${params.sportCenterId}`);
       }
       return response;
     } catch (error) {
@@ -75,7 +57,8 @@ export const createNewSportCenterThunk = async (params, thunkAPI) => {
   }
 };
 
-export const updateSportCenterThunk = async (params, thunkAPI) => {
+export const updateSportFieldThunk = async (params, thunkAPI) => {
+  console.log(params);
   const accessToken = document.cookie
     .split('; ')
     .find((row) => row.startsWith('accessToken'))
@@ -83,10 +66,10 @@ export const updateSportCenterThunk = async (params, thunkAPI) => {
   if (accessToken) {
     axiosClient.setHeaderAuth(accessToken);
     try {
-      const response = await axiosClient.post(`/sport-center/${params.sportCenterId}`, params.upadateSportCenter);
+      const response = await axiosClient.put(`/sport-field/${params.sportFieldId}`, params.updateSportFieldObj);
       if (response) {
-        params.navigate('/dashboard/sport-center');
-        thunkAPI.dispatch(setMessageSuccess('Update sport center successfully'));
+        thunkAPI.dispatch(getAllSportFields(params.sportCenterId));
+        params.navigate(`/dashboard/sport-center-detail/${params.sportCenterId}`);
       }
       return response;
     } catch (error) {
@@ -96,7 +79,7 @@ export const updateSportCenterThunk = async (params, thunkAPI) => {
   }
 };
 
-export const deleteSportCenterThunk = async (params, thunkAPI) => {
+export const deleteSportFieldThunk = async (params, thunkAPI) => {
   const accessToken = document.cookie
     .split('; ')
     .find((row) => row.startsWith('accessToken'))
@@ -104,10 +87,10 @@ export const deleteSportCenterThunk = async (params, thunkAPI) => {
   if (accessToken) {
     axiosClient.setHeaderAuth(accessToken);
     try {
-      const response = await axiosClient.delete(`/sport-center/${params.sportCenterId}/${params.sportId}`);
+      const response = await axiosClient.delete(`/sport-field/${params.sportFieldId}/${params.sportCenterId}`);
       if (response) {
-        thunkAPI.dispatch(getSportCentersOfOwner());
-        thunkAPI.dispatch(setMessageSuccess('Deleted sport center successfully'));
+        thunkAPI.dispatch(getAllSportFields(params.sportCenterId));
+        thunkAPI.dispatch(setMessageSuccess('Deleted sport field successfully'));
       }
       return response;
     } catch (error) {
@@ -117,8 +100,7 @@ export const deleteSportCenterThunk = async (params, thunkAPI) => {
   }
 };
 
-export const activeSportCenterThunk = async (sportCenterId, thunkAPI) => {
-  console.log(sportCenterId);
+export const activeSportFieldThunk = async (params, thunkAPI) => {
   const accessToken = document.cookie
     .split('; ')
     .find((row) => row.startsWith('accessToken'))
@@ -126,10 +108,11 @@ export const activeSportCenterThunk = async (sportCenterId, thunkAPI) => {
   if (accessToken) {
     axiosClient.setHeaderAuth(accessToken);
     try {
-      const response = await axiosClient.put(`/sport-center/unblock-sport-center/${sportCenterId}`);
+      const response = await axiosClient.put(`/sport-field/unblock-sport-field/${params.sportFieldId}`);
       if (response) {
-        thunkAPI.dispatch(getSportCentersOfOwner());
-        thunkAPI.dispatch(setMessageSuccess('Active sport center successfully'));
+        thunkAPI.dispatch(getAllSportFields(params.sportCenterId));
+        thunkAPI.dispatch(getSportCenterDetail(params.sportCenterId));
+        thunkAPI.dispatch(setMessageSuccess('Active sport field successfully'));
       }
       return response;
     } catch (error) {
@@ -139,8 +122,7 @@ export const activeSportCenterThunk = async (sportCenterId, thunkAPI) => {
   }
 };
 
-export const deactiveSportCenterThunk = async (sportCenterId, thunkAPI) => {
-  console.log(sportCenterId);
+export const deactiveSportFieldThunk = async (params, thunkAPI) => {
   const accessToken = document.cookie
     .split('; ')
     .find((row) => row.startsWith('accessToken'))
@@ -148,10 +130,11 @@ export const deactiveSportCenterThunk = async (sportCenterId, thunkAPI) => {
   if (accessToken) {
     axiosClient.setHeaderAuth(accessToken);
     try {
-      const response = await axiosClient.put(`/sport-center/block-sport-center/${sportCenterId}`);
+      const response = await axiosClient.put(`/sport-field/block-sport-field/${params.sportFieldId}`);
       if (response) {
-        thunkAPI.dispatch(getSportCentersOfOwner());
-        thunkAPI.dispatch(setMessageSuccess('Deactive sport center successfully'));
+        thunkAPI.dispatch(getAllSportFields(params.sportCenterId));
+        thunkAPI.dispatch(getSportCenterDetail(params.sportCenterId));
+        thunkAPI.dispatch(setMessageSuccess('Deactive sport field successfully'));
       }
       return response;
     } catch (error) {

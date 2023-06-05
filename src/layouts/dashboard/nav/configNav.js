@@ -23,12 +23,12 @@ const navConfigOwner = [
   },
   {
     title: 'booking',
-    path: '/dashboard/blog',
+    path: '/dashboard/booking',
     icon: <BookOnlineRoundedIcon fontSize="small" />,
   },
   {
     title: 'booking calendar',
-    path: '/dashboard/products',
+    path: '/dashboard/booking-calendar',
     icon: <CalendarMonthRoundedIcon fontSize="small" />,
   },
 ];

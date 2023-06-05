@@ -1,5 +1,20 @@
 import Cookie from 'js-cookie';
 import axiosClient from 'src/api/axiosClient';
+import { setMessageSuccess } from './authSlice';
+
+export const registerOwnerThunk = async (params, thunkAPI) => {
+  try {
+    const res = await axiosClient.post(`/user/register-owner`, params.newOwner);
+    if (res) {
+      thunkAPI.dispatch(setMessageSuccess('Craete owner account successfully'));
+      params.navigate('/login', { replace: true });
+    }
+    return res;
+  } catch (error) {
+    console.log('login error thunk: ', error);
+    return thunkAPI.rejectWithValue(error);
+  }
+};
 
 export const loginOwnerThunk = async (params, thunkAPI) => {
   try {

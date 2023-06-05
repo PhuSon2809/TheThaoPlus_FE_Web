@@ -3,18 +3,22 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import DashboardLayout from '../layouts/dashboard';
 import SimpleLayout from '../layouts/simple';
 import {
+  AddSportCenterPage,
   AllSportPage,
-  BlogPage,
   DashboardAppPage,
   LoginPage,
   Page404,
-  ProductsPage,
   RegisterPage,
+  SportCenterDetailPage,
   SportCenterPage,
   SportPage,
+  BookingPage,
+  BookingCalendarPage,
+  AddSportFieldPage,
+  AddBooking,
 } from 'src/pages';
 import PrivateRoute from './PrivateRoute';
-import AddSportCenterPage from 'src/pages/sportCenter/AddSportCenterPage';
+import PublicRoute from './PublicRoute';
 
 export const publicRoute = [
   {
@@ -53,19 +57,31 @@ export const ownerRoute = [
     component: <AddSportCenterPage />,
   },
   {
-    path: 'products',
-    component: <ProductsPage />,
+    path: 'sport-center-detail/:id',
+    component: <SportCenterDetailPage />,
   },
   {
-    path: 'blog',
-    component: <BlogPage />,
+    path: 'add-sport-field/:id',
+    component: <AddSportFieldPage />,
+  },
+  {
+    path: 'booking',
+    component: <BookingPage />,
+  },
+  {
+    path: 'add-booking',
+    component: <AddBooking />,
+  },
+  {
+    path: 'booking-calendar',
+    component: <BookingCalendarPage />,
   },
 ];
 
 function Router() {
   return (
     <Routes>
-      <Route path="/">
+      <Route path="/" element={<PublicRoute />}>
         <Route element={<Navigate to="/login" />} index={true} />
         {publicRoute.map((route) => (
           <Route key={route.path} path={route.path} element={route.component} />
@@ -79,9 +95,10 @@ function Router() {
       </Route>
 
       <Route path="*" element={<Navigate to="/404" replace />} />
+
       <Route path="/" element={<PrivateRoute />}>
         <Route path="/dashboard" element={<DashboardLayout />}>
-          <Route element={<Navigate to="/dashboard/app" />} />
+          <Route element={<Navigate to="/dashboard/app" />} index={true} />
           {ownerRoute.map((route) => (
             <Route key={route.path} path={route.path} element={route.component} />
           ))}
