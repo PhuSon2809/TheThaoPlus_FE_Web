@@ -48,7 +48,7 @@ function DetailSportCenter({ sportCenter }) {
             </Stack>
             <Stack direction="row" gap={1}>
               <StarRoundedIcon sx={{ color: 'main.main' }} />
-              <Typography sx={{ color: '#fff' }}>No reviews yet</Typography>
+              <Typography sx={{ color: '#fff' }}>Chưa có đánh giá nào</Typography>
             </Stack>
           </Stack>
         </Box>
@@ -63,7 +63,7 @@ function DetailSportCenter({ sportCenter }) {
 
         <Stack gap={1}>
           <Typography variant="subtitle1" gutterBottom sx={{ color: 'main.main' }}>
-            Description - Attached Information
+            Mô tả - Thông tin đính kèm
           </Typography>
 
           <Typography gutterBottom sx={{ textAlign: 'justify' }}>
@@ -80,7 +80,7 @@ function DetailSportCenter({ sportCenter }) {
 
         <Stack gap={1}>
           <Typography variant="subtitle1" gutterBottom sx={{ color: 'main.main' }}>
-            Utilities:
+            Tiện ích:
           </Typography>
 
           <Stack direction="row" alignItems="center" flexWrap="wrap" gap={2}>
@@ -93,7 +93,7 @@ function DetailSportCenter({ sportCenter }) {
           </Stack>
 
           <Typography variant="subtitle1" gutterBottom sx={{ color: 'main.main', mt: 2 }}>
-            Notes:
+            Lưu ý:
           </Typography>
 
           <Stack direction="row" alignItems="center" flexWrap="wrap" gap={2}>
@@ -110,7 +110,7 @@ function DetailSportCenter({ sportCenter }) {
 
         <Stack>
           <Typography variant="subtitle1" sx={{ color: 'main.main' }}>
-            Sports:
+            Môn Thể Thao:
           </Typography>
           <Stack direction="row" alignItems="center" gap={1}>
             <img src={sportCenter.sport?.image} alt={sportCenter.sport?.name} width={60} height={60} />
@@ -134,12 +134,12 @@ function DetailSportCenter({ sportCenter }) {
               },
             }}
           >
-            Price list
+            Bảng giá
           </Button>
 
           <Card sx={{ p: 2 }}>
             <Typography variant="h6" gutterBottom sx={{ color: 'main.main', backgroundColor: 'grey.200', p: 1, mb: 2 }}>
-              CONTACT INFO:
+              THÔNG TIN LIÊN LẠC:
             </Typography>
             <Stack spacing={1}>
               <Stack direction="row" gap="5px">
@@ -153,7 +153,7 @@ function DetailSportCenter({ sportCenter }) {
             </Stack>
 
             <Typography variant="subtitle2" sx={{ mt: 2, color: 'main.main' }}>
-              11 people follow this place
+              11 người đã theo dõi địa điểm này
             </Typography>
           </Card>
           {!sportCenter.image ? (
@@ -170,7 +170,7 @@ function DetailSportCenter({ sportCenter }) {
               }}
             >
               <BlurOnIcon fontSize="large" />
-              <Typography variant="subtitle2">No have image</Typography>
+              <Typography variant="subtitle2">Chưa có hình ảnh</Typography>
             </Card>
           ) : (
             <Card

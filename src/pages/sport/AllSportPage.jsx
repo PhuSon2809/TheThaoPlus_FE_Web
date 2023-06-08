@@ -14,20 +14,20 @@ function AllSportPage() {
 
   useEffect(() => {
     dispatch(getAllSports());
-  }, []);
+  }, [dispatch]);
 
   return (
     <>
       <Helmet>
-        <title> All Sports | TheThaoPlus </title>
+        <title> Ccác Môn Thể Thao | TheThaoPlus </title>
       </Helmet>
 
       <Container>
         <Typography variant="h4" sx={{ mb: 1 }}>
-          All sport in the system
+          Tất cả các môn thể thao trong hệ thống
         </Typography>
         <Typography variant="subtitle2" sx={{ mb: 5, opacity: 0.72 }}>
-          Add sports to your sports center system.
+          Thêm các môn thể thao vào hệ thống trung tâm thể thao của bạn.
         </Typography>
 
         <Stack direction="row" flexWrap="wrap-reverse" alignItems="center" justifyContent="flex-end" sx={{ mb: 5 }}>
@@ -44,7 +44,7 @@ function AllSportPage() {
               navigate('/dashboard/sport');
             }}
           >
-            Back
+            Trở lại
           </Button>
         </Stack>
       </Container>

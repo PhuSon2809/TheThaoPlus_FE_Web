@@ -14,12 +14,12 @@ import {
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import dayjs from 'dayjs';
 import { useFormik } from 'formik';
-import moment from 'moment/moment';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { createNewBooking } from 'src/services/booking/bookingSlice';
 import { getSportOfOwner } from 'src/services/sport/sportSlice';
-import { creatNewSportCenter, getSportCentersOfOwner } from 'src/services/sportCenter/sportCenterSlice';
+import { getSportCentersOfOwner } from 'src/services/sportCenter/sportCenterSlice';
 import { getAllSportFields, getSportFieldDetail } from 'src/services/sportField/sportFieldSlice';
 import formatCurrency from 'src/utils/formatPrice';
 import * as Yup from 'yup';
@@ -31,8 +31,6 @@ function AddBookingForm() {
   const { sportsOfOwner } = useSelector((state) => state.sport);
   const { sportCenterOfOwner } = useSelector((state) => state.sportCenter);
   const { sportFields, sportField } = useSelector((state) => state.sportField);
-
-  console.log(sportField);
 
   const [startTime, setStartTime] = useState(dayjs());
   const [endTime, setEndTime] = useState(dayjs());
@@ -68,30 +66,27 @@ function AddBookingForm() {
     },
     onSubmit: async (values, formikHelpers) => {
       const newBookingBody = {
-        sportCenter: sportCenterId,
-        sportField: sportFieldId,
+        sportCenterId: sportCenterId,
+        sportFieldId: sportFieldId,
         totalPrice: sportField?.price,
         deposit: sportField?.price * 0.25,
-        startTime: dayjs(startTime.$d),
-        endTime: dayjs(endTime.$d),
+        start: startTime.$d,
+        end: endTime.$d,
         userBooking: formik.values.name,
         phoneBooking: formik.values.phone,
       };
       console.log(newBookingBody);
-      // dispatch(creatNewSportCenter({ newSportCenter, navigate }));
-      // formikHelpers.resetForm();
+      dispatch(createNewBooking({ newBookingBody, navigate }));
     },
     validationSchema: Yup.object({
-      name: Yup.string().required('Please enter customer name'),
-      phone: Yup.string().matches(phoneRegExp, 'Phone number is not valid'),
+      name: Yup.string().required('Vui lòng nhập tên khách hàng'),
+      phone: Yup.string().matches(phoneRegExp, 'Số điện thoại không tồn tại'),
     }),
   });
 
   return (
     <form onSubmit={formik.handleSubmit}>
       <Grid container spacing={3}>
-        {/* Upload Image */}
-
         {/* Input Field */}
         <Grid item xs={12} sm={9} md={8}>
           <Stack spacing={3}>
@@ -99,7 +94,7 @@ function AddBookingForm() {
               <FormControl fullWidth>
                 <TextField
                   name="name"
-                  label="Customer name"
+                  label="Tên khách hàng"
                   type="text"
                   value={formik.values.name}
                   onChange={formik.handleChange}
@@ -114,7 +109,7 @@ function AddBookingForm() {
               <FormControl fullWidth>
                 <TextField
                   name="phone"
-                  label="Customer phone number"
+                  label="Số điện thoại khách hàng"
                   type="number"
                   value={formik.values.phone}
                   onChange={formik.handleChange}
@@ -129,15 +124,15 @@ function AddBookingForm() {
 
             <Stack direction="row" alignItems="center" gap={3}>
               <FormControl fullWidth>
-                <DateTimePicker label="Start Time" value={startTime} onChange={(newValue) => setStartTime(newValue)} />
+                <DateTimePicker label="Giờ bắt đầu" value={startTime} onChange={(newValue) => setStartTime(newValue)} />
               </FormControl>
               <FormControl fullWidth>
-                <DateTimePicker label="End Time" value={endTime} onChange={(newValue) => setEndTime(newValue)} />
+                <DateTimePicker label="Giờ kết thúc" value={endTime} onChange={(newValue) => setEndTime(newValue)} />
               </FormControl>
             </Stack>
 
             <FormControl>
-              <InputLabel id="sport-label">Sport</InputLabel>
+              <InputLabel id="sport-label">Môn thể thao</InputLabel>
               <Select
                 labelId="sport-label"
                 id="demo-simple-select-helper"
@@ -159,7 +154,7 @@ function AddBookingForm() {
 
             <Stack direction="row" alignItems="center" gap={3}>
               <FormControl fullWidth>
-                <InputLabel id="sport-center-label">Sport center</InputLabel>
+                <InputLabel id="sport-center-label">Trung tâm thể thao</InputLabel>
                 <Select
                   labelId="sport-center-label"
                   id="sport-center-select-helper"
@@ -180,7 +175,7 @@ function AddBookingForm() {
               </FormControl>
 
               <FormControl fullWidth>
-                <InputLabel id="sport-field-label">Sport field</InputLabel>
+                <InputLabel id="sport-field-label">Sân</InputLabel>
                 <Select
                   labelId="sport-field-label"
                   id="sport-field-select-helper"
@@ -204,16 +199,28 @@ function AddBookingForm() {
             <Stack direction="row" alignItems="center" gap={3}>
               <Stack direction="row" alignItems="center" gap={1}>
                 <Typography variant="h6">Price:</Typography>
-                <Typography variant="h5" sx={{ color: 'main.main' }}>
-                  {formatCurrency(sportField.price)}
-                </Typography>
+                {sportField?.price ? (
+                  <Typography variant="h5" sx={{ color: 'main.main' }}>
+                    {formatCurrency(sportField?.price)}
+                  </Typography>
+                ) : (
+                  <Typography variant="h5" sx={{ color: 'main.main' }}>
+                    {formatCurrency(0)}
+                  </Typography>
+                )}
               </Stack>
 
               <Stack direction="row" alignItems="center" gap={1}>
                 <Typography variant="h6">Deposit:</Typography>
-                <Typography variant="h5" sx={{ color: 'main.main' }}>
-                  {formatCurrency(sportField.price * 0.25)}
-                </Typography>
+                {sportField?.price ? (
+                  <Typography variant="h5" sx={{ color: 'main.main' }}>
+                    {formatCurrency(sportField?.price * 0.25)}
+                  </Typography>
+                ) : (
+                  <Typography variant="h5" sx={{ color: 'main.main' }}>
+                    {formatCurrency(0)}
+                  </Typography>
+                )}
               </Stack>
             </Stack>
           </Stack>
@@ -236,17 +243,17 @@ function AddBookingForm() {
                 },
               }}
             >
-              Add
+              Thêm mới
             </Button>
 
             <Button
               variant="contained"
               color="primary"
               onClick={() => {
-                navigate('/dashboard/add-booking');
+                navigate('/dashboard/booking');
               }}
             >
-              Back
+              Trở lại
             </Button>
           </Stack>
         </Grid>
@@ -266,7 +273,7 @@ function AddBookingForm() {
               }}
             >
               <PhotoSizeSelectActualIcon fontSize="large" />
-              <Typography variant="subtitle2">Upload image for sport field</Typography>
+              <Typography variant="subtitle2">Hình ảnh cho sân thể thao</Typography>
             </Card>
           ) : (
             <Card

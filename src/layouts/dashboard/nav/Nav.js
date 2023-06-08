@@ -74,7 +74,7 @@ function Nav({ openNav, onCloseNav }) {
 
           <Box sx={{ textAlign: 'center' }}>
             <Typography gutterBottom variant="h6">
-              Get more benefits?
+              Nhận nhiều lợi ích hơn?
             </Typography>
           </Box>
 
@@ -89,7 +89,7 @@ function Nav({ openNav, onCloseNav }) {
               },
             }}
           >
-            Upgrade to Pro
+            Nâng cấp tài khoản
           </Button>
         </Stack>
       </Box>

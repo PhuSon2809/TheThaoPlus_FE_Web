@@ -62,7 +62,7 @@ function SportCard({ sport, color = 'main', sx, ...other }) {
             dispatch(addSportList(sport._id));
           }}
         >
-          Added
+          Đã thêm
         </Button>
       ) : (
         <Button
@@ -78,7 +78,7 @@ function SportCard({ sport, color = 'main', sx, ...other }) {
             dispatch(addSportList(sport._id));
           }}
         >
-          Add
+          Thêm mới
         </Button>
       )}
     </Card>

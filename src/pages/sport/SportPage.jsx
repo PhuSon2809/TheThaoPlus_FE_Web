@@ -21,23 +21,22 @@ import {
   TableRow,
   Typography,
 } from '@mui/material';
-import { sentenceCase } from 'change-case';
 import { filter } from 'lodash';
 import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useModal } from 'src/hooks/useModal';
+import { SportListToolbar } from 'src/sections/@dashboard/sport';
 import { addSportList, getSportOfOwner } from 'src/services/sport/sportSlice';
 import Label from '../../components/label';
 import Scrollbar from '../../components/scrollbar';
 import { TableListHead } from '../../sections/@dashboard/table';
-import { SportListToolbar } from 'src/sections/@dashboard/sport';
 
 const TABLE_HEAD = [
-  { id: 'name', label: 'Name', alignRight: false },
-  { id: 'quantity', label: 'Quantity sport center', alignRight: false },
-  { id: 'status', label: 'Status', alignRight: false },
+  { id: 'name', label: 'Tên môn thể thao', alignRight: false },
+  { id: 'quantity', label: 'Số lượng', alignRight: false },
+  { id: 'status', label: 'Trạng thái', alignRight: false },
   { id: '' },
 ];
 
@@ -96,7 +95,7 @@ function SportPage() {
 
   useEffect(() => {
     dispatch(getSportOfOwner());
-  }, []);
+  }, [dispatch]);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -151,13 +150,13 @@ function SportPage() {
   return (
     <>
       <Helmet>
-        <title> Sport | TheThaoPlus </title>
+        <title> Môn Thể Thao | TheThaoPlus </title>
       </Helmet>
 
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-            Sport
+            Danh sách các môn thể thao
           </Typography>
           <Button
             variant="contained"
@@ -172,7 +171,7 @@ function SportPage() {
               navigate('/dashboard/all-sport-system');
             }}
           >
-            New Sport
+            Thêm mới
           </Button>
         </Stack>
 
@@ -230,11 +229,11 @@ function SportPage() {
                             </Stack>
                           </TableCell>
 
-                          <TableCell align="left">{sportCenters.length} sport center</TableCell>
+                          <TableCell align="left">{sportCenters.length} trung tâm thể thao</TableCell>
 
                           <TableCell align="left">
                             <Label color={(!status && 'error') || 'success'}>
-                              {sentenceCase(status ? 'active' : 'deactive')}
+                              {status ? 'Hoạt động' : 'Không hoạt động'}
                             </Label>
                           </TableCell>
 
@@ -271,13 +270,13 @@ function SportPage() {
                           }}
                         >
                           <Typography variant="h6" paragraph>
-                            Not found
+                            Không tìm thấy
                           </Typography>
 
                           <Typography variant="body2">
-                            No results found for &nbsp;
+                            Không tìm thấy kết quả cho &nbsp;
                             <strong>&quot;{filterName}&quot;</strong>.
-                            <br /> Try checking for typos or using complete words.
+                            <br /> Hãy thử kiểm tra lỗi chính tả hoặc sử dụng các từ hoàn chỉnh.
                           </Typography>
                         </Paper>
                       </TableCell>
@@ -312,11 +311,11 @@ function SportPage() {
           onClose={toogleOpen}
         >
           <DialogContent sx={{ width: '100%' }}>
-            <Typography variant="subtitle1">Do you want to remove this sport?</Typography>
+            <Typography variant="subtitle1">Bạn có muốn xóa môn thể thao này không?</Typography>
           </DialogContent>
           <DialogActions>
             <Button variant="contained" color="secondary" size="small" onClick={toogleOpen}>
-              Close
+              Đóng
             </Button>
             <Button
               variant="contained"
@@ -327,7 +326,7 @@ function SportPage() {
                 toogleOpen();
               }}
             >
-              Delete
+              Xóa
             </Button>
           </DialogActions>
         </Dialog>

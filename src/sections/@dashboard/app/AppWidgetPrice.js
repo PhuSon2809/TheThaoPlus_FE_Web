@@ -6,6 +6,7 @@ import { Card, Typography } from '@mui/material';
 import { fShortenNumber } from '../../../utils/formatNumber';
 // components
 import Iconify from '../../../components/iconify';
+import formatCurrency from 'src/utils/formatPrice';
 
 // ----------------------------------------------------------------------
 
@@ -22,7 +23,7 @@ const StyledIcon = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-AppWidgetSummary.propTypes = {
+AppWidgetPrice.propTypes = {
   color: PropTypes.string,
   icon: PropTypes.string,
   title: PropTypes.string.isRequired,
@@ -30,7 +31,7 @@ AppWidgetSummary.propTypes = {
   sx: PropTypes.object,
 };
 
-export default function AppWidgetSummary({ title, total, icon, color = 'primary', sx, ...other }) {
+export default function AppWidgetPrice({ title, total, icon, color = 'primary', sx, ...other }) {
   return (
     <Card
       sx={{
@@ -56,7 +57,7 @@ export default function AppWidgetSummary({ title, total, icon, color = 'primary'
         {icon}
       </StyledIcon>
 
-      <Typography variant="h3">{fShortenNumber(total)}</Typography>
+      <Typography variant="h3">{formatCurrency(total)}</Typography>
 
       <Typography variant="subtitle1" sx={{ opacity: 0.72 }}>
         {title}

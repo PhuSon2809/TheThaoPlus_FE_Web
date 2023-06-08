@@ -7,18 +7,18 @@ import StoreRoundedIcon from '@mui/icons-material/StoreRounded';
 export const Utilities = [
   {
     id: '1',
-    name: 'Parking sport',
+    name: 'Bãi đậu xe',
     icon: <DriveEtaRoundedIcon sx={{ color: 'main.main' }} />,
   },
   {
     id: '2',
-    name: 'Changing rooms',
+    name: 'Phòng thay đồ',
     icon: <CheckroomRoundedIcon sx={{ color: 'main.main' }} />,
   },
 
   {
     id: '3',
-    name: 'Water shop',
+    name: 'Quán nước',
     icon: <StoreRoundedIcon sx={{ color: 'main.main' }} />,
   },
   {
@@ -28,7 +28,7 @@ export const Utilities = [
   },
   {
     id: '5',
-    name: 'Waiting area',
+    name: 'Khu vực chờ',
     icon: <RoofingRoundedIcon sx={{ color: 'main.main' }} />,
   },
 ];
@@ -36,10 +36,10 @@ export const Utilities = [
 export const UtilitieNote = [
   {
     id: '1',
-    name: 'Deposit required',
+    name: 'Phải đặt cọc trước',
   },
   {
     id: '2',
-    name: 'Drinking water costs',
+    name: 'Nước uống tốn phí',
   },
 ];

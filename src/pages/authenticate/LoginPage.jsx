@@ -1,16 +1,15 @@
 import { Helmet } from 'react-helmet-async';
 // @mui
+import { Button, Container, Divider, Stack, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { Container, Typography, Divider, Stack, Button, Link } from '@mui/material';
 // hooks
 import useResponsive from '../../hooks/useResponsive';
 // components
-import Logo from '../../components/logo';
 import Iconify from '../../components/iconify';
+import Logo from '../../components/logo';
 // sections
-import { LoginForm } from '../../sections/auth';
 import { Link as RouterLink } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
+import { LoginForm } from '../../sections/auth';
 
 // ----------------------------------------------------------------------
 
@@ -48,7 +47,7 @@ export default function LoginPage() {
   return (
     <>
       <Helmet>
-        <title> Login | TheThaoPlus </title>
+        <title> Đăng nhập | TheThaoPlus </title>
       </Helmet>
 
       <StyledRoot>
@@ -63,7 +62,7 @@ export default function LoginPage() {
         {mdUp && (
           <StyledSection>
             <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
-              Hi, Welcome Back
+              Chào mừng bạn trở lại
             </Typography>
             <img src="/assets/illustrations/illustration_login.png" alt="login" />
           </StyledSection>
@@ -72,13 +71,13 @@ export default function LoginPage() {
         <Container maxWidth="sm">
           <StyledContent>
             <Typography variant="h3" gutterBottom>
-              Sign in to TheThaoPlus
+              Đăng nhập vào TheThaoPlus
             </Typography>
 
             <Typography variant="body2" sx={{ mb: 5 }}>
-              Don’t have an account? {''}
+              Bạn chưa có tài khoản? {''}
               <RouterLink to="/register" style={{ color: '#207cdc', fontWeight: 'bold' }}>
-                Sign up
+                Đăng ký
               </RouterLink>
             </Typography>
 

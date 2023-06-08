@@ -10,13 +10,13 @@ const AddSportCenterPage = () => {
   return (
     <>
       <Helmet>
-        <title> Add Sport center | TheThaoPlus </title>
+        <title> Thêm trung tâm thể thao mới | TheThaoPlus </title>
       </Helmet>
 
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-            Add New Sport Center
+            Thêm trung tâm thể thao mới
           </Typography>
         </Stack>
         <AddSportCenterForm />

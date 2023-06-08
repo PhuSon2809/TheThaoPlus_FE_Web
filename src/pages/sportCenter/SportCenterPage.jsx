@@ -25,13 +25,13 @@ import {
   TableRow,
   Typography,
 } from '@mui/material';
-import { sentenceCase } from 'change-case';
 import { filter } from 'lodash';
 import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useModal } from 'src/hooks/useModal';
+import SportCenterMapView from 'src/sections/@dashboard/sportCenter/SportCenterMapView';
 import {
   activeSportCenter,
   deactiveSportCenter,
@@ -42,18 +42,17 @@ import Iconify from '../../components/iconify';
 import Label from '../../components/label';
 import Scrollbar from '../../components/scrollbar';
 import { TableListHead, UserListToolbar } from '../../sections/@dashboard/table';
-import SportCenterMapView from 'src/sections/@dashboard/sportCenter/SportCenterMapView';
 
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: 'name', label: 'Name', alignRight: false },
-  { id: 'address', label: 'Address', alignRight: false },
-  { id: 'openTime', label: 'Open Time', alignRight: false },
-  { id: 'closeTime', label: 'Close Time', alignRight: false },
-  { id: 'sport', label: 'Sport', alignRight: false },
-  { id: 'quantity', label: 'Quantity', alignRight: false },
-  { id: 'status', label: 'Status', alignRight: false },
+  { id: 'name', label: 'Tên Trung Tâm', alignRight: false },
+  { id: 'address', label: 'Địa Chỉ', alignRight: false },
+  { id: 'openTime', label: 'Giờ Mở Cửa', alignRight: false },
+  { id: 'closeTime', label: 'Giờ Đóng Cửa', alignRight: false },
+  { id: 'sport', label: 'Môn Thể Thao', alignRight: false },
+  { id: 'quantity', label: 'Số Lượng', alignRight: false },
+  { id: 'status', label: 'Trang Thái', alignRight: false },
   { id: '' },
 ];
 
@@ -178,17 +177,17 @@ function SportCenterPage() {
   return (
     <>
       <Helmet>
-        <title> Sport center | TheThaoPlus </title>
+        <title> Trung Tâm Thể Thao | TheThaoPlus </title>
       </Helmet>
 
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-            Sport Center
+            Trung Tâm Thể Thao
           </Typography>
           <Stack direction="row" alignItems="center" gap={2}>
             <Button variant="contained" startIcon={<MapIcon />} onClick={toogleOpenMap}>
-              Map View
+              Xem bản đồ
             </Button>
             <Button
               variant="contained"
@@ -203,7 +202,7 @@ function SportCenterPage() {
                 navigate('/dashboard/add-sport-center');
               }}
             >
-              New Sport Center
+              Thêm mới
             </Button>
           </Stack>
         </Stack>
@@ -279,7 +278,7 @@ function SportCenterPage() {
                           </Label>
                         </TableCell>
 
-                        <TableCell align="left">{sportFields.length} sport field</TableCell>
+                        <TableCell align="left">{sportFields.length} sân</TableCell>
 
                         <TableCell align="left" sx={{ width: 100 }}>
                           <FormControlLabel
@@ -293,7 +292,7 @@ function SportCenterPage() {
                             }
                             label={
                               <Label color={(status === false && 'error') || 'success'}>
-                                {sentenceCase(status ? 'active' : 'deactive')}
+                                {status ? 'Hoạt động' : 'Không hoạt động'}
                               </Label>
                             }
                           />
@@ -323,20 +322,20 @@ function SportCenterPage() {
                 {isNotFound && (
                   <TableBody>
                     <TableRow>
-                      <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
+                      <TableCell align="center" colSpan={9} sx={{ py: 3 }}>
                         <Paper
                           sx={{
                             textAlign: 'center',
                           }}
                         >
                           <Typography variant="h6" paragraph>
-                            Not found
+                            Không tìm thấy
                           </Typography>
 
                           <Typography variant="body2">
-                            No results found for &nbsp;
+                            Không tìm thấy kết quả cho &nbsp;
                             <strong>&quot;{filterName}&quot;</strong>.
-                            <br /> Try checking for typos or using complete words.
+                            <br /> Hãy thử kiểm tra lỗi chính tả hoặc sử dụng các từ hoàn chỉnh.
                           </Typography>
                         </Paper>
                       </TableCell>
@@ -381,12 +380,12 @@ function SportCenterPage() {
       >
         <MenuItem>
           <EditRoundedIcon fontSize="small" sx={{ mr: 2 }} />
-          Edit
+          Chỉnh sửa
         </MenuItem>
 
         <MenuItem sx={{ color: 'error.main' }} onClick={toogleOpen}>
           <DeleteRoundedIcon fontSize="small" sx={{ mr: 2 }} />
-          Delete
+          Xóa
         </MenuItem>
       </Popover>
 
@@ -402,11 +401,11 @@ function SportCenterPage() {
           onClose={toogleOpen}
         >
           <DialogContent sx={{ width: '100%' }}>
-            <Typography variant="subtitle1">Do you want to remove this sport?</Typography>
+            <Typography variant="subtitle1">Bạn có muốn xóa trung tâm thể thao này không?</Typography>
           </DialogContent>
           <DialogActions>
             <Button variant="contained" color="secondary" size="small" onClick={toogleOpen}>
-              Close
+              Đóng
             </Button>
             <Button
               variant="contained"
@@ -417,7 +416,7 @@ function SportCenterPage() {
                 toogleOpen();
               }}
             >
-              Delete
+              Xóa
             </Button>
           </DialogActions>
         </Dialog>

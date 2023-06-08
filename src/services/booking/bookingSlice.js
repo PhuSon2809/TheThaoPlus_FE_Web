@@ -16,6 +16,7 @@ const initialState = {
   message: '',
   bookings: [],
   booking: {},
+  bookingCalendar: [],
 };
 
 export const getAllBookings = createAsyncThunk('booking/get-all-bookings', getAllBookingsThunk);
@@ -53,7 +54,8 @@ const bookingSlice = createSlice({
         state.isError = false;
         state.isSuccess = true;
         console.log(action.payload);
-        state.Bookings = [...action.payload?.BookingList];
+        state.bookings = [...action.payload?.bookingOfOwner];
+        state.bookingCalendar = [...action.payload?.bookings];
       })
       .addCase(getAllBookings.rejected, (state) => {
         state.isLoading = false;
@@ -68,7 +70,7 @@ const bookingSlice = createSlice({
         state.isError = false;
         state.isSuccess = true;
         console.log(action.payload);
-        state.Booking = { ...action.payload?.ownerSportList };
+        state.booking = { ...action.payload?.getBooking };
       })
       .addCase(getBookingDetail.rejected, (state) => {
         state.isLoading = false;
@@ -83,7 +85,7 @@ const bookingSlice = createSlice({
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
-        toast.success('Created new sport field successfully');
+        toast.success('Created new booking successfully');
       })
       .addCase(createNewBooking.rejected, (state, action) => {
         state.isLoading = false;

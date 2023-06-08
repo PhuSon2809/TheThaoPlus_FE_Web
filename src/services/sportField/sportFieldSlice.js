@@ -62,7 +62,6 @@ const sportFieldSlice = createSlice({
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
-        console.log(action.payload);
         state.sportFields = [...action.payload?.SportFieldList];
       })
       .addCase(getAllSportFields.rejected, (state) => {
@@ -77,7 +76,6 @@ const sportFieldSlice = createSlice({
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
-        console.log(action.payload);
         state.sportField = { ...action.payload?.getSportField };
       })
       .addCase(getSportFieldDetail.rejected, (state) => {

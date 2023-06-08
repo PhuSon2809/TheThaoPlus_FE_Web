@@ -3,6 +3,7 @@ import authReducer from './auth/authSlice';
 import sportReducer from './sport/sportSlice';
 import sportCenterReducer from './sportCenter/sportCenterSlice';
 import sportFieldReducer from './sportField/sportFieldSlice';
+import bookingReducer from './booking/bookingSlice';
 
 export const store = configureStore({
   reducer: {
@@ -10,5 +11,6 @@ export const store = configureStore({
     sport: sportReducer,
     sportCenter: sportCenterReducer,
     sportField: sportFieldReducer,
+    booking: bookingReducer,
   },
 });

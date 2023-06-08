@@ -1,8 +1,8 @@
 import axiosClient from 'src/api/axiosClient';
-import { getAllSportFields, setMessageSuccess } from './sportFieldSlice';
+import { setMessageSuccess } from './bookingSlice';
 import { getSportCenterDetail } from '../sportCenter/sportCenterSlice';
 
-export const getAllBookingsThunk = async (sportCenterId, thunkAPI) => {
+export const getAllBookingsThunk = async (_, thunkAPI) => {
   const accessToken = document.cookie
     .split('; ')
     .find((row) => row.startsWith('accessToken'))
@@ -10,7 +10,7 @@ export const getAllBookingsThunk = async (sportCenterId, thunkAPI) => {
   if (accessToken) {
     axiosClient.setHeaderAuth(accessToken);
     try {
-      const response = await axiosClient.getByUrl(`/sport-center/get-sport-field-list/${sportCenterId}`);
+      const response = await axiosClient.getByUrl(`/booking/booking-of-owner`);
       return response;
     } catch (error) {
       console.log('sport error thunk: ', error);
@@ -19,7 +19,7 @@ export const getAllBookingsThunk = async (sportCenterId, thunkAPI) => {
   }
 };
 
-export const getBookingDetailThunk = async (sportFieldId, thunkAPI) => {
+export const getBookingDetailThunk = async (bookingId, thunkAPI) => {
   const accessToken = document.cookie
     .split('; ')
     .find((row) => row.startsWith('accessToken'))
@@ -27,7 +27,7 @@ export const getBookingDetailThunk = async (sportFieldId, thunkAPI) => {
   if (accessToken) {
     axiosClient.setHeaderAuth(accessToken);
     try {
-      const response = await axiosClient.getByUrl(`/sport-field/${sportFieldId}`);
+      const response = await axiosClient.getByUrl(`/booking/${bookingId}`);
       return response;
     } catch (error) {
       console.log('sport error thunk: ', error);
@@ -37,6 +37,7 @@ export const getBookingDetailThunk = async (sportFieldId, thunkAPI) => {
 };
 
 export const createNewBookingThunk = async (params, thunkAPI) => {
+  console.log(params);
   const accessToken = document.cookie
     .split('; ')
     .find((row) => row.startsWith('accessToken'))
@@ -44,9 +45,9 @@ export const createNewBookingThunk = async (params, thunkAPI) => {
   if (accessToken) {
     axiosClient.setHeaderAuth(accessToken);
     try {
-      const response = await axiosClient.post('/sport-field/', params.newSportField);
+      const response = await axiosClient.post('/booking/create-booking-for-owner', params.newBookingBody);
       if (response) {
-        params.navigate(`/dashboard/sport-center-detail/${params.sportCenterId}`);
+        params.navigate(`/dashboard/booking`);
       }
       return response;
     } catch (error) {
@@ -66,7 +67,7 @@ export const deleteBookingThunk = async (params, thunkAPI) => {
     try {
       const response = await axiosClient.delete(`/sport-field/${params.sportFieldId}/${params.sportCenterId}`);
       if (response) {
-        thunkAPI.dispatch(getAllSportFields(params.sportCenterId));
+        // thunkAPI.dispatch(getAllSportFields(params.sportCenterId));
         thunkAPI.dispatch(setMessageSuccess('Deleted sport field successfully'));
       }
       return response;
@@ -87,7 +88,7 @@ export const activeBookingThunk = async (params, thunkAPI) => {
     try {
       const response = await axiosClient.put(`/sport-field/unblock-sport-field/${params.sportFieldId}`);
       if (response) {
-        thunkAPI.dispatch(getAllSportFields(params.sportCenterId));
+        // thunkAPI.dispatch(getAllSportFields(params.sportCenterId));
         thunkAPI.dispatch(getSportCenterDetail(params.sportCenterId));
         thunkAPI.dispatch(setMessageSuccess('Active sport field successfully'));
       }
@@ -109,7 +110,7 @@ export const deactiveBookingThunk = async (params, thunkAPI) => {
     try {
       const response = await axiosClient.put(`/sport-field/block-sport-field/${params.sportFieldId}`);
       if (response) {
-        thunkAPI.dispatch(getAllSportFields(params.sportCenterId));
+        // thunkAPI.dispatch(getAllSportFields(params.sportCenterId));
         thunkAPI.dispatch(getSportCenterDetail(params.sportCenterId));
         thunkAPI.dispatch(setMessageSuccess('Deactive sport field successfully'));
       }

@@ -19,6 +19,7 @@ import {
 } from 'src/pages';
 import PrivateRoute from './PrivateRoute';
 import PublicRoute from './PublicRoute';
+import PaymentPage from 'src/pages/payment/PaymentPage';
 
 export const publicRoute = [
   {
@@ -75,6 +76,10 @@ export const ownerRoute = [
   {
     path: 'booking-calendar',
     component: <BookingCalendarPage />,
+  },
+  {
+    path: 'payment',
+    component: <PaymentPage />,
   },
 ];
 

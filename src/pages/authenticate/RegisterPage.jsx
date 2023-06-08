@@ -56,7 +56,7 @@ function RegisterPage() {
         {mdUp && (
           <StyledSection>
             <Typography variant="h3" sx={{ px: 4, mt: 10, mb: 5 }}>
-              Hi, Welcome to application
+              Chào mừng bạn đến với ứng dụng của chúng tôi
             </Typography>
             <Stack direction="row" alignItems="center" justifyContent="center" sx={{ px: 4 }}>
               <img src="/assets/illustrations/illustration_register.png" alt="register" style={{ width: '100%' }} />
@@ -67,10 +67,10 @@ function RegisterPage() {
         <Container maxWidth="md">
           <StyledContent>
             <Typography variant="h3" gutterBottom sx={{ mb: 1 }}>
-              Sign up to TheThaoPlus
+              Đăng ký vào TheThaoPlus
             </Typography>
             <Typography variant="subtitle2" gutterBottom sx={{ mb: 0, opacity: 0.72 }}>
-              Register as Owner to manage your sports centers
+              Đăng ký làm Nhà cung cấp để quản lý các trung tâm thể thao của bạn
             </Typography>
 
             <Divider sx={{ my: 4 }}>

@@ -17,7 +17,6 @@ import {
   Switch,
   Typography,
 } from '@mui/material';
-import { sentenceCase } from 'change-case';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -65,7 +64,7 @@ function SportFieldDetail({ isOpenDetail, toogleOpenDetail, sportField }) {
         >
           <DialogContent sx={{ width: '100%' }}>
             <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ mb: 2 }}>
-              <Typography variant="h4">Sport field: {sportField.name}</Typography>
+              <Typography variant="h4">Sân: {sportField.name}</Typography>
 
               <IconButton onClick={handleOpenMenu}>
                 <MoreVertIcon />
@@ -103,7 +102,7 @@ function SportFieldDetail({ isOpenDetail, toogleOpenDetail, sportField }) {
                       color={(sportField.status === false && 'error') || 'success'}
                       sx={{ p: 2, fontSize: '20px' }}
                     >
-                      {sentenceCase(sportField.status ? 'active' : 'deactive')}
+                      {sportField.status ? 'Hoạt động' : 'Không hoạt động'}
                     </Label>
                     <FormControlLabel
                       control={
@@ -128,7 +127,7 @@ function SportFieldDetail({ isOpenDetail, toogleOpenDetail, sportField }) {
           </DialogContent>
           <DialogActions>
             <Button variant="contained" color="secondary" size="small" onClick={toogleOpenDetail}>
-              Close
+              Đóng
             </Button>
           </DialogActions>
         </Dialog>
@@ -146,11 +145,11 @@ function SportFieldDetail({ isOpenDetail, toogleOpenDetail, sportField }) {
           onClose={toogleOpen}
         >
           <DialogContent sx={{ width: '100%' }}>
-            <Typography variant="subtitle1">Do you want to remove this sport field?</Typography>
+            <Typography variant="subtitle1">Bạn có muốn xóa sân thể thao này không??</Typography>
           </DialogContent>
           <DialogActions>
             <Button variant="contained" color="secondary" size="small" onClick={toogleOpen}>
-              Close
+              Đóng
             </Button>
             <Button
               variant="contained"
@@ -161,7 +160,7 @@ function SportFieldDetail({ isOpenDetail, toogleOpenDetail, sportField }) {
                 toogleOpen();
               }}
             >
-              Delete
+              Xóa
             </Button>
           </DialogActions>
         </Dialog>
@@ -192,12 +191,12 @@ function SportFieldDetail({ isOpenDetail, toogleOpenDetail, sportField }) {
           }}
         >
           <EditRoundedIcon fontSize="small" sx={{ mr: 2 }} />
-          Edit
+          Chỉnh sửa
         </MenuItem>
 
         <MenuItem sx={{ color: 'error.main' }} onClick={toogleOpen}>
           <DeleteRoundedIcon fontSize="small" sx={{ mr: 2 }} />
-          Delete
+          Xóa
         </MenuItem>
       </Popover>
     </>

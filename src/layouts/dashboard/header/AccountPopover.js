@@ -7,14 +7,14 @@ import { useNavigate } from 'react-router-dom';
 import { logoutAccount } from 'src/services/auth/authSlice';
 
 const MENU_OPTIONS = [
+  // {
+  //   label: 'Home',
+  // },
   {
-    label: 'Home',
+    label: 'Thông tin tài khoản',
   },
   {
-    label: 'Profile',
-  },
-  {
-    label: 'Settings',
+    label: 'Cài đặt',
   },
 ];
 
@@ -102,7 +102,7 @@ export default function AccountPopover() {
         <Divider sx={{ borderStyle: 'dashed' }} />
 
         <MenuItem onClick={handleLogout} sx={{ m: 1 }}>
-          Logout
+          Đăng xuất
         </MenuItem>
       </Popover>
     </>

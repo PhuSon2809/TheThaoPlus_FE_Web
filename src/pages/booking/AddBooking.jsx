@@ -6,14 +6,14 @@ function AddBooking() {
   return (
     <>
       <Helmet>
-        <title> Add Booking | TheThaoPlus </title>
+        <title> Tại mới Booking | TheThaoPlus </title>
       </Helmet>
 
       <Container>
         <Stack direction="column" alignItems="start" gap={1} mb={5}>
           <Typography variant="h4">Add New Booking</Typography>
           <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
-            Add booking for customer make booking by phone.
+            Thêm thông tin đặt sân mới cho khách hàng đặt sân qua điện thoại.
           </Typography>
         </Stack>
         <AddBookingForm />

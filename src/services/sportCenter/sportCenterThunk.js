@@ -28,7 +28,6 @@ export const getSportCentersOfOwnerThunk = async (_, thunkAPI) => {
     axiosClient.setHeaderAuth(accessToken);
     try {
       const response = await axiosClient.getByUrl('/sport-center/sport-center-of-owner');
-      console.log(response);
       return response;
     } catch (error) {
       console.log('sport error thunk: ', error);

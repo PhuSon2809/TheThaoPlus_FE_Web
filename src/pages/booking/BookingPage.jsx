@@ -1,21 +1,20 @@
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
-import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
 import {
+  Avatar,
   Button,
   Card,
-  Checkbox,
   Container,
   Dialog,
   DialogActions,
   DialogContent,
-  FormControlLabel,
+  Grid,
   IconButton,
   MenuItem,
   Paper,
   Popover,
   Stack,
-  Switch,
   Table,
   TableBody,
   TableCell,
@@ -24,34 +23,33 @@ import {
   TableRow,
   Typography,
 } from '@mui/material';
-import { sentenceCase } from 'change-case';
 import { filter } from 'lodash';
+import moment from 'moment';
 import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import Label from 'src/components/label/Label';
 import { useModal } from 'src/hooks/useModal';
-import {
-  activeSportCenter,
-  deactiveSportCenter,
-  deleteSportCenter,
-  getSportCentersOfOwner,
-} from 'src/services/sportCenter/sportCenterSlice';
+import BookingListToolbar from 'src/sections/@dashboard/booking/BookingListToolbar';
+import BookingTableListHead from 'src/sections/@dashboard/booking/BookingTableListHead';
+import { getAllBookings, getBookingDetail } from 'src/services/booking/bookingSlice';
+import formatCurrency from 'src/utils/formatPrice';
 import Iconify from '../../components/iconify';
-import Label from '../../components/label';
 import Scrollbar from '../../components/scrollbar';
-import { TableListHead, UserListToolbar } from '../../sections/@dashboard/table';
 
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: 'name', label: 'Name', alignRight: false },
-  { id: 'address', label: 'Address', alignRight: false },
-  { id: 'openTime', label: 'Open Time', alignRight: false },
-  { id: 'closeTime', label: 'Close Time', alignRight: false },
-  { id: 'sport', label: 'Sport', alignRight: false },
-  { id: 'quantity', label: 'Quantity', alignRight: false },
-  { id: 'status', label: 'Status', alignRight: false },
+  { id: 'sport-center', label: 'Trung Tâm', alignRight: false },
+  { id: 'sport-field', label: 'Sân', alignRight: false },
+  { id: 'total-price', label: 'Tổng Tiền', alignRight: false },
+  { id: 'deposit', label: 'Đặt Cọc', alignRight: false },
+  { id: 'date', label: 'Ngày Đặt', alignRight: false },
+  { id: 'start-time', label: 'Giờ bắt đầu', alignRight: false },
+  { id: 'end-time', label: 'Giờ kết thúc', alignRight: false },
+  { id: 'status', label: 'Trạng Thái', alignRight: false },
+  { id: 'payment', label: 'Thanh Toán', alignRight: false },
   { id: '' },
 ];
 
@@ -81,7 +79,7 @@ function applySortFilter(array, comparator, query) {
     return a[1] - b[1];
   });
   if (query) {
-    return filter(array, (_user) => _user.name.toLowerCase().indexOf(query.toLowerCase()) !== -1);
+    return filter(array, (_user) => _user.sportCenter.name.toLowerCase().indexOf(query.toLowerCase()) !== -1);
   }
   return stabilizedThis.map((el) => el[0]);
 }
@@ -90,16 +88,11 @@ function BookingPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { toogleOpen, isOpen } = useModal();
+  const { toogleOpen: toogleOpenDetail, isOpen: isOpenDetail } = useModal();
 
-  const { sportCenterOfOwner } = useSelector((state) => state.sportCenter);
-  console.log(sportCenterOfOwner);
+  const { bookings, booking } = useSelector((state) => state.booking);
 
   const [open, setOpen] = useState(null);
-
-  const [idToDelete, setIdToDelete] = useState(null);
-
-  console.log(idToDelete);
 
   const [page, setPage] = useState(0);
 
@@ -107,14 +100,14 @@ function BookingPage() {
 
   const [selected, setSelected] = useState([]);
 
-  const [orderBy, setOrderBy] = useState('name');
+  const [orderBy, setOrderBy] = useState('sport-center');
 
   const [filterName, setFilterName] = useState('');
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
   useEffect(() => {
-    dispatch(getSportCentersOfOwner());
+    dispatch(getAllBookings());
   }, [dispatch]);
 
   const handleOpenMenu = (event) => {
@@ -133,7 +126,7 @@ function BookingPage() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = sportCenterOfOwner.map((n) => n.name);
+      const newSelecteds = bookings.map((n) => n.name);
       setSelected(newSelecteds);
       return;
     }
@@ -169,22 +162,22 @@ function BookingPage() {
     setFilterName(event.target.value);
   };
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - sportCenterOfOwner.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - bookings.length) : 0;
 
-  const filteredUsers = applySortFilter(sportCenterOfOwner, getComparator(order, orderBy), filterName);
+  const filteredUsers = applySortFilter(bookings, getComparator(order, orderBy), filterName);
 
   const isNotFound = !filteredUsers.length && !!filterName;
 
   return (
     <>
       <Helmet>
-        <title> Booking | TheThaoPlus </title>
+        <title> Thông tin đặt sân | TheThaoPlus </title>
       </Helmet>
 
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-            All Booking
+            Danh Sách Thông Đặt Sân
           </Typography>
           <Button
             variant="contained"
@@ -199,21 +192,21 @@ function BookingPage() {
               navigate('/dashboard/add-booking');
             }}
           >
-            New Booking
+            Thêm mới
           </Button>
         </Stack>
 
         <Card>
-          <UserListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
+          <BookingListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
 
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
-                <TableListHead
+                <BookingTableListHead
                   order={order}
                   orderBy={orderBy}
                   headLabel={TABLE_HEAD}
-                  rowCount={sportCenterOfOwner.length}
+                  rowCount={bookings.length}
                   numSelected={selected.length}
                   onRequestSort={handleRequestSort}
                   onSelectAllClick={handleSelectAllClick}
@@ -239,69 +232,44 @@ function BookingPage() {
                 ) : ( */}
                 <TableBody>
                   {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    const { _id, name, address, closeTime, openTime, sport, sportFields, status } = row;
-                    const selectedUser = selected.indexOf(name) !== -1;
+                    const { _id, sportCenter, sportField, totalPrice, tracking, payments, start, end } = row;
 
                     return (
-                      <TableRow hover key={_id} tabIndex={-1} role="checkbox" selected={selectedUser}>
-                        <TableCell padding="checkbox">
-                          <Checkbox checked={selectedUser} onChange={(event) => handleClick(event, name)} />
-                        </TableCell>
-
+                      <TableRow hover key={_id} tabIndex={-1}>
                         <TableCell
                           scope="row"
                           padding="none"
+                          sx={{ pl: 2 }}
                           onClick={() => {
-                            navigate(`/dashboard/sport-center-detail/${_id}`);
+                            toogleOpenDetail();
+                            dispatch(getBookingDetail(_id));
                           }}
                         >
-                          <Typography variant="subtitle2" sx={{ width: 150, fontSize: '0.875rem' }} noWrap>
-                            {name}
+                          <Typography variant="subtitle2" sx={{ fontSize: '0.875rem' }} noWrap>
+                            {sportCenter.name}
                           </Typography>
                         </TableCell>
 
-                        <TableCell align="left">
-                          <Typography sx={{ width: 150, fontSize: '0.875rem' }} noWrap>
-                            {address}
-                          </Typography>
-                        </TableCell>
-                        <TableCell align="left">{openTime}</TableCell>
-                        <TableCell align="left">{closeTime}</TableCell>
+                        <TableCell align="left">{sportField.name}</TableCell>
+                        <TableCell align="left">{formatCurrency(totalPrice)}</TableCell>
+                        <TableCell align="left">{formatCurrency(totalPrice * 0.25)}</TableCell>
+                        <TableCell align="left">{moment(start).format('D-M-YYYY')}</TableCell>
+                        <TableCell align="left">{moment(start).format('hh:mm a')}</TableCell>
+                        <TableCell align="left">{moment(end).format('hh:mm a')}</TableCell>
 
                         <TableCell align="left">
-                          <Label color={sport.name === 'bóng đá' && 'success'} sx={{ textTransform: 'capitalize' }}>
-                            {sport.name}
+                          <Label color={(tracking === 'Pending' && 'warning') || 'success'}>{tracking}</Label>
+                        </TableCell>
+
+                        <TableCell align="left">
+                          <Label color={(payments === true && 'success') || 'error'}>
+                            {payments ? 'Paymented' : 'No payments'}
                           </Label>
-                        </TableCell>
-
-                        <TableCell align="left">{sportFields.length} sport field</TableCell>
-
-                        <TableCell align="left" sx={{ width: 100 }}>
-                          <FormControlLabel
-                            control={
-                              <Switch
-                                size="small"
-                                color="success"
-                                checked={status}
-                                onClick={() => dispatch(status ? deactiveSportCenter(_id) : activeSportCenter(_id))}
-                              />
-                            }
-                            label={
-                              <Label color={(status === false && 'error') || 'success'}>
-                                {sentenceCase(status ? 'active' : 'deactive')}
-                              </Label>
-                            }
-                          />
                         </TableCell>
 
                         <TableCell align="right">
                           <IconButton size="large" color="inherit" onClick={handleOpenMenu}>
-                            <Iconify
-                              icon={'eva:more-vertical-fill'}
-                              onClick={() => {
-                                setIdToDelete({ sportCenterId: _id, sportId: sport._id });
-                              }}
-                            />
+                            <Iconify icon={'eva:more-vertical-fill'} />
                           </IconButton>
                         </TableCell>
                       </TableRow>
@@ -318,20 +286,20 @@ function BookingPage() {
                 {isNotFound && (
                   <TableBody>
                     <TableRow>
-                      <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
+                      <TableCell align="center" colSpan={9} sx={{ py: 3 }}>
                         <Paper
                           sx={{
                             textAlign: 'center',
                           }}
                         >
                           <Typography variant="h6" paragraph>
-                            Not found
+                            Không tìm thấy
                           </Typography>
 
                           <Typography variant="body2">
-                            No results found for &nbsp;
+                            Không tìm thấy kết quả cho &nbsp;
                             <strong>&quot;{filterName}&quot;</strong>.
-                            <br /> Try checking for typos or using complete words.
+                            <br /> Hãy thử kiểm tra lỗi chính tả hoặc sử dụng các từ hoàn chỉnh.
                           </Typography>
                         </Paper>
                       </TableCell>
@@ -345,7 +313,7 @@ function BookingPage() {
           <TablePagination
             rowsPerPageOptions={[5, 10, 25]}
             component="div"
-            count={sportCenterOfOwner.length}
+            count={bookings.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}
@@ -374,43 +342,108 @@ function BookingPage() {
       >
         <MenuItem>
           <EditRoundedIcon fontSize="small" sx={{ mr: 2 }} />
-          Edit
-        </MenuItem>
-
-        <MenuItem sx={{ color: 'error.main' }} onClick={toogleOpen}>
-          <DeleteRoundedIcon fontSize="small" sx={{ mr: 2 }} />
-          Delete
+          Chỉnh sửa
         </MenuItem>
       </Popover>
 
-      {isOpen && (
+      {isOpenDetail && (
         <Dialog
           sx={{
-            '.css-1t1j96h-MuiPaper-root-MuiDialog-paper': {
-              width: '300px',
-              maxWidth: '300px',
+            '.css-154lg22-MuiPaper-root-MuiDialog-paper': {
+              width: '60%',
+              maxWidth: '60%',
+              height: '60%',
+              maxHeight: '60%',
             },
           }}
-          open={isOpen}
-          onClose={toogleOpen}
+          open={isOpenDetail}
+          onClose={toogleOpenDetail}
         >
           <DialogContent sx={{ width: '100%' }}>
-            <Typography variant="subtitle1">Do you want to remove this sport?</Typography>
+            <Typography variant="h5" gutterBottom>
+              Thông tin đặt sân chi tiết
+            </Typography>
+
+            <Grid container spacing={2}>
+              <Grid item sm={12} md={5}>
+                <img
+                  src={booking.sportCenter?.image}
+                  alt={booking.sportCenter?.name}
+                  style={{ borderRadius: '10px' }}
+                />
+              </Grid>
+              <Grid item sm={12} md={7}>
+                <Stack gap={1}>
+                  <Typography variant="h3" color="main.main">
+                    {booking.sportCenter?.name}
+                  </Typography>
+
+                  <Stack direction="row" alignItems="center">
+                    <LocationOnIcon sx={{ color: 'main.main' }} />
+                    <Typography>{booking.sportCenter?.address}</Typography>
+                  </Stack>
+
+                  <Stack direction="row" alignItems="center" gap={1}>
+                    <Typography sx={{ fontSize: '20px' }}>Sân:</Typography>
+                    <Typography sx={{ fontSize: '20px', fontWeight: 'bold' }}>{booking.sportField?.name}</Typography>
+                  </Stack>
+
+                  <Stack direction="row" alignItems="center" gap={1}>
+                    <img src="/assets/images/SportType.png" alt="sport-type" width={25} height={25} />
+                    <Typography>{booking.sportField?.fieldType}</Typography>
+                  </Stack>
+
+                  <Stack direction="row" alignItems="center" gap={3}>
+                    <Stack direction="row" alignItems="center" gap={1}>
+                      <Typography variant="h6">Tổng tiền:</Typography>
+                      <Typography variant="h5" sx={{ color: 'main.main' }}>
+                        {formatCurrency(booking.sportField?.price)}
+                      </Typography>
+                    </Stack>
+
+                    <Stack direction="row" alignItems="center" gap={1}>
+                      <Typography variant="h6">Đặt cọc:</Typography>
+                      <Typography variant="h5" sx={{ color: 'main.main' }}>
+                        {formatCurrency(booking.sportField?.price * 0.25)}
+                      </Typography>
+                    </Stack>
+                  </Stack>
+
+                  <Stack direction="row" alignItems="center" gap={3}>
+                    <Stack direction="row" alignItems="center" gap={1}>
+                      <Typography variant="h6">Trạng thái:</Typography>
+                      <Label color={(booking.tracking === 'Pending' && 'warning') || 'success'}>
+                        {booking.tracking}
+                      </Label>
+                    </Stack>
+
+                    <Stack direction="row" alignItems="center" gap={1}>
+                      <Typography variant="h6">Thanh Toán:</Typography>
+                      <Label color={(booking.payments === true && 'success') || 'error'}>
+                        {booking.payments ? 'Paymented' : 'No payments'}
+                      </Label>
+                    </Stack>
+                  </Stack>
+
+                  <Typography variant="subtitle1" color="main.main">
+                    Thông tin khách hàng:
+                  </Typography>
+
+                  <Stack direction="row" alignItems="center" gap={1}>
+                    <Avatar />
+
+                    <Stack>
+                      <Typography variant="subtitle1">{booking.userBooking}</Typography>
+                      <Typography>{booking.phoneBooking}</Typography>
+                    </Stack>
+                  </Stack>
+                </Stack>
+              </Grid>
+            </Grid>
           </DialogContent>
           <DialogActions>
-            <Button variant="contained" color="secondary" size="small" onClick={toogleOpen}>
-              Close
-            </Button>
-            <Button
-              variant="contained"
-              color="error"
-              size="small"
-              onClick={() => {
-                dispatch(deleteSportCenter(idToDelete));
-                toogleOpen();
-              }}
-            >
-              Delete
+            <Button variant="contained" color="secondary" size="small" onClick={toogleOpenDetail}>
+              Đóng
             </Button>
           </DialogActions>
         </Dialog>

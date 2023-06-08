@@ -7,27 +7,27 @@ import CalendarMonthRoundedIcon from '@mui/icons-material/CalendarMonthRounded';
 
 const navConfigOwner = [
   {
-    title: 'dashboard',
+    title: 'tổng quan',
     path: '/dashboard/app',
     icon: <LeaderboardRoundedIcon fontSize="small" />,
   },
   {
-    title: 'sport',
+    title: 'môn thể thao',
     path: '/dashboard/sport',
     icon: <SportsSoccerRoundedIcon fontSize="small" />,
   },
   {
-    title: 'sport center',
+    title: 'trung tâm thể thao',
     path: '/dashboard/sport-center',
     icon: <WhereToVoteRoundedIcon fontSize="small" />,
   },
   {
-    title: 'booking',
+    title: 'thông tin đặt sân',
     path: '/dashboard/booking',
     icon: <BookOnlineRoundedIcon fontSize="small" />,
   },
   {
-    title: 'booking calendar',
+    title: 'thông tin đặt sân theo lịch',
     path: '/dashboard/booking-calendar',
     icon: <CalendarMonthRoundedIcon fontSize="small" />,
   },

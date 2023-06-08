@@ -66,14 +66,14 @@ function RegisterForm() {
       // formikHelpers.resetForm();
     },
     validationSchema: Yup.object({
-      firstname: Yup.string().required('Please enter your firstname'),
-      lastname: Yup.string().required('Please enter your lastname'),
-      email: Yup.string().email('Email format is not correct').required('Please Enter your Email'),
-      phone: Yup.string().matches(phoneRegExp, 'Phone number is not valid'),
+      firstname: Yup.string().required('Vui lòng nhập họ của bạn'),
+      lastname: Yup.string().required('Vui lòng nhập tên của bạn'),
+      email: Yup.string().email('Định dạng email không chính xác').required('Vui lòng nhập địa chỉ email của bạn'),
+      phone: Yup.string().matches(phoneRegExp, 'Số điện thoại không hợp lệ'),
       password: Yup.string()
-        .required('Please Enter your password')
-        .min(6, 'Password should be 6 chars minimum.')
-        .matches(/^(?=.*[a-zA-Z])(?=.*[0-9])/, 'Password must contain at least one character and a number'),
+        .required('Vui lòng nhập mật khẩu của bạn')
+        .min(6, 'Mật khẩu phải có tối thiểu 6 ký tự')
+        .matches(/^(?=.*[a-zA-Z])(?=.*[0-9])/, 'Mật khẩu phải chứa ít nhất một ký tự và một số'),
     }),
   });
 
@@ -84,7 +84,7 @@ function RegisterForm() {
           <FormControl fullWidth>
             <TextField
               name="firstname"
-              label="Firstname"
+              label="Họ"
               color="success"
               value={formik.values.firstname}
               onChange={formik.handleChange}
@@ -106,7 +106,7 @@ function RegisterForm() {
           <FormControl fullWidth>
             <TextField
               name="lastname"
-              label="Lastname"
+              label="Tên"
               color="success"
               value={formik.values.lastname}
               onChange={formik.handleChange}
@@ -131,7 +131,7 @@ function RegisterForm() {
           <TextField
             type="number"
             name="phone"
-            label="Phone"
+            label="Số điện thoại"
             color="success"
             value={formik.values.phone}
             onChange={formik.handleChange}
@@ -154,7 +154,7 @@ function RegisterForm() {
         <FormControl>
           <TextField
             name="email"
-            label="Email address"
+            label="Địa chỉ Email"
             color="success"
             value={formik.values.email}
             onChange={formik.handleChange}
@@ -177,7 +177,7 @@ function RegisterForm() {
         <FormControl>
           <TextField
             name="password"
-            label="Password"
+            label="Mật khẩu"
             color="success"
             sx={{
               '.css-1nnq42g-MuiFormLabel-root-MuiInputLabel-root.Mui-focused': {
@@ -212,7 +212,7 @@ function RegisterForm() {
         </FormControl>
 
         <FormControl>
-          <FormLabel id="radio-buttons-group-label">Gender</FormLabel>
+          <FormLabel id="radio-buttons-group-label">Giới tính</FormLabel>
           <RadioGroup
             row
             aria-labelledby="radio-buttons-group-label"
@@ -220,9 +220,9 @@ function RegisterForm() {
             value={gender}
             onChange={handleChangeGender}
           >
-            <FormControlLabel value="female" control={<Radio />} label="Female" />
-            <FormControlLabel value="male" control={<Radio />} label="Male" />
-            <FormControlLabel value="other" control={<Radio />} label="Other" />
+            <FormControlLabel value="female" control={<Radio />} label="Nữ" />
+            <FormControlLabel value="male" control={<Radio />} label="Nam" />
+            <FormControlLabel value="other" control={<Radio />} label="Khác" />
           </RadioGroup>
         </FormControl>
 
@@ -236,7 +236,7 @@ function RegisterForm() {
                 borderColor: 'main.main',
               },
             }}
-            label="Birthday"
+            label="Ngày sinh"
             value={yob}
             onChange={(newValue) => setYob(newValue)}
           />
@@ -245,9 +245,9 @@ function RegisterForm() {
 
       <Stack direction="row" justifyContent="center" sx={{ my: 4 }}>
         <Typography variant="body2">
-          Already have an account? {''}
+          Bạn đã có tài khoản? {''}
           <RouterLink to="/login" style={{ color: '#207cdc', fontWeight: 'bold' }}>
-            Sign in
+            Đăng nhập
           </RouterLink>
         </Typography>
       </Stack>
@@ -264,7 +264,7 @@ function RegisterForm() {
           },
         }}
       >
-        Register
+        Đăng ký
       </Button>
     </form>
   );

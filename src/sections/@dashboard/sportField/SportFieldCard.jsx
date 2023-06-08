@@ -1,10 +1,10 @@
-import PropTypes from 'prop-types';
-import { Box, Button, Card, Dialog, DialogActions, DialogContent, Link, Stack, Typography } from '@mui/material';
+import { Box, Card, Link, Stack, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import Label from '../../../components/label';
+import PropTypes from 'prop-types';
 import { useModal } from 'src/hooks/useModal';
-import SportFieldDetail from './SportFieldDetail';
 import formatCurrency from 'src/utils/formatPrice';
+import Label from '../../../components/label';
+import SportFieldDetail from './SportFieldDetail';
 
 // ----------------------------------------------------------------------
 
@@ -19,9 +19,8 @@ const StyledProductImg = styled('img')({
 // ----------------------------------------------------------------------
 
 function SportFieldCard({ sportField }) {
-  const { _id, name, images, price, status, fieldType } = sportField;
+  const { name, images, price, status, fieldType } = sportField;
 
-  const { toogleOpen, isOpen } = useModal();
   const { toogleOpen: toogleOpenDetail, isOpen: isOpenDetail } = useModal();
 
   return (
@@ -39,7 +38,7 @@ function SportFieldCard({ sportField }) {
               textTransform: 'uppercase',
             }}
           >
-            {status === false ? 'Deactive' : 'Active'}
+            {status === false ? 'Không hoạt động' : 'Hoạt động'}
           </Label>
           <StyledProductImg alt={name} src={images[0]} />
         </Box>
@@ -63,39 +62,6 @@ function SportFieldCard({ sportField }) {
 
       {isOpenDetail && (
         <SportFieldDetail isOpenDetail={isOpenDetail} toogleOpenDetail={toogleOpenDetail} sportField={sportField} />
-      )}
-
-      {isOpen && (
-        <Dialog
-          sx={{
-            '.css-1t1j96h-MuiPaper-root-MuiDialog-paper': {
-              width: '300px',
-              maxWidth: '300px',
-            },
-          }}
-          open={isOpen}
-          onClose={toogleOpen}
-        >
-          <DialogContent sx={{ width: '100%' }}>
-            <Typography variant="subtitle1">Do you want to remove this sport?</Typography>
-          </DialogContent>
-          <DialogActions>
-            <Button variant="contained" color="secondary" size="small" onClick={toogleOpen}>
-              Close
-            </Button>
-            <Button
-              variant="contained"
-              color="error"
-              size="small"
-              onClick={() => {
-                // dispatch(deleteSportCenter(idToDelete));
-                toogleOpen();
-              }}
-            >
-              Delete
-            </Button>
-          </DialogActions>
-        </Dialog>
       )}
     </>
   );

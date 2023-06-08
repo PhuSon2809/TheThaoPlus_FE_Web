@@ -170,7 +170,7 @@ function AddSportFieldForm() {
             >
               <Stack alignItems="center" justifyContent="center">
                 <AddIcon fontSize="large" />
-                <Typography variant="subtitle2">Upload image for sport center</Typography>
+                <Typography variant="subtitle2">Tải hình ảnh lên cho sân thể thao</Typography>
               </Stack>
             </Card>
           )}
@@ -182,7 +182,7 @@ function AddSportFieldForm() {
                 backgroundColor: '#00C187',
               }}
             >
-              Upload Image
+              Chọn ảnh
             </Button>
             <input
               multiple
@@ -215,7 +215,7 @@ function AddSportFieldForm() {
             <FormControl>
               <TextField
                 name="name"
-                label="Sport field name"
+                label="Tên sân"
                 type="text"
                 value={formik.values.name}
                 onChange={formik.handleChange}
@@ -228,7 +228,7 @@ function AddSportFieldForm() {
             </FormControl>
 
             <FormControl fullWidth>
-              <InputLabel id="sport-label">Field type</InputLabel>
+              <InputLabel id="sport-label">Loại sân</InputLabel>
               <Select
                 labelId="sport-label"
                 id="demo-simple-select-helper"
@@ -244,7 +244,7 @@ function AddSportFieldForm() {
             <FormControl fullWidth>
               <TextField
                 name="price"
-                label="Sport field price"
+                label="Giá tiền"
                 type="text"
                 value={formik.values.price}
                 onChange={formik.handleChange}
@@ -269,7 +269,7 @@ function AddSportFieldForm() {
           >
             {isEditing ? (
               <Button type="submit" variant="contained" color="warning">
-                Update
+                Cập nhật
               </Button>
             ) : (
               <Button
@@ -282,7 +282,7 @@ function AddSportFieldForm() {
                   },
                 }}
               >
-                Add
+                Thêm mới
               </Button>
             )}
             <Button
@@ -292,7 +292,7 @@ function AddSportFieldForm() {
                 navigate(`/dashboard/sport-center-detail/${id}`);
               }}
             >
-              Back
+              Trở lại
             </Button>
           </Stack>
         </Grid>

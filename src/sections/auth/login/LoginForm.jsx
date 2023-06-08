@@ -43,7 +43,7 @@ export default function LoginForm() {
         <FormControl>
           <TextField
             name="email"
-            label="Email address"
+            label="Địa chỉ Email"
             color="success"
             value={formik.values.email}
             onChange={formik.handleChange}
@@ -66,7 +66,7 @@ export default function LoginForm() {
         <FormControl>
           <TextField
             name="password"
-            label="Password"
+            label="Mật khẩu"
             color="success"
             sx={{
               '.css-1nnq42g-MuiFormLabel-root-MuiInputLabel-root.Mui-focused': {
@@ -103,7 +103,7 @@ export default function LoginForm() {
 
       <Stack sx={{ my: 3 }}>
         <Link variant="subtitle2" underline="hover" sx={{ textAlign: 'right' }}>
-          Forgot password?
+          Quên mật khẩu?
         </Link>
       </Stack>
 
@@ -119,7 +119,7 @@ export default function LoginForm() {
           },
         }}
       >
-        Login
+        Đăng nhập
       </LoadingButton>
     </form>
   );

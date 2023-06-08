@@ -44,13 +44,13 @@ function SportCenterDetailPage() {
   return (
     <>
       <Helmet>
-        <title> Sport center detail | TheThaoPlus </title>
+        <title> Chi Tiết Trung Tâm Thể Thao | TheThaoPlus </title>
       </Helmet>
 
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-            Sport Center Detail
+            Chi Tiết Trung Tâm Thể Thao
           </Typography>
         </Stack>
 
@@ -66,7 +66,7 @@ function SportCenterDetailPage() {
         </Stack>
 
         <Typography variant="subtitle2" gutterBottom sx={{ opacity: 0.72 }}>
-          Find your way to the sport center
+          Tìm đường đến trung tâm thể thao
         </Typography>
 
         <div style={{ height: '300px', width: '100%' }}>
@@ -84,7 +84,7 @@ function SportCenterDetailPage() {
         <Stack sx={{ mt: 15 }}>
           <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
             <Typography variant="h4" gutterBottom>
-              List Sport Fields
+              Danh sách các sân thể thao
             </Typography>
             <Button
               variant="contained"
@@ -100,7 +100,7 @@ function SportCenterDetailPage() {
                 navigate(`/dashboard/add-sport-field/${id}`);
               }}
             >
-              New Sport Field
+              Thêm mới
             </Button>
           </Stack>
 
@@ -115,7 +115,7 @@ function SportCenterDetailPage() {
               navigate('/dashboard/sport');
             }}
           >
-            Back
+            Trở lại
           </Button>
         </Stack>
       </Container>

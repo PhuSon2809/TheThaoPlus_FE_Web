@@ -189,7 +189,7 @@ function AddSportCenterForm() {
               }}
             >
               <AddIcon fontSize="large" />
-              <Typography variant="subtitle2">Upload image for sport center</Typography>
+              <Typography variant="subtitle2">Tải hình ảnh lên cho trung tâm thể thao</Typography>
             </Card>
           ) : (
             <Card
@@ -215,7 +215,7 @@ function AddSportCenterForm() {
                 backgroundColor: '#00C187',
               }}
             >
-              Upload Image
+              Chọn ảnh
             </Button>
             <input
               type="file"
@@ -231,7 +231,7 @@ function AddSportCenterForm() {
             <FormControl>
               <TextField
                 name="name"
-                label="Sport center name"
+                label="Tên trung tâm thể thao"
                 type="text"
                 value={formik.values.name}
                 onChange={formik.handleChange}
@@ -244,10 +244,10 @@ function AddSportCenterForm() {
             </FormControl>
 
             <Stack direction="row" alignItems="center" gap={3}>
-              <TimeField fullWidth label="Open Time" value={openTime} onChange={(newValue) => setOpenTime(newValue)} />
+              <TimeField fullWidth label="Giờ mở cửa" value={openTime} onChange={(newValue) => setOpenTime(newValue)} />
               <TimeField
                 fullWidth
-                label="Close Time"
+                label="Giờ đóng cửa"
                 value={closeTime}
                 onChange={(newValue) => setCloseTime(newValue)}
               />
@@ -256,7 +256,7 @@ function AddSportCenterForm() {
             <FormControl>
               <TextField
                 name="description"
-                label="Sport center description"
+                label="Mô tả chi tiết"
                 type="text"
                 multiline
                 minRows={4}
@@ -271,7 +271,7 @@ function AddSportCenterForm() {
             </FormControl>
 
             <FormControl>
-              <InputLabel id="sport-label">Sport</InputLabel>
+              <InputLabel id="sport-label">Môn thể thao</InputLabel>
               <Select
                 labelId="sport-label"
                 id="demo-simple-select-helper"
@@ -294,7 +294,7 @@ function AddSportCenterForm() {
             <FormControl>
               <TextField
                 name="address"
-                label="Sport center address"
+                label="Địa chỉ chi tiết"
                 type="text"
                 value={address}
                 onChange={(e) => {
@@ -309,7 +309,7 @@ function AddSportCenterForm() {
                 value={province}
                 setValue={setProvince}
                 options={provinces}
-                label="Province/City"
+                label="Tỉnh/Thành phố"
               />
 
               <SelectAddress
@@ -318,7 +318,7 @@ function AddSportCenterForm() {
                 value={district}
                 setValue={setDistrict}
                 options={districts}
-                label="District"
+                label="Quận/Huyện"
               />
             </Stack>
 
@@ -345,7 +345,7 @@ function AddSportCenterForm() {
           >
             {isEditing ? (
               <Button type="submit" variant="contained" color="warning">
-                Update
+                Cập nhật
               </Button>
             ) : (
               <Button
@@ -358,7 +358,7 @@ function AddSportCenterForm() {
                   },
                 }}
               >
-                Add
+                Thêm mới
               </Button>
             )}
 
@@ -369,7 +369,7 @@ function AddSportCenterForm() {
                 navigate('/dashboard/sport-center');
               }}
             >
-              Back
+              Trở lại
             </Button>
           </Stack>
         </Grid>

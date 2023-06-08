@@ -37,7 +37,7 @@ function SportCenterMapView({ isOpenMap, toogleOpenMap }) {
           <DialogContent sx={{ width: '100%' }}>
             <Stack direction="row" alignItems="center" gap={1} sx={{ mb: 2 }}>
               <MapIcon fontSize="large" sx={{ color: 'main.main' }} />
-              <Typography variant="h4">Map View Sport Center</Typography>
+              <Typography variant="h4">Xem vị trí trung tâm thể thao trên bản đồ</Typography>
             </Stack>
 
             <div style={{ height: '90%', width: '100%' }}>
@@ -64,7 +64,7 @@ function SportCenterMapView({ isOpenMap, toogleOpenMap }) {
           </DialogContent>
           <DialogActions>
             <Button variant="contained" color="secondary" size="small" onClick={toogleOpenMap}>
-              Close
+              Đóng
             </Button>
           </DialogActions>
         </Dialog>
