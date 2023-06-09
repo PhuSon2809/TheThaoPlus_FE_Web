@@ -62,7 +62,7 @@ export default function DashboardAppPage() {
 
       <Container maxWidth="xl">
         <Typography variant="h4" sx={{ mb: 5 }}>
-          Hi, Welcome back
+          Chào mừng bạn quay trở lại
         </Typography>
 
         <Grid container spacing={3}>
@@ -133,7 +133,7 @@ export default function DashboardAppPage() {
               //   { label: 'Africa', value: 4443 },
               // ]}
               chartData={sportsOfOwner.map((sport) => {
-                return { label: sport.name, value: Math.random() * (1000 - 0) + 0 };
+                return { label: sport.name, value: Math.random() * (1000 - 500) + 500 };
               })}
               chartColors={[
                 theme.palette.primary.main,
