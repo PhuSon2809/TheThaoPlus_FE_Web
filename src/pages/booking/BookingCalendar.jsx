@@ -142,8 +142,8 @@ function BookingCalendarPage() {
             '.css-154lg22-MuiPaper-root-MuiDialog-paper': {
               width: '60%',
               maxWidth: '60%',
-              height: '60%',
-              maxHeight: '60%',
+              // height: '60%',
+              // maxHeight: '60%',
             },
           }}
           open={isOpenDetail}
@@ -183,6 +183,27 @@ function BookingCalendarPage() {
                     <Typography>{booking.sportField?.fieldType}</Typography>
                   </Stack>
 
+                  <Stack direction="row" alignItems="center" gap={1}>
+                    <Typography variant="h6">Ngày đặt:</Typography>
+                    <Typography variant="h5" sx={{ color: 'main.main' }}>
+                      {moment(booking.start).format('D-M-YYYY')}
+                    </Typography>
+                  </Stack>
+
+                  <Stack direction="row" alignItems="center" gap={1}>
+                    <Typography variant="h6">Thời gian bắt đầu:</Typography>
+                    <Typography variant="h5" sx={{ color: 'main.main' }}>
+                      {moment(booking.start).format('hh:mm a')}
+                    </Typography>
+                  </Stack>
+
+                  <Stack direction="row" alignItems="center" gap={1}>
+                    <Typography variant="h6">Thời gian kết thúc:</Typography>
+                    <Typography variant="h5" sx={{ color: 'main.main' }}>
+                      {moment(booking.end).format('hh:mm a')}
+                    </Typography>
+                  </Stack>
+
                   <Stack direction="row" alignItems="center" gap={3}>
                     <Stack direction="row" alignItems="center" gap={1}>
                       <Typography variant="h6">Tổng tiền:</Typography>
@@ -191,12 +212,12 @@ function BookingCalendarPage() {
                       </Typography>
                     </Stack>
 
-                    <Stack direction="row" alignItems="center" gap={1}>
+                    {/* <Stack direction="row" alignItems="center" gap={1}>
                       <Typography variant="h6">Đặt cọc:</Typography>
                       <Typography variant="h5" sx={{ color: 'main.main' }}>
                         {formatCurrency(booking.sportField?.price * 0.25)}
                       </Typography>
-                    </Stack>
+                    </Stack> */}
                   </Stack>
 
                   <Stack direction="row" alignItems="center" gap={3}>
@@ -224,7 +245,7 @@ function BookingCalendarPage() {
 
                     <Stack>
                       <Typography variant="subtitle1">{booking.userBooking}</Typography>
-                      <Typography>{booking.phoneBooking}</Typography>
+                      <Typography>0{booking.phoneBooking}</Typography>
                     </Stack>
                   </Stack>
                 </Stack>

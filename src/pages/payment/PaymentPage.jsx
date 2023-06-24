@@ -6,17 +6,17 @@ import { Card, Container, Grid, Stack, Typography } from '@mui/material';
 import { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useDispatch, useSelector } from 'react-redux';
-import PaypalPayment from 'src/sections/@dashboard/payment/PaypalPayment';
+// import PaypalPayment from 'src/sections/@dashboard/payment/PaypalPayment';
 import { getAllBookings } from 'src/services/booking/bookingSlice';
 import formatCurrency from 'src/utils/formatPrice';
 
 function PaymentPage() {
-  const initialOptions = {
-    'client-id': 'ATGO9pzWMtZFVsk-xvLsxeId6dI8NTtVV-DPaw0x6zMfRuNdYuLDjuJS319cg-mXt3dAuDLmRrd_tgL4',
-    currency: 'USD',
-    intent: 'capture',
-    // 'data-client-token': 'abc123xyz==',
-  };
+  // const initialOptions = {
+  //   'client-id': 'ATGO9pzWMtZFVsk-xvLsxeId6dI8NTtVV-DPaw0x6zMfRuNdYuLDjuJS319cg-mXt3dAuDLmRrd_tgL4',
+  //   currency: 'USD',
+  //   intent: 'capture',
+  //   // 'data-client-token': 'abc123xyz==',
+  // };
 
   const dispatch = useDispatch();
 
@@ -31,17 +31,17 @@ function PaymentPage() {
   }, 0);
 
   // Hàm tính toán chuyển đổi VND sang USD
-  function convertVNDtoUSD(amountInVND, exchangeRate = 23000) {
-    // Kiểm tra nếu tỷ giá hợp lệ
-    if (exchangeRate > 0) {
-      // Tính toán số tiền chuyển đổi
-      var amountInUSD = amountInVND / exchangeRate;
-      return amountInUSD;
-    } else {
-      console.log('Tỷ giá không hợp lệ.');
-      return null;
-    }
-  }
+  // function convertVNDtoUSD(amountInVND, exchangeRate = 23000) {
+  //   // Kiểm tra nếu tỷ giá hợp lệ
+  //   if (exchangeRate > 0) {
+  //     // Tính toán số tiền chuyển đổi
+  //     var amountInUSD = amountInVND / exchangeRate;
+  //     return amountInUSD;
+  //   } else {
+  //     console.log('Tỷ giá không hợp lệ.');
+  //     return null;
+  //   }
+  // }
 
   return (
     <>
@@ -58,10 +58,10 @@ function PaymentPage() {
         </Stack>
 
         <Grid container spacing={10}>
-          <Grid item sm={12} md={6}>
-            <img src="/assets/illustrations/slide_3.png" width="100%" />
+          <Grid item sm={12} md={5}>
+            <img src="/assets/images/momo.jpg" width="100%" alt="momo" />
           </Grid>
-          <Grid item sm={12} md={6}>
+          <Grid item sm={12} md={7}>
             <Card sx={{ p: 2, mb: 2 }}>
               <Typography
                 variant="h6"
@@ -104,23 +104,26 @@ function PaymentPage() {
                     <Typography>Số tiền phải thanh toán:</Typography>
                   </Stack>
                   <Typography variant="h5" sx={{ color: 'main.main' }}>
-                    {formatCurrency(totalPriceBooking * 0.1)}
+                    {formatCurrency(totalPriceBooking * 0.03)}
                   </Typography>
                 </Stack>
 
                 <Stack direction="row" alignItems="center" spacing={1}>
-                  <Stack direction="row" alignItems="center" gap={1}>
+                  {/* <Stack direction="row" alignItems="center" gap={1}>
                     <PaymentRoundedIcon sx={{ color: 'main.main' }} />
                     <Typography>Số tiền phải thanh toán theo USD:</Typography>
                   </Stack>
                   <Typography variant="h5" sx={{ color: 'main.main' }}>
-                    {convertVNDtoUSD(totalPriceBooking * 0.1).toFixed(2)} USD
-                  </Typography>
+                    {Math.ceil(convertVNDtoUSD(totalPriceBooking * 0.03))} USD
+                  </Typography> */}
+                  {/* <Typography variant="h5" sx={{ color: 'main.main' }}>
+                    {convertVNDtoUSD(totalPriceBooking * 0.03)} USD
+                  </Typography> */}
                 </Stack>
               </Stack>
             </Card>
 
-            <PaypalPayment cost={convertVNDtoUSD(totalPriceBooking * 0.1).toFixed(2)} />
+            {/* <PaypalPayment cost={Math.ceil(convertVNDtoUSD(totalPriceBooking * 0.1))} /> */}
           </Grid>
         </Grid>
       </Container>

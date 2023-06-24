@@ -31,11 +31,13 @@ function SportCenterDetailPage() {
   }, [dispatch, id]);
 
   const [coords, setCoords] = useState(null);
+  console.log(coords);
 
   useEffect(() => {
     const getCoords = async () => {
       const results = await geocodeByAddress(sportCenter?.address);
       const latLong = await getLatLng(results[0]);
+      console.log(latLong);
       setCoords(latLong);
     };
     sportCenter && getCoords();

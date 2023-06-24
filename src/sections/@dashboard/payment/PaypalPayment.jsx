@@ -15,7 +15,7 @@ function PaypalPayment({ cost }) {
                 description: 'Cool looking table',
                 amount: {
                   currency_code: 'USD',
-                  value: 7.0,
+                  value: 2.0,
                 },
               },
             ],

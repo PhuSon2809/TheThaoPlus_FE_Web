@@ -273,7 +273,18 @@ function SportCenterPage() {
                         <TableCell align="left">{closeTime}</TableCell>
 
                         <TableCell align="left">
-                          <Label color={sport.name === 'bóng đá' && 'success'} sx={{ textTransform: 'capitalize' }}>
+                          <Label
+                            color={
+                              sport.name === 'bóng đá'
+                                ? 'success'
+                                : sport.name === 'bóng rổ'
+                                ? 'warning'
+                                : sport.name === 'cầu lông'
+                                ? 'primary'
+                                : 'error'
+                            }
+                            sx={{ textTransform: 'capitalize' }}
+                          >
                             {sport.name}
                           </Label>
                         </TableCell>

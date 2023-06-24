@@ -204,7 +204,11 @@ function AddSportCenterForm() {
                 borderStyle: 'dashed',
               }}
             >
-              <img src={image ? image : stringImgFB} alt="sport center" style={{ borderRadius: '5px' }} />
+              <img
+                src={image ? image : stringImgFB}
+                alt="sport center"
+                style={{ borderRadius: '5px', width: '100%' }}
+              />
             </Card>
           )}
           <Box sx={{ position: 'relative' }}>

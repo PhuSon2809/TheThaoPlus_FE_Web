@@ -55,7 +55,7 @@ function SportFieldCard({ sportField }) {
               <img src="/assets/images/SportType.png" alt="sport-type" width={25} height={25} />
               <Typography>{fieldType}</Typography>
             </Stack>
-            <Typography variant="subtitle1">{formatCurrency(price)}</Typography>
+            <Typography variant="subtitle1">{formatCurrency(price)}/1 giờ</Typography>
           </Stack>
         </Stack>
       </Card>

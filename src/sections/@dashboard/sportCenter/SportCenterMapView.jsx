@@ -12,7 +12,7 @@ function SportCenterMapView({ isOpenMap, toogleOpenMap }) {
   const dispatch = useDispatch();
 
   const { sportCenterOfOwner, sportCenter } = useSelector((state) => state.sportCenter);
-
+  console.log(sportCenterOfOwner);
   const [open, setOpen] = useState(null);
 
   const handleCloseMenu = () => {
@@ -52,7 +52,19 @@ function SportCenterMapView({ isOpenMap, toogleOpenMap }) {
                     key={item._id}
                     lat={Number(item.latitude)}
                     lng={Number(item.longtitude)}
-                    text={<LocationOnIcon color="error" />}
+                    text={
+                      <LocationOnIcon
+                        color={
+                          item.sport?.name === 'bóng đá'
+                            ? 'error'
+                            : item.sport?.name === 'bóng rổ'
+                            ? 'warning'
+                            : item.sport?.name === 'cầu lông'
+                            ? 'primary'
+                            : 'secondary'
+                        }
+                      />
+                    }
                     onClick={(event) => {
                       setOpen(event.currentTarget);
                       dispatch(getSportCenterDetail(item._id));

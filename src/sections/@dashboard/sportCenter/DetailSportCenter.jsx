@@ -67,12 +67,7 @@ function DetailSportCenter({ sportCenter }) {
           </Typography>
 
           <Typography gutterBottom sx={{ textAlign: 'justify' }}>
-            Sân Bóng Đá Phúc Lộc được xem là một trong những sân cỏ nhân tạo hiện đại bậc nhất Thủ Đức. Không gian sân
-            đẹp, thoáng mát, di chuyển dễ dàng. Với vị trí nằm bên dòng sông Sài Gòn mát mẻ, thơ mộng, trữ tình. Đường
-            vào rộng, bãi xe thoáng, rộng, có lối vào cho xe hơi. Số lượng sân nhiều, tổng cộng có 7 sân 5 người, xung
-            quanh bố trí lưới cao để chắn bóng. Trên cao còn có các bóng đèn cao áp để bổ sung ánh sáng cho các trận
-            bóng đá vào buổi tối ở bốn góc của sân. Sân được phủ lớp cỏ nhân tạo công với các lớp nệm cao su tạo độ êm
-            cho người chơi bóng.
+            {sportCenter.description}
           </Typography>
         </Stack>
 
@@ -185,7 +180,7 @@ function DetailSportCenter({ sportCenter }) {
                 borderStyle: 'dashed',
               }}
             >
-              <img src={sportCenter.image} alt="sport center" style={{ borderRadius: '5px' }} />
+              <img src={sportCenter.image} alt="sport center" style={{ borderRadius: '5px', width: '100%' }} />
             </Card>
           )}
         </Stack>
