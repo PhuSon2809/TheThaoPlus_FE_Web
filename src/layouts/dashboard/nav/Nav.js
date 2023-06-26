@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Drawer, Link, Stack, Typography } from '@mui/material';
+import { Avatar, Box, Drawer, Link, Stack, Typography } from '@mui/material';
 import { alpha, styled } from '@mui/material/styles';
 import PropTypes from 'prop-types';
 import { useEffect } from 'react';
@@ -72,7 +72,7 @@ function Nav({ openNav, onCloseNav }) {
             sx={{ width: 300, position: 'absolute', top: -120 }}
           />
 
-          <Box sx={{ textAlign: 'center' }}>
+          {/* <Box sx={{ textAlign: 'center' }}>
             <Typography gutterBottom variant="h6">
               Nhận nhiều lợi ích hơn?
             </Typography>
@@ -90,7 +90,7 @@ function Nav({ openNav, onCloseNav }) {
             }}
           >
             Nâng cấp tài khoản
-          </Button>
+          </Button> */}
         </Stack>
       </Box>
     </Scrollbar>
