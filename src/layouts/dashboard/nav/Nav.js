@@ -46,7 +46,7 @@ function Nav({ openNav, onCloseNav }) {
         <Logo />
       </Box>
 
-      <Box sx={{ mb: 5, mx: 2.5 }}>
+      <Box sx={{ mb: 2, mx: 2.5 }}>
         <Link underline="none">
           <StyledAccount>
             <Avatar src={user.image} alt={user.lastname} />
@@ -62,37 +62,9 @@ function Nav({ openNav, onCloseNav }) {
 
       <NavSection data={navConfigOwner} />
 
-      <Box sx={{ flexGrow: 1 }} />
-
-      <Box sx={{ px: 2.5, pb: 3, mt: 10 }}>
-        <Stack alignItems="center" spacing={3} sx={{ pt: 5, borderRadius: 2, position: 'relative' }}>
-          <Box
-            component="img"
-            src="/assets/illustrations/illustration_avatar.png"
-            sx={{ width: 300, position: 'absolute', top: -120 }}
-          />
-
-          {/* <Box sx={{ textAlign: 'center' }}>
-            <Typography gutterBottom variant="h6">
-              Nhận nhiều lợi ích hơn?
-            </Typography>
-          </Box>
-
-          <Button
-            href="https://material-ui.com/store/items/minimal-dashboard/"
-            target="_blank"
-            variant="contained"
-            sx={{
-              backgroundColor: '#00C187',
-              '&:hover': {
-                backgroundColor: '#30ca9c',
-              },
-            }}
-          >
-            Nâng cấp tài khoản
-          </Button> */}
-        </Stack>
-      </Box>
+      <Stack alignItems="center" spacing={3} sx={{ px: 2.5, py: 2 }}>
+        <Box component="img" src="/assets/illustrations/illustration_avatar.png" sx={{ width: 300 }} />
+      </Stack>
     </Scrollbar>
   );
 
