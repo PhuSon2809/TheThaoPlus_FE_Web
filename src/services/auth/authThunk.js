@@ -20,7 +20,7 @@ export const loginOwnerThunk = async (params, thunkAPI) => {
   try {
     const res = await axiosClient.post(`/user/owner-login`, params.user);
     Cookie.set('accessToken', res.token);
-    Cookie.set('refreshToken', res.user.refreshToken);
+    Cookie.set('refreshToken', res.user?.refreshToken);
     const userLocalStorage = {
       firstname: res.user.firstname,
       lastname: res.user.lastname,
