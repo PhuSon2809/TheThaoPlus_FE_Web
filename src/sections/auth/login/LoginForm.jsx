@@ -49,10 +49,10 @@ export default function LoginForm() {
             onChange={formik.handleChange}
             sx={{
               '.css-1nnq42g-MuiFormLabel-root-MuiInputLabel-root.Mui-focused': {
-                color: 'main.main',
+                color: 'main.main !important',
               },
               '.css-18w8rp2-MuiInputBase-root-MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                borderColor: 'main.main',
+                borderColor: 'main.main !important',
               },
             }}
           />
@@ -70,10 +70,10 @@ export default function LoginForm() {
             color="success"
             sx={{
               '.css-1nnq42g-MuiFormLabel-root-MuiInputLabel-root.Mui-focused': {
-                color: 'main.main',
+                color: 'main.main !important',
               },
               '.css-1v5aria-MuiInputBase-root-MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                borderColor: 'main.main',
+                borderColor: 'main.main !important',
               },
             }}
             type={showPassword ? 'text' : 'password'}
