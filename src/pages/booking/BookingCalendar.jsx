@@ -27,7 +27,6 @@ import Label from 'src/components/label/Label';
 import { useModal } from 'src/hooks/useModal';
 import { getAllBookings, getBookingDetail } from 'src/services/booking/bookingSlice';
 import formatCurrency from 'src/utils/formatPrice';
-import './booking.css';
 
 const locales = {
   'en-US': enUS,
