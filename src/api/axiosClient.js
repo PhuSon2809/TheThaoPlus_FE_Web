@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-axios.defaults.baseURL = process.env.REACT_APP_API;
+axios.defaults.baseURL = 'https://sport-plus-backend.azurewebsites.net/api';
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
 axios.defaults.headers.delete['Access-Control-Allow-Origin'] = '*';
