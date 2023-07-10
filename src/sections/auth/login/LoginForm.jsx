@@ -44,17 +44,9 @@ export default function LoginForm() {
           <TextField
             name="email"
             label="Địa chỉ Email"
-            color="success"
+            color="main"
             value={formik.values.email}
             onChange={formik.handleChange}
-            sx={{
-              '.css-1nnq42g-MuiFormLabel-root-MuiInputLabel-root.Mui-focused': {
-                color: 'main.main !important',
-              },
-              '.css-18w8rp2-MuiInputBase-root-MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                borderColor: 'main.main !important',
-              },
-            }}
           />
           {formik.errors.email && (
             <Typography sx={{ ml: '5px' }} variant="caption" color="red">
@@ -67,15 +59,7 @@ export default function LoginForm() {
           <TextField
             name="password"
             label="Mật khẩu"
-            color="success"
-            sx={{
-              '.css-1nnq42g-MuiFormLabel-root-MuiInputLabel-root.Mui-focused': {
-                color: 'main.main !important',
-              },
-              '.css-1v5aria-MuiInputBase-root-MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                borderColor: 'main.main !important',
-              },
-            }}
+            color="main"
             type={showPassword ? 'text' : 'password'}
             value={formik.values.password}
             onChange={formik.handleChange}

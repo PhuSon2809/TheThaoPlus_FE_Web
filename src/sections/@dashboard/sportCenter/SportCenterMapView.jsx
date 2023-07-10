@@ -22,19 +22,8 @@ function SportCenterMapView({ isOpenMap, toogleOpenMap }) {
   return (
     <>
       {isOpenMap && (
-        <Dialog
-          sx={{
-            '.css-154lg22-MuiPaper-root-MuiDialog-paper': {
-              width: '80%',
-              height: '90%',
-              maxWidth: '80%',
-              maxHeight: '90%',
-            },
-          }}
-          open={isOpenMap}
-          onClose={toogleOpenMap}
-        >
-          <DialogContent sx={{ width: '100%' }}>
+        <Dialog maxWidth="xl" fullWidth open={isOpenMap} onClose={toogleOpenMap}>
+          <DialogContent sx={{ height: 700 }}>
             <Stack direction="row" alignItems="center" gap={1} sx={{ mb: 2 }}>
               <MapIcon fontSize="large" sx={{ color: 'main.main' }} />
               <Typography variant="h4">Xem vị trí trung tâm thể thao trên bản đồ</Typography>
@@ -54,6 +43,7 @@ function SportCenterMapView({ isOpenMap, toogleOpenMap }) {
                     lng={Number(item.longtitude)}
                     text={
                       <LocationOnIcon
+                        sx={{ fontSize: 30 }}
                         color={
                           item.sport?.name === 'bóng đá'
                             ? 'error'

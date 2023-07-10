@@ -186,7 +186,14 @@ function SportCenterPage() {
             Trung Tâm Thể Thao
           </Typography>
           <Stack direction="row" alignItems="center" gap={2}>
-            <Button variant="contained" startIcon={<MapIcon />} onClick={toogleOpenMap}>
+            <Button
+              variant="contained"
+              startIcon={<MapIcon />}
+              // onClick={() => {
+              //   navigate('/dashboard/sport-center-map');
+              // }}
+              onClick={toogleOpenMap}
+            >
               Xem bản đồ
             </Button>
             <Button

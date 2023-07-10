@@ -29,7 +29,18 @@ export default function ThemeProvider({ children }) {
     []
   );
 
-  const theme = createTheme(themeOptions);
+  const theme = createTheme({
+    ...themeOptions,
+    components: {
+      MuiDialog: {
+        styleOverrides: {
+          paper: {
+            width: '2000px',
+          },
+        },
+      },
+    },
+  });
   theme.components = componentsOverride(theme);
 
   return (

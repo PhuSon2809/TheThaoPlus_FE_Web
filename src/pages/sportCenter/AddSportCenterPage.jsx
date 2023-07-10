@@ -1,12 +1,8 @@
-import React from 'react';
 import { Container, Stack, Typography } from '@mui/material';
 import { Helmet } from 'react-helmet-async';
-import { useNavigate } from 'react-router-dom';
 import AddSportCenterForm from 'src/sections/@dashboard/sportCenter/AddSportCenterForm';
 
 const AddSportCenterPage = () => {
-  const navigate = useNavigate();
-
   return (
     <>
       <Helmet>

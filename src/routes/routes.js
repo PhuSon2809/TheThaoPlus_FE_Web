@@ -16,10 +16,10 @@ import {
   BookingCalendarPage,
   AddSportFieldPage,
   AddBooking,
+  PaymentPage,
 } from 'src/pages';
 import PrivateRoute from './PrivateRoute';
 import PublicRoute from './PublicRoute';
-import PaymentPage from 'src/pages/payment/PaymentPage';
 
 export const publicRoute = [
   {

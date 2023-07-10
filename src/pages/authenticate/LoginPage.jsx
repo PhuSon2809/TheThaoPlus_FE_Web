@@ -1,14 +1,10 @@
-import { Helmet } from 'react-helmet-async';
-// @mui
-import { Button, Container, Divider, Stack, Typography } from '@mui/material';
+import { Container, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
-// hooks
+import { Helmet } from 'react-helmet-async';
 import useResponsive from '../../hooks/useResponsive';
-// components
-import Iconify from '../../components/iconify';
-import Logo from '../../components/logo';
-// sections
+// import Iconify from '../../components/iconify';
 import { Link as RouterLink } from 'react-router-dom';
+import Logo from '../../components/logo';
 import { LoginForm } from '../../sections/auth';
 
 // ----------------------------------------------------------------------
@@ -81,7 +77,7 @@ export default function LoginPage() {
               </RouterLink>
             </Typography>
 
-            <Stack direction="row" spacing={2}>
+            {/* <Stack direction="row" spacing={2}>
               <Button fullWidth size="large" color="inherit" variant="outlined">
                 <Iconify icon="eva:google-fill" color="#DF3E30" width={22} height={22} />
               </Button>
@@ -95,7 +91,7 @@ export default function LoginPage() {
               <Typography variant="body2" sx={{ color: 'text.secondary' }}>
                 OR
               </Typography>
-            </Divider>
+            </Divider> */}
 
             <LoginForm />
           </StyledContent>

@@ -237,6 +237,7 @@ function AddSportCenterForm() {
                 name="name"
                 label="Tên trung tâm thể thao"
                 type="text"
+                color="main"
                 value={formik.values.name}
                 onChange={formik.handleChange}
               />
@@ -248,10 +249,17 @@ function AddSportCenterForm() {
             </FormControl>
 
             <Stack direction="row" alignItems="center" gap={3}>
-              <TimeField fullWidth label="Giờ mở cửa" value={openTime} onChange={(newValue) => setOpenTime(newValue)} />
+              <TimeField
+                fullWidth
+                label="Giờ mở cửa"
+                color="main"
+                value={openTime}
+                onChange={(newValue) => setOpenTime(newValue)}
+              />
               <TimeField
                 fullWidth
                 label="Giờ đóng cửa"
+                color="main"
                 value={closeTime}
                 onChange={(newValue) => setCloseTime(newValue)}
               />
@@ -262,6 +270,7 @@ function AddSportCenterForm() {
                 name="description"
                 label="Mô tả chi tiết"
                 type="text"
+                color="main"
                 multiline
                 minRows={4}
                 value={formik.values.description}
@@ -275,12 +284,15 @@ function AddSportCenterForm() {
             </FormControl>
 
             <FormControl>
-              <InputLabel id="sport-label">Môn thể thao</InputLabel>
+              <InputLabel id="sport-label" color="main">
+                Môn thể thao
+              </InputLabel>
               <Select
                 labelId="sport-label"
                 id="demo-simple-select-helper"
                 value={sportId}
-                label="Sport"
+                label="Môn thể thao"
+                color="main"
                 onChange={(e) => setSportId(e.target.value)}
                 sx={{ textTransform: 'capitalize' }}
               >
@@ -300,6 +312,7 @@ function AddSportCenterForm() {
                 name="address"
                 label="Địa chỉ chi tiết"
                 type="text"
+                color="main"
                 value={address}
                 onChange={(e) => {
                   setAddress(e.target.value);

@@ -17,6 +17,8 @@ import BookingCalendarPage from './booking/BookingCalendar';
 import BookingPage from './booking/BookingPage';
 import AddBooking from './booking/AddBooking';
 
+import PaymentPage from './payment/PaymentPage';
+
 export {
   DashboardAppPage,
   RegisterPage,
@@ -31,4 +33,5 @@ export {
   BookingCalendarPage,
   BookingPage,
   AddBooking,
+  PaymentPage,
 };

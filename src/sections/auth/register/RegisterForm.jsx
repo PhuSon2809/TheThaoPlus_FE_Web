@@ -85,17 +85,9 @@ function RegisterForm() {
             <TextField
               name="firstname"
               label="Họ"
-              color="success"
+              color="main"
               value={formik.values.firstname}
               onChange={formik.handleChange}
-              sx={{
-                '.css-1nnq42g-MuiFormLabel-root-MuiInputLabel-root.Mui-focused': {
-                  color: 'main.main',
-                },
-                '.css-18w8rp2-MuiInputBase-root-MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                  borderColor: 'main.main',
-                },
-              }}
             />
             {formik.errors.firstname && (
               <Typography sx={{ ml: '5px' }} variant="caption" color="red">
@@ -107,17 +99,9 @@ function RegisterForm() {
             <TextField
               name="lastname"
               label="Tên"
-              color="success"
+              color="main"
               value={formik.values.lastname}
               onChange={formik.handleChange}
-              sx={{
-                '.css-1nnq42g-MuiFormLabel-root-MuiInputLabel-root.Mui-focused': {
-                  color: 'main.main',
-                },
-                '.css-18w8rp2-MuiInputBase-root-MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                  borderColor: 'main.main',
-                },
-              }}
             />
             {formik.errors.lastname && (
               <Typography sx={{ ml: '5px' }} variant="caption" color="red">
@@ -132,17 +116,9 @@ function RegisterForm() {
             type="number"
             name="phone"
             label="Số điện thoại"
-            color="success"
+            color="main"
             value={formik.values.phone}
             onChange={formik.handleChange}
-            sx={{
-              '.css-1nnq42g-MuiFormLabel-root-MuiInputLabel-root.Mui-focused': {
-                color: 'main.main',
-              },
-              '.css-18w8rp2-MuiInputBase-root-MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                borderColor: 'main.main',
-              },
-            }}
           />
           {formik.errors.phone && (
             <Typography sx={{ ml: '5px' }} variant="caption" color="red">
@@ -155,17 +131,9 @@ function RegisterForm() {
           <TextField
             name="email"
             label="Địa chỉ Email"
-            color="success"
+            color="main"
             value={formik.values.email}
             onChange={formik.handleChange}
-            sx={{
-              '.css-1nnq42g-MuiFormLabel-root-MuiInputLabel-root.Mui-focused': {
-                color: 'main.main',
-              },
-              '.css-18w8rp2-MuiInputBase-root-MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                borderColor: 'main.main',
-              },
-            }}
           />
           {formik.errors.email && (
             <Typography sx={{ ml: '5px' }} variant="caption" color="red">
@@ -178,15 +146,7 @@ function RegisterForm() {
           <TextField
             name="password"
             label="Mật khẩu"
-            color="success"
-            sx={{
-              '.css-1nnq42g-MuiFormLabel-root-MuiInputLabel-root.Mui-focused': {
-                color: 'main.main',
-              },
-              '.css-1v5aria-MuiInputBase-root-MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                borderColor: 'main.main',
-              },
-            }}
+            color="main"
             type={showPassword ? 'text' : 'password'}
             value={formik.values.password}
             onChange={formik.handleChange}
@@ -220,9 +180,9 @@ function RegisterForm() {
             value={gender}
             onChange={handleChangeGender}
           >
-            <FormControlLabel value="female" control={<Radio />} label="Nữ" />
-            <FormControlLabel value="male" control={<Radio />} label="Nam" />
-            <FormControlLabel value="other" control={<Radio />} label="Khác" />
+            <FormControlLabel value="female" control={<Radio color="main" />} label="Nữ" />
+            <FormControlLabel value="male" control={<Radio color="main" />} label="Nam" />
+            <FormControlLabel value="other" control={<Radio color="main" />} label="Khác" />
           </RadioGroup>
         </FormControl>
 

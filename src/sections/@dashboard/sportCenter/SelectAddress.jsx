@@ -5,6 +5,7 @@ function SelectAddress({ label, options, value, setValue, type, reset, name }) {
     <FormControl fullWidth>
       <Typography variant="subtitle2">{label}</Typography>
       <Select
+        color="main"
         labelId="sport-label"
         value={reset ? '' : value}
         onChange={(e) => (!name ? setValue(e.target.value) : setValue((prev) => ({ ...prev, [name]: e.target.value })))}
