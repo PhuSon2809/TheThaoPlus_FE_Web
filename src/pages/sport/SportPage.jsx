@@ -5,7 +5,6 @@ import {
   Button,
   Card,
   Checkbox,
-  CircularProgress,
   Container,
   Dialog,
   DialogActions,
@@ -26,6 +25,7 @@ import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import TableSportSkeleton from 'src/components/skeleton/TableSportSkeleton';
 import { useModal } from 'src/hooks/useModal';
 import { SportListToolbar } from 'src/sections/@dashboard/sport';
 import { addSportList, getSportOfOwner } from 'src/services/sport/sportSlice';
@@ -146,6 +146,8 @@ function SportPage() {
   const filteredUsers = applySortFilter(sportsOfOwner, getComparator(order, orderBy), filterName);
 
   const isNotFound = !filteredUsers.length && !!filterName;
+  const lenght = sportsOfOwner.length <= 5 ? sportsOfOwner.length : 5;
+  console.log(lenght);
 
   return (
     <>
@@ -191,23 +193,7 @@ function SportPage() {
                   onSelectAllClick={handleSelectAllClick}
                 />
                 {isLoading ? (
-                  <TableBody>
-                    <TableRow>
-                      <TableCell align="center" colSpan={6} sx={{ py: 15 }}>
-                        <Paper
-                          sx={{
-                            textAlign: 'center',
-                          }}
-                        >
-                          <CircularProgress
-                            sx={{
-                              color: 'main.main',
-                            }}
-                          />
-                        </Paper>
-                      </TableCell>
-                    </TableRow>
-                  </TableBody>
+                  <TableSportSkeleton />
                 ) : (
                   <TableBody>
                     {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {

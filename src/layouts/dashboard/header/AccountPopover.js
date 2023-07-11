@@ -11,10 +11,10 @@ const MENU_OPTIONS = [
     label: 'Thông tin tài khoản',
     link: '/dashboard/profile',
   },
-  {
-    label: 'Cài đặt',
-    link: '',
-  },
+  // {
+  //   label: 'Cài đặt',
+  //   link: '',
+  // },
 ];
 
 export default function AccountPopover() {

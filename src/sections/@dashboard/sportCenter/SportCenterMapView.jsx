@@ -4,6 +4,8 @@ import { Button, Dialog, DialogActions, DialogContent, Grid, Popover, Stack, Typ
 import GoogleMapReact from 'google-map-react';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import Label from 'src/components/label/Label';
+import MapCardSkeleton from 'src/components/skeleton/MapCardSkeleton';
 import { getSportCenterDetail } from 'src/services/sportCenter/sportCenterSlice';
 
 const LocationComponent = ({ text, onClick }) => <div onClick={onClick}>{text}</div>;
@@ -11,8 +13,8 @@ const LocationComponent = ({ text, onClick }) => <div onClick={onClick}>{text}</
 function SportCenterMapView({ isOpenMap, toogleOpenMap }) {
   const dispatch = useDispatch();
 
-  const { sportCenterOfOwner, sportCenter } = useSelector((state) => state.sportCenter);
-  console.log(sportCenterOfOwner);
+  const { sportCenterOfOwner, sportCenter, isLoading } = useSelector((state) => state.sportCenter);
+  console.log(sportCenter);
   const [open, setOpen] = useState(null);
 
   const handleCloseMenu = () => {
@@ -90,22 +92,40 @@ function SportCenterMapView({ isOpenMap, toogleOpenMap }) {
           },
         }}
       >
-        <Grid container spacing={1}>
-          <Grid item md={5}>
-            <img src={sportCenter.image} alt={sportCenter.name} width="100%" />
+        {isLoading ? (
+          <MapCardSkeleton />
+        ) : (
+          <Grid container spacing={1}>
+            <Grid item md={5}>
+              <img src={sportCenter.image} alt={sportCenter.name} width="100%" />
+            </Grid>
+            <Grid item md={7}>
+              <Typography variant="subtitle1" color="main.main">
+                {sportCenter.name}
+              </Typography>
+              <Label
+                color={
+                  sportCenter.sport?.name === 'bóng đá'
+                    ? 'success'
+                    : sportCenter.sport?.name === 'bóng rổ'
+                    ? 'warning'
+                    : sportCenter.sport?.name === 'cầu lông'
+                    ? 'primary'
+                    : 'error'
+                }
+                sx={{ textTransform: 'capitalize' }}
+              >
+                {sportCenter.sport?.name}
+              </Label>
+            </Grid>
+            <Stack direction="row" ml={1} mt={1}>
+              <LocationOnIcon fontSize="small" sx={{ color: 'main.main' }} />
+              <Typography variant="subtitle2" sx={{ textAlign: 'justify' }}>
+                {sportCenter.address}
+              </Typography>
+            </Stack>
           </Grid>
-          <Grid item md={7}>
-            <Typography variant="subtitle1" color="main.main">
-              {sportCenter.name}
-            </Typography>
-          </Grid>
-          <Stack direction="row" sx={{ ml: 1, mt: 1 }}>
-            <LocationOnIcon fontSize="small" sx={{ color: 'main.main' }} />
-            <Typography variant="subtitle2" sx={{ textAlign: 'justify' }}>
-              {sportCenter.address}
-            </Typography>
-          </Stack>
-        </Grid>
+        )}
       </Popover>
     </>
   );

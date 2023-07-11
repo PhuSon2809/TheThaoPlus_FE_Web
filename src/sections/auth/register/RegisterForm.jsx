@@ -29,7 +29,7 @@ function RegisterForm() {
 
   const [showPassword, setShowPassword] = useState(false);
   const [gender, setGender] = useState('female');
-  const [yob, setYob] = useState(dayjs('2022-04-17'));
+  const [yob, setYob] = useState(dayjs(new Date()));
 
   const handleChangeGender = (event) => {
     setGender(event.target.value);

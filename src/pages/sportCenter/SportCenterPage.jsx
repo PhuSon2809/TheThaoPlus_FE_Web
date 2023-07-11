@@ -30,6 +30,7 @@ import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import TableSportCenterSkeleton from 'src/components/skeleton/TableSportCenterSkeleton';
 import { useModal } from 'src/hooks/useModal';
 import SportCenterMapView from 'src/sections/@dashboard/sportCenter/SportCenterMapView';
 import {
@@ -94,7 +95,7 @@ function SportCenterPage() {
   const { toogleOpen, isOpen } = useModal();
   const { toogleOpen: toogleOpenMap, isOpen: isOpenMap } = useModal();
 
-  const { sportCenterOfOwner } = useSelector((state) => state.sportCenter);
+  const { isLoading, sportCenterOfOwner } = useSelector((state) => state.sportCenter);
 
   const [open, setOpen] = useState(null);
 
@@ -222,113 +223,97 @@ function SportCenterPage() {
                   onRequestSort={handleRequestSort}
                   onSelectAllClick={handleSelectAllClick}
                 />
-                {/* {isLoading ? (
+                {isLoading ? (
+                  <TableSportCenterSkeleton />
+                ) : (
                   <TableBody>
-                    <TableRow>
-                      <TableCell align="center" colSpan={9} sx={{ py: 15 }}>
-                        <Paper
-                          sx={{
-                            textAlign: 'center',
-                          }}
-                        >
-                          <CircularProgress
-                            sx={{
-                              color: 'main.main',
+                    {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+                      const { _id, name, address, closeTime, openTime, sport, sportFields, status } = row;
+                      const selectedUser = selected.indexOf(name) !== -1;
+
+                      return (
+                        <TableRow hover key={_id} tabIndex={-1} role="checkbox" selected={selectedUser}>
+                          <TableCell padding="checkbox">
+                            <Checkbox checked={selectedUser} onChange={(event) => handleClick(event, name)} />
+                          </TableCell>
+
+                          <TableCell
+                            scope="row"
+                            padding="none"
+                            onClick={() => {
+                              navigate(`/dashboard/sport-center-detail/${_id}`);
                             }}
-                          />
-                        </Paper>
-                      </TableCell>
-                    </TableRow>
-                  </TableBody>
-                ) : ( */}
-                <TableBody>
-                  {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    const { _id, name, address, closeTime, openTime, sport, sportFields, status } = row;
-                    const selectedUser = selected.indexOf(name) !== -1;
-
-                    return (
-                      <TableRow hover key={_id} tabIndex={-1} role="checkbox" selected={selectedUser}>
-                        <TableCell padding="checkbox">
-                          <Checkbox checked={selectedUser} onChange={(event) => handleClick(event, name)} />
-                        </TableCell>
-
-                        <TableCell
-                          scope="row"
-                          padding="none"
-                          onClick={() => {
-                            navigate(`/dashboard/sport-center-detail/${_id}`);
-                          }}
-                        >
-                          <Typography variant="subtitle2" sx={{ width: 150, fontSize: '0.875rem' }} noWrap>
-                            {name}
-                          </Typography>
-                        </TableCell>
-
-                        <TableCell align="left">
-                          <Typography sx={{ width: 150, fontSize: '0.875rem' }} noWrap>
-                            {address}
-                          </Typography>
-                        </TableCell>
-                        <TableCell align="left">{openTime}</TableCell>
-                        <TableCell align="left">{closeTime}</TableCell>
-
-                        <TableCell align="left">
-                          <Label
-                            color={
-                              sport.name === 'bóng đá'
-                                ? 'success'
-                                : sport.name === 'bóng rổ'
-                                ? 'warning'
-                                : sport.name === 'cầu lông'
-                                ? 'primary'
-                                : 'error'
-                            }
-                            sx={{ textTransform: 'capitalize' }}
                           >
-                            {sport.name}
-                          </Label>
-                        </TableCell>
+                            <Typography variant="subtitle2" sx={{ width: 150, fontSize: '0.875rem' }} noWrap>
+                              {name}
+                            </Typography>
+                          </TableCell>
 
-                        <TableCell align="left">{sportFields.length} sân</TableCell>
+                          <TableCell align="left">
+                            <Typography sx={{ width: 150, fontSize: '0.875rem' }} noWrap>
+                              {address}
+                            </Typography>
+                          </TableCell>
+                          <TableCell align="left">{openTime}</TableCell>
+                          <TableCell align="left">{closeTime}</TableCell>
 
-                        <TableCell align="left" sx={{ width: 100 }}>
-                          <FormControlLabel
-                            control={
-                              <Switch
-                                size="small"
-                                color="success"
-                                checked={status}
-                                onClick={() => dispatch(status ? deactiveSportCenter(_id) : activeSportCenter(_id))}
-                              />
-                            }
-                            label={
-                              <Label color={(status === false && 'error') || 'success'}>
-                                {status ? 'Hoạt động' : 'Không hoạt động'}
-                              </Label>
-                            }
-                          />
-                        </TableCell>
+                          <TableCell align="left">
+                            <Label
+                              color={
+                                sport.name === 'bóng đá'
+                                  ? 'success'
+                                  : sport.name === 'bóng rổ'
+                                  ? 'warning'
+                                  : sport.name === 'cầu lông'
+                                  ? 'primary'
+                                  : 'error'
+                              }
+                              sx={{ textTransform: 'capitalize' }}
+                            >
+                              {sport.name}
+                            </Label>
+                          </TableCell>
 
-                        <TableCell align="right">
-                          <IconButton size="large" color="inherit" onClick={handleOpenMenu}>
-                            <Iconify
-                              icon={'eva:more-vertical-fill'}
-                              onClick={() => {
-                                setIdToDelete({ sportCenterId: _id, sportId: sport._id });
-                              }}
+                          <TableCell align="left">{sportFields.length} sân</TableCell>
+
+                          <TableCell align="left" sx={{ width: 100 }}>
+                            <FormControlLabel
+                              control={
+                                <Switch
+                                  size="small"
+                                  color="success"
+                                  checked={status}
+                                  onClick={() => dispatch(status ? deactiveSportCenter(_id) : activeSportCenter(_id))}
+                                />
+                              }
+                              label={
+                                <Label color={(status === false && 'error') || 'success'}>
+                                  {status ? 'Hoạt động' : 'Không hoạt động'}
+                                </Label>
+                              }
                             />
-                          </IconButton>
-                        </TableCell>
+                          </TableCell>
+
+                          <TableCell align="right">
+                            <IconButton size="large" color="inherit" onClick={handleOpenMenu}>
+                              <Iconify
+                                icon={'eva:more-vertical-fill'}
+                                onClick={() => {
+                                  setIdToDelete({ sportCenterId: _id, sportId: sport._id });
+                                }}
+                              />
+                            </IconButton>
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })}
+                    {emptyRows > 0 && (
+                      <TableRow style={{ height: 53 * emptyRows }}>
+                        <TableCell colSpan={6} />
                       </TableRow>
-                    );
-                  })}
-                  {emptyRows > 0 && (
-                    <TableRow style={{ height: 53 * emptyRows }}>
-                      <TableCell colSpan={6} />
-                    </TableRow>
-                  )}
-                </TableBody>
-                {/* )} */}
+                    )}
+                  </TableBody>
+                )}
 
                 {isNotFound && (
                   <TableBody>
