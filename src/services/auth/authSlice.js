@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { loginOwnerThunk, logoutThunk, registerOwnerThunk } from './authThunk';
+import { loginOwnerThunk, logoutThunk, registerOwnerThunk, updateOwnerThunk } from './authThunk';
 import { toast } from 'react-toastify';
 
 const getUserfromLocalStorage = localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : null;
@@ -10,12 +10,14 @@ const initialState = {
   isLoading: false,
   isError: false,
   isSuccess: false,
+  isEditing: false,
   message: '',
 };
 
 export const RegisterOwner = createAsyncThunk('auth/RegisterOwner', registerOwnerThunk);
 export const LoginOwner = createAsyncThunk('auth/LoginOwner', loginOwnerThunk);
 export const logoutAccount = createAsyncThunk('auth/Logout', logoutThunk);
+export const updateAccount = createAsyncThunk('auth/UpdateOwner', updateOwnerThunk);
 
 const authSlice = createSlice({
   name: 'auth',
@@ -24,6 +26,9 @@ const authSlice = createSlice({
     setMessageSuccess: (state, action) => {
       state.message = action.payload;
       toast.success(state.message);
+    },
+    setEditUser: (state) => {
+      state.isEditing = true;
     },
   },
   extraReducers: (builder) => {
@@ -75,9 +80,26 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;
+      })
+      .addCase(updateAccount.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updateAccount.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.user = action.payload?.userUpdated;
+      })
+      .addCase(updateAccount.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        console.log(action.payload);
+        toast.error('Phone number is already!');
+        // toast.error(action.payload);
       });
   },
 });
 
-export const { setMessageSuccess } = authSlice.actions;
+export const { setMessageSuccess, setEditUser } = authSlice.actions;
 export default authSlice.reducer;

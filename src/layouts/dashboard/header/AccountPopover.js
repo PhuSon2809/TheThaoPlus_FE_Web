@@ -1,20 +1,19 @@
-import { useState } from 'react';
-// @mui
 import { Avatar, Box, Divider, IconButton, MenuItem, Popover, Stack, Typography } from '@mui/material';
 import { alpha } from '@mui/material/styles';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+
 import { logoutAccount } from 'src/services/auth/authSlice';
 
 const MENU_OPTIONS = [
-  // {
-  //   label: 'Home',
-  // },
   {
     label: 'Thông tin tài khoản',
+    link: '/dashboard/profile',
   },
   {
     label: 'Cài đặt',
+    link: '',
   },
 ];
 
@@ -32,7 +31,6 @@ export default function AccountPopover() {
   const handleLogout = () => {
     dispatch(logoutAccount(navigate));
     setOpen(null);
-    // navigate('/login');
   };
 
   const handleClose = () => {
@@ -93,7 +91,13 @@ export default function AccountPopover() {
 
         <Stack sx={{ p: 1 }}>
           {MENU_OPTIONS.map((option) => (
-            <MenuItem key={option.label} onClick={handleClose}>
+            <MenuItem
+              key={option.label}
+              onClick={() => {
+                handleClose();
+                navigate(option.link);
+              }}
+            >
               {option.label}
             </MenuItem>
           ))}

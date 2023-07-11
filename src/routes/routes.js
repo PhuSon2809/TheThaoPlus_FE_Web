@@ -17,6 +17,7 @@ import {
   AddSportFieldPage,
   AddBooking,
   PaymentPage,
+  ProfilePage,
 } from 'src/pages';
 import PrivateRoute from './PrivateRoute';
 import PublicRoute from './PublicRoute';
@@ -80,6 +81,10 @@ export const ownerRoute = [
   {
     path: 'payment',
     component: <PaymentPage />,
+  },
+  {
+    path: 'profile',
+    component: <ProfilePage />,
   },
 ];
 

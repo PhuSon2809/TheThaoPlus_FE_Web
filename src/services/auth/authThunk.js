@@ -55,3 +55,38 @@ export const logoutThunk = async (navigate, thunkAPI) => {
     return thunkAPI.rejectWithValue(error);
   }
 };
+
+export const updateOwnerThunk = async (params, thunkAPI) => {
+  console.log(params);
+  const accessToken = document.cookie
+    .split('; ')
+    .find((row) => row.startsWith('accessToken'))
+    ?.split('=')[1];
+  if (accessToken) {
+    axiosClient.setHeaderAuth(accessToken);
+    try {
+      console.log('Go update');
+      const response = await axiosClient.put(`/user/edit`, params.updateOwner);
+      if (response) {
+        console.log(response);
+
+        const userLocalStorage = {
+          firstname: response.userUpdated.firstname,
+          lastname: response.userUpdated.lastname,
+          email: response.userUpdated.email,
+          phone: response.userUpdated.phone,
+          image: response.userUpdated.image,
+          gender: response.userUpdated.gender,
+          YOB: response.userUpdated.YOB,
+          role: response.userUpdated?.role.name,
+        };
+        localStorage.setItem('userInfo', JSON.stringify(userLocalStorage));
+        thunkAPI.dispatch(setMessageSuccess('Update user successfully'));
+      }
+      return response;
+    } catch (error) {
+      console.log('sport error thunk: ', error);
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+};

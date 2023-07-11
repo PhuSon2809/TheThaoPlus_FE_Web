@@ -63,13 +63,15 @@ function RegisterForm() {
       };
       console.log(params);
       dispatch(RegisterOwner(params));
-      // formikHelpers.resetForm();
+      formikHelpers.resetForm();
     },
     validationSchema: Yup.object({
       firstname: Yup.string().required('Vui lòng nhập họ của bạn'),
       lastname: Yup.string().required('Vui lòng nhập tên của bạn'),
       email: Yup.string().email('Định dạng email không chính xác').required('Vui lòng nhập địa chỉ email của bạn'),
-      phone: Yup.string().matches(phoneRegExp, 'Số điện thoại không hợp lệ'),
+      phone: Yup.string()
+        .matches(phoneRegExp, 'Số điện thoại không hợp lệ')
+        .required('Vui lòng nhập địa chỉ số điện thoại của bạn'),
       password: Yup.string()
         .required('Vui lòng nhập mật khẩu của bạn')
         .min(6, 'Mật khẩu phải có tối thiểu 6 ký tự')
@@ -108,7 +110,7 @@ function RegisterForm() {
                 {formik.errors.lastname}
               </Typography>
             )}
-          </FormControl>{' '}
+          </FormControl>
         </Stack>
 
         <FormControl>
