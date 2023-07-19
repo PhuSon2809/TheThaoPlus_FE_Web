@@ -109,7 +109,8 @@ const sportCenterSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;
-        toast.error(action.payload?.data.message);
+        // console.log('creatNewSportCenter.rejected', action.payload);
+        toast.error(action.payload?.data.error);
       })
       .addCase(deleteSportCenter.pending, (state) => {
         state.isLoading = true;

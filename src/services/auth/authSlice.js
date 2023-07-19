@@ -1,6 +1,14 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { loginOwnerThunk, logoutThunk, registerOwnerThunk, updateOwnerThunk } from './authThunk';
 import { toast } from 'react-toastify';
+import {
+  forgotPasswordThunk,
+  loginOwnerThunk,
+  logoutThunk,
+  registerOwnerThunk,
+  resetPasswordThunk,
+  updateOwnerThunk,
+  updatePasswordThunk,
+} from './authThunk';
 
 const getUserfromLocalStorage = localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : null;
 
@@ -18,6 +26,9 @@ export const RegisterOwner = createAsyncThunk('auth/RegisterOwner', registerOwne
 export const LoginOwner = createAsyncThunk('auth/LoginOwner', loginOwnerThunk);
 export const logoutAccount = createAsyncThunk('auth/Logout', logoutThunk);
 export const updateAccount = createAsyncThunk('auth/UpdateOwner', updateOwnerThunk);
+export const updatePassword = createAsyncThunk('auth/UpdatePassword', updatePasswordThunk);
+export const forgotPassword = createAsyncThunk('auth/forgotPassword', forgotPasswordThunk);
+export const resetPassword = createAsyncThunk('auth/resetPassword', resetPasswordThunk);
 
 const authSlice = createSlice({
   name: 'auth',
@@ -26,6 +37,14 @@ const authSlice = createSlice({
     setMessageSuccess: (state, action) => {
       state.message = action.payload;
       toast.success(state.message);
+    },
+    setMessageNoti: (state, action) => {
+      state.message = action.payload?.message;
+      toast.info(state.message);
+    },
+    setMessageError: (state, action) => {
+      state.message = action.payload?.message;
+      toast.error(state.message);
     },
     setEditUser: (state) => {
       state.isEditing = true;
@@ -96,10 +115,48 @@ const authSlice = createSlice({
         state.isSuccess = false;
         console.log(action.payload);
         toast.error('Phone number is already!');
-        // toast.error(action.payload);
+      })
+      .addCase(updatePassword.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updatePassword.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+      })
+      .addCase(updatePassword.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+      })
+      .addCase(forgotPassword.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(forgotPassword.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+      })
+      .addCase(forgotPassword.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+      })
+      .addCase(resetPassword.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(resetPassword.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+      })
+      .addCase(resetPassword.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
       });
   },
 });
 
-export const { setMessageSuccess, setEditUser } = authSlice.actions;
+export const { setMessageSuccess, setMessageNoti, setMessageError, setEditUser } = authSlice.actions;
 export default authSlice.reducer;

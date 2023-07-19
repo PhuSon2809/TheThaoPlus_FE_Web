@@ -9,6 +9,14 @@ export const getAllSportsThunk = async (_, thunkAPI) => {
     console.log(error);
   }
 };
+export const getSportThunk = async (sportId, thunkAPI) => {
+  try {
+    const response = await axiosClient.getByUrl(`/sport/${sportId}`);
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 //Add to sport list of owner
 export const addSportListThunk = async (sportId, thunkAPI) => {

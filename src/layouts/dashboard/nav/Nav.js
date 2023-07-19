@@ -60,10 +60,14 @@ function Nav({ openNav, onCloseNav }) {
         </Link>
       </Box>
 
-      <NavSection data={navConfigOwner} />
+      <Stack direction="column" justifyContent="space-between" alignItems="center" height="100%" width="100%">
+        <Box width="100%">
+          <NavSection data={navConfigOwner} />
+        </Box>
 
-      <Stack alignItems="center" spacing={3} sx={{ px: 2.5, py: 2 }}>
-        <Box component="img" src="/assets/illustrations/illustration_avatar.png" sx={{ width: 300 }} />
+        <Stack alignItems="center" spacing={3} sx={{ px: 2.5, py: 2 }}>
+          <Box component="img" src="/assets/illustrations/illustration_avatar.png" sx={{ width: 300 }} />
+        </Stack>
       </Stack>
     </Scrollbar>
   );

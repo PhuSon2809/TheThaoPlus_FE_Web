@@ -39,6 +39,13 @@ export default function ThemeProvider({ children }) {
           },
         },
       },
+      MuiStepIcon: {
+        styleOverrides: {
+          root: {
+            color: 'red',
+          },
+        },
+      },
     },
   });
   theme.components = componentsOverride(theme);

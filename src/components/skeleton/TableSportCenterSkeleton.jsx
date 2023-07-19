@@ -1,30 +1,23 @@
-import {
-  Checkbox,
-  FormControlLabel,
-  IconButton,
-  Skeleton,
-  Switch,
-  TableBody,
-  TableCell,
-  TableRow,
-} from '@mui/material';
+import { IconButton, Skeleton, Stack, TableBody, TableCell, TableRow } from '@mui/material';
 import Iconify from '../../components/iconify';
 
-function TableSportCenterSkeleton() {
+function TableSportCenterSkeleton({ length }) {
   return (
     <TableBody>
-      {Array.from({ length: 5 }).map((_, index) => (
+      {Array.from({ length: length }).map((_, index) => (
         <TableRow key={index}>
-          <TableCell padding="checkbox">
-            <Checkbox />
+          <TableCell align="center" width={60}>
+            <Stack direction="row" alignItems="center" justifyContent="center">
+              <Skeleton width={15} />
+            </Stack>
           </TableCell>
 
-          <TableCell scope="row" padding="none">
+          <TableCell scope="row" padding="none" width={182.72}>
             <Skeleton />
           </TableCell>
 
-          <TableCell align="left">
-            <Skeleton width={120} />
+          <TableCell align="left" width={182.72}>
+            <Skeleton />
           </TableCell>
           <TableCell align="left">
             <Skeleton width={60} />
@@ -41,11 +34,8 @@ function TableSportCenterSkeleton() {
             <Skeleton />
           </TableCell>
 
-          <TableCell align="left" sx={{ width: 100 }}>
-            <FormControlLabel
-              control={<Switch size="small" color="success" checked={true} />}
-              label={<Skeleton variant="rounded" width={77} height={20} />}
-            />
+          <TableCell align="left">
+            <Skeleton variant="rounded" width={90} height={20} />
           </TableCell>
 
           <TableCell align="right">

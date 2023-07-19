@@ -9,7 +9,7 @@ export const getAllSportCentersThunk = async (_, thunkAPI) => {
   if (accessToken) {
     axiosClient.setHeaderAuth(accessToken);
     try {
-      const response = await axiosClient.getByUrl('/user/get-sport-center-list');
+      const response = await axiosClient.getByUrl('/user/sport-center-of-owner');
       console.log(response);
       return response;
     } catch (error) {
@@ -63,7 +63,7 @@ export const createNewSportCenterThunk = async (params, thunkAPI) => {
     try {
       const response = await axiosClient.post('/sport-center/', params.newSportCenter);
       if (response) {
-        params.navigate('/dashboard/sport-center');
+        // params.navigate('/dashboard/sport-center');
         thunkAPI.dispatch(setMessageSuccess('Created new sport center successfully'));
       }
       return response;

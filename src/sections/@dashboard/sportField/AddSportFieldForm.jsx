@@ -143,7 +143,7 @@ function AddSportFieldForm() {
               <ImageList variant="masonry" cols={3} gap={8}>
                 {inputImage.map((image, index) => (
                   <ImageListItem key={index}>
-                    <img src={image} alt={'image'} loading="lazy" />
+                    <img src={image} alt="sport" loading="lazy" />
                   </ImageListItem>
                 ))}
               </ImageList>

@@ -36,14 +36,13 @@ function UpdateInformation({ isOpen, toogleOpen }) {
 
   const [gender, setGender] = useState(isEditing ? user.gender : 'female');
   const [yob, setYob] = useState(isEditing ? dayjs(user.YOB) : dayjs(new Date()));
-  console.log(yob);
+
   const handleChangeGender = (event) => {
     setGender(event.target.value);
   };
 
   const [image, setImage] = useState(isEditing && user.image);
   const [stringImg, setStringImg] = useState([]);
-  const [stringImgFB, setStringImgFB] = useState();
 
   const onImageChange = (event) => {
     let storageImage = [];
@@ -70,7 +69,6 @@ function UpdateInformation({ isOpen, toogleOpen }) {
           console.log('error: ', error);
         });
     }
-    setStringImgFB(imagesLink[0]);
     console.log('imgLink: ', imagesLink[0]);
   };
 
@@ -90,10 +88,10 @@ function UpdateInformation({ isOpen, toogleOpen }) {
         firstname: formik.values.firstname,
         lastname: formik.values.lastname,
         email: formik.values.email,
-        phone: `0${formik.values.phone}`,
+        phone: `${formik.values.phone}`,
         gender: gender,
         YOB: yob,
-        image: stringImgFB ? stringImgFB : imagesLink[0],
+        image: imagesLink[0] || user.iamge,
       };
       const params = {
         updateOwner,
@@ -101,7 +99,7 @@ function UpdateInformation({ isOpen, toogleOpen }) {
       };
       dispatch(updateAccount(params));
       toogleOpen();
-      // formikHelpers.resetForm();
+      formikHelpers.resetForm();
     },
     validationSchema: Yup.object({
       firstname: Yup.string().required('Vui lòng nhập họ của bạn'),
@@ -174,7 +172,6 @@ function UpdateInformation({ isOpen, toogleOpen }) {
 
                     <FormControl>
                       <TextField
-                        type="number"
                         name="phone"
                         label="Số điện thoại"
                         color="main"

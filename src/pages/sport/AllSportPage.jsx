@@ -3,14 +3,15 @@ import { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { AllSportSort, SportList } from 'src/sections/@dashboard/sport';
+import SportCardSkeleton from 'src/components/skeleton/SportCardSkeleton';
+import { SportList } from 'src/sections/@dashboard/sport';
 import { getAllSports } from 'src/services/sport/sportSlice';
 
 function AllSportPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { sports } = useSelector((state) => state.sport);
+  const { sports, isLoading } = useSelector((state) => state.sport);
 
   useEffect(() => {
     dispatch(getAllSports());
@@ -30,11 +31,11 @@ function AllSportPage() {
           Thêm các môn thể thao vào hệ thống trung tâm thể thao của bạn.
         </Typography>
 
-        <Stack direction="row" flexWrap="wrap-reverse" alignItems="center" justifyContent="flex-end" sx={{ mb: 5 }}>
+        {/* <Stack direction="row" flexWrap="wrap-reverse" alignItems="center" justifyContent="flex-end" sx={{ mb: 5 }}>
           <AllSportSort />
-        </Stack>
+        </Stack> */}
 
-        <SportList sports={sports} />
+        {isLoading ? <SportCardSkeleton length={sports.length} /> : <SportList sports={sports} />}
 
         <Stack direction="row" flexWrap="wrap-reverse" alignItems="center" justifyContent="flex-end" sx={{ mt: 10 }}>
           <Button

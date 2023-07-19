@@ -1,11 +1,11 @@
 import VisibilityOffRoundedIcon from '@mui/icons-material/VisibilityOffRounded';
 import VisibilityRoundedIcon from '@mui/icons-material/VisibilityRounded';
 import { LoadingButton } from '@mui/lab';
-import { FormControl, IconButton, InputAdornment, Link, Stack, TextField, Typography } from '@mui/material';
+import { FormControl, IconButton, InputAdornment, Link as MuiLink, Stack, TextField, Typography } from '@mui/material';
 import { useFormik } from 'formik';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { LoginOwner } from 'src/services/auth/authSlice';
 import * as Yup from 'yup';
 
@@ -85,9 +85,11 @@ export default function LoginForm() {
         </FormControl>
       </Stack>
 
-      <Stack sx={{ my: 3 }}>
-        <Link variant="subtitle2" underline="hover" sx={{ textAlign: 'right' }}>
-          Quên mật khẩu?
+      <Stack sx={{ my: 3 }} justifyContent="end" alignItems="end">
+        <Link to="/forgot-password">
+          <MuiLink variant="subtitle2" underline="hover" sx={{ textAlign: 'right' }}>
+            Quên mật khẩu?
+          </MuiLink>
         </Link>
       </Stack>
 

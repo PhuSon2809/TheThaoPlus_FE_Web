@@ -5,7 +5,6 @@ import MapIcon from '@mui/icons-material/Map';
 import {
   Button,
   Card,
-  Checkbox,
   Container,
   Dialog,
   DialogActions,
@@ -96,6 +95,7 @@ function SportCenterPage() {
   const { toogleOpen: toogleOpenMap, isOpen: isOpenMap } = useModal();
 
   const { isLoading, sportCenterOfOwner } = useSelector((state) => state.sportCenter);
+  console.log(sportCenterOfOwner);
 
   const [open, setOpen] = useState(null);
 
@@ -104,8 +104,6 @@ function SportCenterPage() {
   const [page, setPage] = useState(0);
 
   const [order, setOrder] = useState('asc');
-
-  const [selected, setSelected] = useState([]);
 
   const [orderBy, setOrderBy] = useState('name');
 
@@ -129,30 +127,6 @@ function SportCenterPage() {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
-  };
-
-  const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
-      const newSelecteds = sportCenterOfOwner.map((n) => n.name);
-      setSelected(newSelecteds);
-      return;
-    }
-    setSelected([]);
-  };
-
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
-    let newSelected = [];
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(selected.slice(0, selectedIndex), selected.slice(selectedIndex + 1));
-    }
-    setSelected(newSelected);
   };
 
   const handleChangePage = (event, newPage) => {
@@ -209,7 +183,7 @@ function SportCenterPage() {
         </Stack>
 
         <Card>
-          <UserListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
+          <UserListToolbar filterName={filterName} onFilterName={handleFilterByName} />
 
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
@@ -218,28 +192,24 @@ function SportCenterPage() {
                   order={order}
                   orderBy={orderBy}
                   headLabel={TABLE_HEAD}
-                  rowCount={sportCenterOfOwner.length}
-                  numSelected={selected.length}
                   onRequestSort={handleRequestSort}
-                  onSelectAllClick={handleSelectAllClick}
                 />
                 {isLoading ? (
-                  <TableSportCenterSkeleton />
+                  <TableSportCenterSkeleton length={filteredUsers.length} />
                 ) : (
                   <TableBody>
-                    {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+                    {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
                       const { _id, name, address, closeTime, openTime, sport, sportFields, status } = row;
-                      const selectedUser = selected.indexOf(name) !== -1;
 
                       return (
-                        <TableRow hover key={_id} tabIndex={-1} role="checkbox" selected={selectedUser}>
-                          <TableCell padding="checkbox">
-                            <Checkbox checked={selectedUser} onChange={(event) => handleClick(event, name)} />
+                        <TableRow hover key={_id} tabIndex={-1} role="checkbox">
+                          <TableCell align="center">
+                            <Typography variant="subtitle2">{index + 1}</Typography>
                           </TableCell>
 
                           <TableCell
+                            align="left"
                             scope="row"
-                            padding="none"
                             onClick={() => {
                               navigate(`/dashboard/sport-center-detail/${_id}`);
                             }}
@@ -276,7 +246,7 @@ function SportCenterPage() {
 
                           <TableCell align="left">{sportFields.length} sân</TableCell>
 
-                          <TableCell align="left" sx={{ width: 100 }}>
+                          <TableCell align="left" width={195}>
                             <FormControlLabel
                               control={
                                 <Switch
@@ -400,7 +370,15 @@ function SportCenterPage() {
             <Typography variant="subtitle1">Bạn có muốn xóa trung tâm thể thao này không?</Typography>
           </DialogContent>
           <DialogActions>
-            <Button variant="contained" color="secondary" size="small" onClick={toogleOpen}>
+            <Button
+              variant="contained"
+              color="secondary"
+              size="small"
+              onClick={() => {
+                toogleOpen();
+                handleCloseMenu();
+              }}
+            >
               Đóng
             </Button>
             <Button
@@ -410,6 +388,7 @@ function SportCenterPage() {
               onClick={() => {
                 dispatch(deleteSportCenter(idToDelete));
                 toogleOpen();
+                handleCloseMenu();
               }}
             >
               Xóa

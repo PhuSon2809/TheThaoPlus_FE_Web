@@ -76,7 +76,7 @@ function SportFieldDetail({ isOpenDetail, toogleOpenDetail, sportField }) {
                 <ImageList cols={2} gap={8} sx={{ height: '490px' }}>
                   {sportField.images?.map((image, index) => (
                     <ImageListItem key={index}>
-                      <img src={image} alt={'image'} loading="lazy" />
+                      <img src={image} alt="sport" loading="lazy" />
                     </ImageListItem>
                   ))}
                 </ImageList>

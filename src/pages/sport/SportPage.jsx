@@ -1,15 +1,8 @@
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
-import RemoveCircleRoundedIcon from '@mui/icons-material/RemoveCircleRounded';
 import {
-  Avatar,
   Button,
   Card,
-  Checkbox,
   Container,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  IconButton,
   Paper,
   Stack,
   Table,
@@ -26,10 +19,8 @@ import { Helmet } from 'react-helmet-async';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import TableSportSkeleton from 'src/components/skeleton/TableSportSkeleton';
-import { useModal } from 'src/hooks/useModal';
-import { SportListToolbar } from 'src/sections/@dashboard/sport';
-import { addSportList, getSportOfOwner } from 'src/services/sport/sportSlice';
-import Label from '../../components/label';
+import { SportListToolbar, SportTableRow } from 'src/sections/@dashboard/sport';
+import { getSportOfOwner } from 'src/services/sport/sportSlice';
 import Scrollbar from '../../components/scrollbar';
 import { TableListHead } from '../../sections/@dashboard/table';
 
@@ -75,17 +66,11 @@ function SportPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { toogleOpen, isOpen } = useModal();
-
   const { sportsOfOwner, isLoading } = useSelector((state) => state.sport);
-
-  const [sportId, setSportId] = useState();
 
   const [page, setPage] = useState(0);
 
   const [order, setOrder] = useState('asc');
-
-  const [selected, setSelected] = useState([]);
 
   const [orderBy, setOrderBy] = useState('name');
 
@@ -101,30 +86,6 @@ function SportPage() {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
-  };
-
-  const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
-      const newSelecteds = sportsOfOwner.map((n) => n.name);
-      setSelected(newSelecteds);
-      return;
-    }
-    setSelected([]);
-  };
-
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
-    let newSelected = [];
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(selected.slice(0, selectedIndex), selected.slice(selectedIndex + 1));
-    }
-    setSelected(newSelected);
   };
 
   const handleChangePage = (event, newPage) => {
@@ -143,9 +104,9 @@ function SportPage() {
 
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - sportsOfOwner.length) : 0;
 
-  const filteredUsers = applySortFilter(sportsOfOwner, getComparator(order, orderBy), filterName);
+  const filteredSports = applySortFilter(sportsOfOwner, getComparator(order, orderBy), filterName);
 
-  const isNotFound = !filteredUsers.length && !!filterName;
+  const isNotFound = !filteredSports.length && !!filterName;
   const lenght = sportsOfOwner.length <= 5 ? sportsOfOwner.length : 5;
   console.log(lenght);
 
@@ -178,7 +139,7 @@ function SportPage() {
         </Stack>
 
         <Card>
-          <SportListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
+          <SportListToolbar filterName={filterName} onFilterName={handleFilterByName} />
 
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
@@ -187,56 +148,16 @@ function SportPage() {
                   order={order}
                   orderBy={orderBy}
                   headLabel={TABLE_HEAD}
-                  rowCount={sportsOfOwner.length}
-                  numSelected={selected.length}
                   onRequestSort={handleRequestSort}
-                  onSelectAllClick={handleSelectAllClick}
                 />
                 {isLoading ? (
-                  <TableSportSkeleton />
+                  <TableSportSkeleton length={filteredSports.length} />
                 ) : (
                   <TableBody>
-                    {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                      const { _id, name, image, sportCenters, status } = row;
-                      const selectedUser = selected.indexOf(name) !== -1;
+                    {filteredSports.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
+                      const { _id } = row;
 
-                      return (
-                        <TableRow hover key={_id} tabIndex={-1} role="checkbox" selected={selectedUser}>
-                          <TableCell padding="checkbox">
-                            <Checkbox checked={selectedUser} onChange={(event) => handleClick(event, name)} />
-                          </TableCell>
-
-                          <TableCell component="th" scope="row" padding="none">
-                            <Stack direction="row" alignItems="center" spacing={2}>
-                              <Avatar alt={name} src={image} sx={{ width: 56, height: 56 }} />
-                              <Typography variant="subtitle2" noWrap sx={{ textTransform: 'capitalize' }}>
-                                {name}
-                              </Typography>
-                            </Stack>
-                          </TableCell>
-
-                          <TableCell align="left">{sportCenters.length} trung tâm thể thao</TableCell>
-
-                          <TableCell align="left">
-                            <Label color={(!status && 'error') || 'success'}>
-                              {status ? 'Hoạt động' : 'Không hoạt động'}
-                            </Label>
-                          </TableCell>
-
-                          <TableCell align="right">
-                            <IconButton
-                              size="large"
-                              color="error"
-                              onClick={() => {
-                                toogleOpen();
-                                setSportId(_id);
-                              }}
-                            >
-                              <RemoveCircleRoundedIcon />
-                            </IconButton>
-                          </TableCell>
-                        </TableRow>
-                      );
+                      return <SportTableRow key={_id} sportRow={row} index={index} />;
                     })}
                     {emptyRows > 0 && (
                       <TableRow style={{ height: 53 * emptyRows }}>
@@ -284,39 +205,6 @@ function SportPage() {
           />
         </Card>
       </Container>
-
-      {isOpen && (
-        <Dialog
-          sx={{
-            '.css-1t1j96h-MuiPaper-root-MuiDialog-paper': {
-              width: '300px',
-              maxWidth: '300px',
-            },
-          }}
-          open={isOpen}
-          onClose={toogleOpen}
-        >
-          <DialogContent sx={{ width: '100%' }}>
-            <Typography variant="subtitle1">Bạn có muốn xóa môn thể thao này không?</Typography>
-          </DialogContent>
-          <DialogActions>
-            <Button variant="contained" color="secondary" size="small" onClick={toogleOpen}>
-              Đóng
-            </Button>
-            <Button
-              variant="contained"
-              color="error"
-              size="small"
-              onClick={() => {
-                dispatch(addSportList(sportId));
-                toogleOpen();
-              }}
-            >
-              Xóa
-            </Button>
-          </DialogActions>
-        </Dialog>
-      )}
     </>
   );
 }

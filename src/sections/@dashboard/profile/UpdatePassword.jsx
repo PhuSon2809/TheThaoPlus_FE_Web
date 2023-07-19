@@ -16,7 +16,7 @@ import { useFormik } from 'formik';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { LoginOwner } from 'src/services/auth/authSlice';
+import { updatePassword } from 'src/services/auth/authSlice';
 import * as Yup from 'yup';
 
 function UpdatePassword({ isOpenPassword, toogleOpenPassword }) {
@@ -38,7 +38,7 @@ function UpdatePassword({ isOpenPassword, toogleOpenPassword }) {
         navigate,
         user: formik.values,
       };
-      dispatch(LoginOwner(params));
+      dispatch(updatePassword(params));
       toogleOpenPassword();
       formikHelpers.resetForm();
     },
@@ -71,34 +71,6 @@ function UpdatePassword({ isOpenPassword, toogleOpenPassword }) {
               <Stack spacing={3}>
                 <FormControl>
                   <TextField
-                    name="password"
-                    label="Mật khẩu mới"
-                    color="main"
-                    type={showPassword ? 'text' : 'password'}
-                    value={formik.values.password}
-                    onChange={formik.handleChange}
-                    InputProps={{
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
-                            {showPassword ? (
-                              <VisibilityRoundedIcon fontSize="small" />
-                            ) : (
-                              <VisibilityOffRoundedIcon fontSize="small" />
-                            )}
-                          </IconButton>
-                        </InputAdornment>
-                      ),
-                    }}
-                  />
-                  {formik.errors.password && (
-                    <Typography sx={{ ml: '5px' }} variant="caption" color="red">
-                      {formik.errors.password}
-                    </Typography>
-                  )}
-                </FormControl>
-                <FormControl>
-                  <TextField
                     name="oldPassword"
                     label="Mật khẩu cũ"
                     color="main"
@@ -122,6 +94,34 @@ function UpdatePassword({ isOpenPassword, toogleOpenPassword }) {
                   {formik.errors.oldPassword && (
                     <Typography sx={{ ml: '5px' }} variant="caption" color="red">
                       {formik.errors.oldPassword}
+                    </Typography>
+                  )}
+                </FormControl>
+                <FormControl>
+                  <TextField
+                    name="password"
+                    label="Mật khẩu mới"
+                    color="main"
+                    type={showPassword ? 'text' : 'password'}
+                    value={formik.values.password}
+                    onChange={formik.handleChange}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
+                            {showPassword ? (
+                              <VisibilityRoundedIcon fontSize="small" />
+                            ) : (
+                              <VisibilityOffRoundedIcon fontSize="small" />
+                            )}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                  {formik.errors.password && (
+                    <Typography sx={{ ml: '5px' }} variant="caption" color="red">
+                      {formik.errors.password}
                     </Typography>
                   )}
                 </FormControl>

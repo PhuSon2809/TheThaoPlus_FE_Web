@@ -1,24 +1,26 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 // layouts
-import DashboardLayout from '../layouts/dashboard';
-import SimpleLayout from '../layouts/simple';
 import {
+  AddBooking,
   AddSportCenterPage,
+  AddSportFieldPage,
   AllSportPage,
+  BookingCalendarPage,
+  BookingPage,
   DashboardAppPage,
+  ForgotPasswordPage,
   LoginPage,
   Page404,
+  PaymentPage,
+  ProfilePage,
   RegisterPage,
+  ResetPasswordPage,
   SportCenterDetailPage,
   SportCenterPage,
   SportPage,
-  BookingPage,
-  BookingCalendarPage,
-  AddSportFieldPage,
-  AddBooking,
-  PaymentPage,
-  ProfilePage,
 } from 'src/pages';
+import DashboardLayout from '../layouts/dashboard';
+import SimpleLayout from '../layouts/simple';
 import PrivateRoute from './PrivateRoute';
 import PublicRoute from './PublicRoute';
 
@@ -33,6 +35,18 @@ export const publicRoute = [
     key: 'register',
     path: 'register',
     component: <RegisterPage />,
+    index: false,
+  },
+  {
+    key: 'forgot-password',
+    path: 'forgot-password',
+    component: <ForgotPasswordPage />,
+    index: false,
+  },
+  {
+    key: 'reset-password',
+    path: 'reset-password/:token',
+    component: <ResetPasswordPage />,
     index: false,
   },
 ];

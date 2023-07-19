@@ -59,11 +59,11 @@ function ProfilePage(props) {
 
                       <Stack direction="row" justifyContent="space-between" fullWidth>
                         <Stack direction="row" gap={1}>
-                          <Typography>Gender:</Typography>
+                          <Typography>Giới tính:</Typography>
                           <Typography textTransform="capitalize">{user.gender}</Typography>
                         </Stack>
                         <Stack direction="row" gap={1}>
-                          <Typography>YOB:</Typography>
+                          <Typography>Ngày sinh:</Typography>
                           <Typography textTransform="capitalize">{moment(user.YOB).format('DD-MM-YYYY')}</Typography>
                         </Stack>
                       </Stack>

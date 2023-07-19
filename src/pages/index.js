@@ -1,5 +1,7 @@
 import LoginPage from './authenticate/LoginPage';
 import RegisterPage from './authenticate/RegisterPage';
+import ForgotPasswordPage from './authenticate/ForgotPasswordPage';
+import ResetPasswordPage from './authenticate/ResetPasswordPage';
 
 import DashboardAppPage from './dashboard/DashboardAppPage';
 import Page404 from './dashboard/Page404';
@@ -25,6 +27,8 @@ export {
   DashboardAppPage,
   RegisterPage,
   LoginPage,
+  ForgotPasswordPage,
+  ResetPasswordPage,
   Page404,
   SportCenterPage,
   AddSportCenterPage,
