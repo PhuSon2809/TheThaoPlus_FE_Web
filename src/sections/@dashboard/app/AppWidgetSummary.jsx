@@ -1,12 +1,7 @@
-// @mui
-import PropTypes from 'prop-types';
+import { Box, Card, CircularProgress, Typography } from '@mui/material';
 import { alpha, styled } from '@mui/material/styles';
-import { Card, Typography } from '@mui/material';
-// utils
+import PropTypes from 'prop-types';
 import { fShortenNumber } from '../../../utils/formatNumber';
-// components
-import Iconify from '../../../components/iconify';
-import formatCurrency from 'src/utils/formatPrice';
 
 // ----------------------------------------------------------------------
 
@@ -23,15 +18,16 @@ const StyledIcon = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-AppWidgetPrice.propTypes = {
+AppWidgetSummary.propTypes = {
   color: PropTypes.string,
-  icon: PropTypes.string,
+  icon: PropTypes.object,
   title: PropTypes.string.isRequired,
   total: PropTypes.number.isRequired,
   sx: PropTypes.object,
 };
 
-export default function AppWidgetPrice({ title, total, icon, color = 'primary', sx, ...other }) {
+export default function AppWidgetSummary({ title, total, icon, color = 'primary', sx, ...other }) {
+  console.log(total);
   return (
     <Card
       sx={{
@@ -57,8 +53,18 @@ export default function AppWidgetPrice({ title, total, icon, color = 'primary', 
         {icon}
       </StyledIcon>
 
-      <Typography variant="h3">{formatCurrency(total)}</Typography>
-
+      {total === -1 ? (
+        <Box p={0.987}>
+          <CircularProgress
+            size={26}
+            sx={{
+              color: (theme) => theme.palette[color].dark,
+            }}
+          />
+        </Box>
+      ) : (
+        <Typography variant="h3">{fShortenNumber(total) || 0}</Typography>
+      )}
       <Typography variant="subtitle1" sx={{ opacity: 0.72 }}>
         {title}
       </Typography>

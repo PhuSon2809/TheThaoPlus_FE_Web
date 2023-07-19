@@ -32,9 +32,10 @@ export default function DashboardAppPage() {
   const theme = useTheme();
   const dispatch = useDispatch();
 
-  const { sportsOfOwner } = useSelector((state) => state.sport);
-  const { sportCenterOfOwner } = useSelector((state) => state.sportCenter);
-  const { bookings } = useSelector((state) => state.booking);
+  const { sportsOfOwner, isLoading: isLoadingSport } = useSelector((state) => state.sport);
+  const { sportCenterOfOwner, isLoading: isLoadingSportCenter } = useSelector((state) => state.sportCenter);
+  const { bookings, isLoading: isLoadingBooking } = useSelector((state) => state.booking);
+  console.log(sportsOfOwner);
 
   useEffect(() => {
     dispatch(getSportOfOwner());
@@ -69,7 +70,7 @@ export default function DashboardAppPage() {
           <Grid item xs={12} sm={6} md={3}>
             <AppWidgetPrice
               title="Doanh Thu"
-              total={totalPriceBooking}
+              total={isLoadingBooking ? -1 : totalPriceBooking}
               color="success"
               icon={<AttachMoneyRoundedIcon fontSize="large" />}
             />
@@ -78,7 +79,7 @@ export default function DashboardAppPage() {
           <Grid item xs={12} sm={6} md={3}>
             <AppWidgetSummary
               title="Lượt Đặt Sân"
-              total={bookings.length}
+              total={isLoadingBooking ? -1 : bookings.length}
               icon={<BookOnlineRoundedIcon fontSize="large" />}
             />
           </Grid>
@@ -86,7 +87,7 @@ export default function DashboardAppPage() {
           <Grid item xs={12} sm={6} md={3}>
             <AppWidgetSummary
               title="Môn Thể Thao"
-              total={sportsOfOwner.length}
+              total={isLoadingSport ? -1 : sportsOfOwner.length}
               color="info"
               icon={<SportsSoccerRoundedIcon fontSize="large" />}
             />
@@ -95,7 +96,7 @@ export default function DashboardAppPage() {
           <Grid item xs={12} sm={6} md={3}>
             <AppWidgetSummary
               title="Trung Tâm Thể Thao"
-              total={sportCenterOfOwner.length}
+              total={isLoadingSportCenter ? -1 : sportCenterOfOwner.length}
               color="warning"
               icon={<WhereToVoteRoundedIcon fontSize="large" />}
             />
@@ -132,6 +133,9 @@ export default function DashboardAppPage() {
               //   { label: 'Europe', value: 1443 },
               //   { label: 'Africa', value: 4443 },
               // ]}
+              // chartData={sportsOfOwner.map((sport) => {
+              //   return { label: sport.name, value: (sport.sportCenters?.length / totalSportCenter) * 100 };
+              // })}
               chartData={sportsOfOwner.map((sport) => {
                 return { label: sport.name, value: Math.random() * (1000 - 500) + 500 };
               })}

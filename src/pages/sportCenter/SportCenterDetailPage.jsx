@@ -1,4 +1,3 @@
-import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import MapIcon from '@mui/icons-material/Map';
 import { Button, Container, Divider, Stack, Typography } from '@mui/material';
@@ -8,10 +7,10 @@ import { geocodeByAddress, getLatLng } from 'react-google-places-autocomplete';
 import { Helmet } from 'react-helmet-async';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
+import SportCenterDetailSkeleton from 'src/components/skeleton/SportCenterDetailSkeleton';
 import DetailSportCenter from 'src/sections/@dashboard/sportCenter/DetailSportCenter';
-import ListSportField from 'src/sections/@dashboard/sportCenter/ListSportField';
 import { getSportCenterDetail } from 'src/services/sportCenter/sportCenterSlice';
-import { getAllSportFields, setAddSportField } from 'src/services/sportField/sportFieldSlice';
+import { getAllSportFields } from 'src/services/sportField/sportFieldSlice';
 
 const AnyReactComponent = ({ text }) => <div>{text}</div>;
 
@@ -20,7 +19,7 @@ function SportCenterDetailPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { sportCenter } = useSelector((state) => state.sportCenter);
+  const { sportCenter, isLoading } = useSelector((state) => state.sportCenter);
 
   useEffect(() => {
     dispatch(getSportCenterDetail(id));
@@ -57,7 +56,8 @@ function SportCenterDetailPage() {
         </Stack>
 
         {/* Detail section */}
-        <DetailSportCenter sportCenter={sportCenter} />
+
+        {isLoading ? <SportCenterDetailSkeleton /> : <DetailSportCenter sportCenter={sportCenter} />}
 
         {/* Map */}
         <Divider sx={{ mt: 3 }}></Divider>
@@ -83,7 +83,7 @@ function SportCenterDetailPage() {
         </div>
 
         {/* List sport field section */}
-        <Stack sx={{ mt: 15 }}>
+        {/* <Stack sx={{ mt: 15 }}>
           <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
             <Typography variant="h4" gutterBottom>
               Danh sách các sân thể thao
@@ -107,14 +107,14 @@ function SportCenterDetailPage() {
           </Stack>
 
           <ListSportField />
-        </Stack>
+        </Stack> */}
 
         <Stack direction="row" flexWrap="wrap-reverse" alignItems="center" justifyContent="flex-end" sx={{ mt: 10 }}>
           <Button
             variant="contained"
             color="primary"
             onClick={() => {
-              navigate('/dashboard/sport');
+              navigate('/dashboard/sport-center');
             }}
           >
             Trở lại

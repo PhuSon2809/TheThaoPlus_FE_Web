@@ -1,10 +1,12 @@
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
+import CommentIcon from '@mui/icons-material/Comment';
 import {
   Avatar,
   Button,
   Card,
+  CircularProgress,
   Container,
   Dialog,
   DialogActions,
@@ -37,6 +39,7 @@ import { getAllBookings, getBookingDetail } from 'src/services/booking/bookingSl
 import formatCurrency from 'src/utils/formatPrice';
 import Iconify from '../../components/iconify';
 import Scrollbar from '../../components/scrollbar';
+import TableBookingSkeleton from 'src/components/skeleton/TableBookingSkeleton';
 
 // ----------------------------------------------------------------------
 
@@ -90,7 +93,7 @@ function BookingPage() {
 
   const { toogleOpen: toogleOpenDetail, isOpen: isOpenDetail } = useModal();
 
-  const { bookings, booking } = useSelector((state) => state.booking);
+  const { bookings, booking, isLoading } = useSelector((state) => state.booking);
 
   const [open, setOpen] = useState(null);
 
@@ -163,6 +166,7 @@ function BookingPage() {
   };
 
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - bookings.length) : 0;
+  console.log(emptyRows);
 
   const filteredUsers = applySortFilter(bookings, getComparator(order, orderBy), filterName);
 
@@ -177,7 +181,7 @@ function BookingPage() {
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-            Danh Sách Thông Đặt Sân
+            Danh Sách Thông Tin Đặt Sân
           </Typography>
           <Button
             variant="contained"
@@ -211,77 +215,100 @@ function BookingPage() {
                   onRequestSort={handleRequestSort}
                   onSelectAllClick={handleSelectAllClick}
                 />
-                {/* {isLoading ? (
+                {isLoading ? (
                   <TableBody>
-                    <TableRow>
-                      <TableCell align="center" colSpan={9} sx={{ py: 15 }}>
-                        <Paper
-                          sx={{
-                            textAlign: 'center',
-                          }}
-                        >
-                          <CircularProgress
+                    {filteredUsers.length === 0 && (
+                      <TableRow style={{ height: 53 * emptyRows }}>
+                        <TableCell colSpan={10}>
+                          <Paper
                             sx={{
-                              color: 'main.main',
+                              textAlign: 'center',
+                              py: 15,
                             }}
-                          />
-                        </Paper>
-                      </TableCell>
-                    </TableRow>
-                  </TableBody>
-                ) : ( */}
-                <TableBody>
-                  {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    const { _id, sportCenter, sportField, totalPrice, tracking, payments, start, end } = row;
-
-                    return (
-                      <TableRow hover key={_id} tabIndex={-1}>
-                        <TableCell
-                          scope="row"
-                          padding="none"
-                          sx={{ pl: 2 }}
-                          onClick={() => {
-                            toogleOpenDetail();
-                            dispatch(getBookingDetail(_id));
-                          }}
-                        >
-                          <Typography variant="subtitle2" sx={{ width: 150, fontSize: '0.875rem' }} noWrap>
-                            {sportCenter.name}
-                          </Typography>
-                        </TableCell>
-
-                        <TableCell align="left">{sportField.name}</TableCell>
-                        <TableCell align="left">{formatCurrency(totalPrice)}</TableCell>
-                        <TableCell align="left">{formatCurrency(totalPrice * 0.25)}</TableCell>
-                        <TableCell align="left">{moment(start).format('D-M-YYYY')}</TableCell>
-                        <TableCell align="left">{moment(start).format('hh:mm a')}</TableCell>
-                        <TableCell align="left">{moment(end).format('hh:mm a')}</TableCell>
-
-                        <TableCell align="left">
-                          <Label color={(tracking === 'Pending' && 'warning') || 'success'}>{tracking}</Label>
-                        </TableCell>
-
-                        <TableCell align="left">
-                          <Label color={(payments === true && 'success') || 'error'}>
-                            {payments ? 'Paymented' : 'No payments'}
-                          </Label>
-                        </TableCell>
-
-                        <TableCell align="right">
-                          <IconButton size="large" color="inherit" onClick={handleOpenMenu}>
-                            <Iconify icon={'eva:more-vertical-fill'} />
-                          </IconButton>
+                          >
+                            <CircularProgress color="main" />
+                          </Paper>
                         </TableCell>
                       </TableRow>
-                    );
-                  })}
-                  {emptyRows > 0 && (
-                    <TableRow style={{ height: 53 * emptyRows }}>
-                      <TableCell colSpan={6} />
-                    </TableRow>
-                  )}
-                </TableBody>
-                {/* )} */}
+                    )}
+                  </TableBody>
+                ) : (
+                  <TableBody>
+                    {filteredUsers.length === 0 && (
+                      <TableRow style={{ height: 53 * emptyRows }}>
+                        <TableCell colSpan={10}>
+                          <Paper
+                            sx={{
+                              textAlign: 'center',
+                              py: 10,
+                            }}
+                          >
+                            <IconButton color="inherit">
+                              <CommentIcon sx={{ fontSize: 80 }} />
+                            </IconButton>
+                            <Typography variant="h6">Chưa có booking nào trong danh sách</Typography>
+                          </Paper>
+                        </TableCell>
+                      </TableRow>
+                    )}
+                  </TableBody>
+                )}
+
+                {isLoading ? (
+                  <TableBookingSkeleton />
+                ) : (
+                  <TableBody>
+                    {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+                      const { _id, sportCenter, sportField, totalPrice, tracking, payments, start, end } = row;
+
+                      return (
+                        <TableRow hover key={_id} tabIndex={-1}>
+                          <TableCell
+                            scope="row"
+                            padding="none"
+                            sx={{ pl: 2 }}
+                            onClick={() => {
+                              toogleOpenDetail();
+                              dispatch(getBookingDetail(_id));
+                            }}
+                          >
+                            <Typography variant="subtitle2" sx={{ width: 150, fontSize: '0.875rem' }} noWrap>
+                              {sportCenter.name}
+                            </Typography>
+                          </TableCell>
+
+                          <TableCell align="left">{sportField.name}</TableCell>
+                          <TableCell align="left">{formatCurrency(totalPrice)}</TableCell>
+                          <TableCell align="left">{formatCurrency(totalPrice * 0.25)}</TableCell>
+                          <TableCell align="left">{moment(start).format('D-M-YYYY')}</TableCell>
+                          <TableCell align="left">{moment(start).format('hh:mm a')}</TableCell>
+                          <TableCell align="left">{moment(end).format('hh:mm a')}</TableCell>
+
+                          <TableCell align="left">
+                            <Label color={(tracking === 'Pending' && 'warning') || 'success'}>{tracking}</Label>
+                          </TableCell>
+
+                          <TableCell align="left">
+                            <Label color={(payments === true && 'success') || 'error'}>
+                              {payments ? 'Paymented' : 'No payments'}
+                            </Label>
+                          </TableCell>
+
+                          <TableCell align="right">
+                            <IconButton size="large" color="inherit" onClick={handleOpenMenu}>
+                              <Iconify icon={'eva:more-vertical-fill'} />
+                            </IconButton>
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })}
+                    {emptyRows > 0 && (
+                      <TableRow style={{ height: 53 * emptyRows }}>
+                        <TableCell colSpan={9} />
+                      </TableRow>
+                    )}
+                  </TableBody>
+                )}
 
                 {isNotFound && (
                   <TableBody>

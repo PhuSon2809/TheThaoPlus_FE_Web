@@ -1,10 +1,12 @@
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
+import CommentIcon from '@mui/icons-material/Comment';
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import MapIcon from '@mui/icons-material/Map';
 import {
   Button,
   Card,
+  CircularProgress,
   Container,
   Dialog,
   DialogActions,
@@ -29,6 +31,7 @@ import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+
 import TableSportCenterSkeleton from 'src/components/skeleton/TableSportCenterSkeleton';
 import { useModal } from 'src/hooks/useModal';
 import SportCenterMapView from 'src/sections/@dashboard/sportCenter/SportCenterMapView';
@@ -194,6 +197,45 @@ function SportCenterPage() {
                   headLabel={TABLE_HEAD}
                   onRequestSort={handleRequestSort}
                 />
+                {isLoading ? (
+                  <TableBody>
+                    {filteredUsers.length === 0 && (
+                      <TableRow style={{ height: 53 * emptyRows }}>
+                        <TableCell colSpan={6}>
+                          <Paper
+                            sx={{
+                              textAlign: 'center',
+                              py: 15,
+                            }}
+                          >
+                            <CircularProgress color="main" />
+                          </Paper>
+                        </TableCell>
+                      </TableRow>
+                    )}
+                  </TableBody>
+                ) : (
+                  <TableBody>
+                    {filteredUsers.length === 0 && (
+                      <TableRow style={{ height: 53 * emptyRows }}>
+                        <TableCell colSpan={6}>
+                          <Paper
+                            sx={{
+                              textAlign: 'center',
+                              py: 10,
+                            }}
+                          >
+                            <IconButton color="inherit">
+                              <CommentIcon sx={{ fontSize: 80 }} />
+                            </IconButton>
+                            <Typography variant="h6">Không có trung tâm thể thao nào trong danh sách</Typography>
+                          </Paper>
+                        </TableCell>
+                      </TableRow>
+                    )}
+                  </TableBody>
+                )}
+
                 {isLoading ? (
                   <TableSportCenterSkeleton length={filteredUsers.length} />
                 ) : (

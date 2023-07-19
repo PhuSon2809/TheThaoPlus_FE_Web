@@ -1,8 +1,11 @@
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
+import CommentIcon from '@mui/icons-material/Comment';
 import {
   Button,
   Card,
+  CircularProgress,
   Container,
+  IconButton,
   Paper,
   Stack,
   Table,
@@ -150,6 +153,45 @@ function SportPage() {
                   headLabel={TABLE_HEAD}
                   onRequestSort={handleRequestSort}
                 />
+                {isLoading ? (
+                  <TableBody>
+                    {filteredSports.length === 0 && (
+                      <TableRow style={{ height: 53 * emptyRows }}>
+                        <TableCell colSpan={6}>
+                          <Paper
+                            sx={{
+                              textAlign: 'center',
+                              py: 15,
+                            }}
+                          >
+                            <CircularProgress color="main" />
+                          </Paper>
+                        </TableCell>
+                      </TableRow>
+                    )}
+                  </TableBody>
+                ) : (
+                  <TableBody>
+                    {filteredSports.length === 0 && (
+                      <TableRow style={{ height: 53 * emptyRows }}>
+                        <TableCell colSpan={6}>
+                          <Paper
+                            sx={{
+                              textAlign: 'center',
+                              py: 10,
+                            }}
+                          >
+                            <IconButton color="inherit">
+                              <CommentIcon sx={{ fontSize: 80 }} />
+                            </IconButton>
+                            <Typography variant="h6">Không có môn thể thao nào trong danh sách</Typography>
+                          </Paper>
+                        </TableCell>
+                      </TableRow>
+                    )}
+                  </TableBody>
+                )}
+
                 {isLoading ? (
                   <TableSportSkeleton length={filteredSports.length} />
                 ) : (
