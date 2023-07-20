@@ -164,7 +164,9 @@ function AddSportCenterForm() {
     priceOption: [
       {
         fieldType: '5x5',
+        quantity: 1,
         listPrice: [{ timeStart: 0, timeEnd: 3, price: Number(400000) }],
+        slots: [],
       },
     ],
   };
@@ -192,6 +194,18 @@ function AddSportCenterForm() {
 
   // Submit create new sport center
   const handleCreateSportCenter = async (values) => {
+    // Parse quantity sang số (number)
+    priceOption.forEach((option) => {
+      option.quantity = Number(option.quantity);
+    });
+
+    // Parse price trong mảng listPrice sang số
+    priceOption.forEach((option) => {
+      option.listPrice.forEach((priceItem) => {
+        priceItem.price = Number(priceItem.price);
+      });
+    });
+
     const newSportCenter = {
       name: name,
       description: description,

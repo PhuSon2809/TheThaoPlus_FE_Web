@@ -1,11 +1,12 @@
-import BlurOnIcon from '@mui/icons-material/BlurOn';
-import StarRoundedIcon from '@mui/icons-material/StarRounded';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
-import LocalPhoneRoundedIcon from '@mui/icons-material/LocalPhoneRounded';
 import ErrorRoundedIcon from '@mui/icons-material/ErrorRounded';
-import { Box, Button, Card, Divider, Grid, Stack, Typography } from '@mui/material';
+import LocalOfferIcon from '@mui/icons-material/LocalOffer';
+import LocalPhoneRoundedIcon from '@mui/icons-material/LocalPhoneRounded';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import StarRoundedIcon from '@mui/icons-material/StarRounded';
+import { Box, Card, Divider, Grid, Stack, Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { UtilitieNote, Utilities } from 'src/_mock/utilities';
+import formatCurrency from 'src/utils/formatPrice';
 
 function DetailSportCenter({ sportCenter }) {
   const { user } = useSelector((state) => state.auth);
@@ -55,12 +56,6 @@ function DetailSportCenter({ sportCenter }) {
       </Grid>
 
       <Grid item xs={12} sm={8} md={7}>
-        <Typography variant="h3" color="main.main">
-          {sportCenter.name}
-        </Typography>
-
-        <Divider sx={{ my: 3 }}></Divider>
-
         <Stack gap={1}>
           <Typography variant="subtitle1" gutterBottom sx={{ color: 'main.main' }}>
             Mô tả - Thông tin đính kèm
@@ -116,22 +111,6 @@ function DetailSportCenter({ sportCenter }) {
 
       <Grid item xs={12} sm={4} md={5}>
         <Stack gap={4}>
-          <Button
-            fullWidth
-            variant="outlined"
-            size="large"
-            sx={{
-              color: 'main.main',
-              borderColor: 'main.light',
-              '&:hover': {
-                borderColor: 'main.main',
-                backgroundColor: 'rgb(0, 193, 135, 0.08)',
-              },
-            }}
-          >
-            Bảng giá
-          </Button>
-
           <Card sx={{ p: 2 }}>
             <Typography variant="h6" gutterBottom sx={{ color: 'main.main', backgroundColor: 'grey.200', p: 1, mb: 2 }}>
               THÔNG TIN LIÊN LẠC:
@@ -151,38 +130,120 @@ function DetailSportCenter({ sportCenter }) {
               11 người đã theo dõi địa điểm này
             </Typography>
           </Card>
-          {!sportCenter.image ? (
-            <Card
-              sx={{
-                py: 14,
-                mb: 2,
-                boxShadow: 0,
-                textAlign: 'center',
-                color: (theme) => theme.palette['main'].darker,
-                borderColor: (theme) => theme.palette['main'].lighter,
-                borderWidth: 2,
-                borderStyle: 'dashed',
-              }}
+          <Card sx={{ p: 2 }}>
+            <Stack
+              direction="row"
+              alignItems="center"
+              gap={1}
+              sx={{ color: 'main.main', backgroundColor: 'grey.200', p: 1, mb: 2 }}
             >
-              <BlurOnIcon fontSize="large" />
-              <Typography variant="subtitle2">Chưa có hình ảnh</Typography>
-            </Card>
-          ) : (
-            <Card
-              sx={{
-                p: 1,
-                mb: 2,
-                boxShadow: 0,
-                textAlign: 'center',
-                color: (theme) => theme.palette['main'].darker,
-                borderColor: (theme) => theme.palette['main'].lighter,
-                borderWidth: 2,
-                borderStyle: 'dashed',
-              }}
+              <LocalOfferIcon fontSize="medium" color="main" />
+              <Typography variant="h6">Giá tiền các loại sân</Typography>
+            </Stack>
+
+            <Divider sx={{ my: 1 }} />
+            <Stack width="100%" direction="row" alignItems="center" gap={2}>
+              <Stack width={70} alignItems="center">
+                <Typography variant="subtitle1">Loại sân</Typography>
+              </Stack>
+              <Divider orientation="vertical" flexItem />
+              <Stack px={2} flex={1} alignItems="center">
+                <Typography variant="subtitle1">Ngày áp dụng</Typography>
+              </Stack>
+              <Divider orientation="vertical" flexItem />
+              <Stack px={2} width={120} alignItems="center">
+                <Typography variant="subtitle1">Giá tiền</Typography>
+              </Stack>
+            </Stack>
+
+            <Divider sx={{ my: 1 }} />
+
+            <Stack width="100%" direction="column" alignItems="center" gap={2}>
+              {sportCenter.priceOption?.map((option, index) => (
+                <Stack key={index} width="100%" direction="row" alignItems="center" gap={2}>
+                  <Stack width={70} alignItems="center">
+                    <Typography>{option.fieldType}</Typography>
+                  </Stack>
+                  <Divider orientation="vertical" flexItem />
+                  <Stack px={2} flex={1} alignItems="center">
+                    {option.listPrice?.map((price, i) => (
+                      <Stack key={i}>
+                        <Typography>
+                          {price.timeStart === 0
+                            ? 'Thứ hai'
+                            : price.timeStart === 1
+                            ? 'Thứ ba'
+                            : price.timeStart === 2
+                            ? 'Thứ tư'
+                            : price.timeStart === 3
+                            ? 'Thứ năm'
+                            : price.timeStart === 4
+                            ? 'Thứ sáu'
+                            : price.timeStart === 5
+                            ? 'Thứ bảy'
+                            : 'Chủ nhật'}{' '}
+                          -{' '}
+                          {price.timeEnd === 0
+                            ? 'Thứ hai'
+                            : price.timeEnd === 1
+                            ? 'Thứ ba'
+                            : price.timeEnd === 2
+                            ? 'Thứ tư'
+                            : price.timeEnd === 3
+                            ? 'Thứ năm'
+                            : price.timeEnd === 4
+                            ? 'Thứ sáu'
+                            : price.timeEnd === 5
+                            ? 'Thứ bảy'
+                            : 'Chủ nhật'}
+                        </Typography>
+                      </Stack>
+                    ))}
+                  </Stack>
+                  <Divider orientation="vertical" flexItem />
+                  <Stack px={2} width={120} alignItems="center">
+                    {option.listPrice?.map((price, k) => (
+                      <Stack key={k}>
+                        <Typography>{formatCurrency(price.price)}</Typography>
+                      </Stack>
+                    ))}
+                  </Stack>
+                </Stack>
+              ))}
+            </Stack>
+          </Card>
+          {/* <Card sx={{ p: 2 }}>
+            <Stack
+              direction="row"
+              alignItems="center"
+              gap={1}
+              sx={{ color: 'main.main', backgroundColor: 'grey.200', p: 1, mb: 2 }}
             >
-              <img src={sportCenter.image} alt="sport center" style={{ borderRadius: '5px', width: '100%' }} />
-            </Card>
-          )}
+              <LocalOfferIcon fontSize="medium" color="main" />
+              <Typography variant="h6">Các slot hoạt động</Typography>
+            </Stack>
+
+            <Stack width="100%" direction="column" alignItems="center" gap={2}>
+              {sportCenter.priceOption?.map((option, index) => (
+                <Stack key={index} width="100%" direction="column" alignItems="start" gap={1}>
+                  <Stack gap={1} direction="row" alignItems="center">
+                    <Typography variant="subtitle1">Loại sân:</Typography>
+                    <Typography>{option.fieldType}</Typography>
+                  </Stack>
+
+                  <Stack>
+                    {option.slots?.map((slot, i) => (
+                      <Stack key={i}>
+                        <Label color={'success'} sx={{ textTransform: 'capitalize' }}>
+                          {slot.timeStart} - {slot.timeEnd}
+                        </Label>
+                      </Stack>
+                    ))}
+                  </Stack>
+                </Stack>
+              ))}
+            </Stack>
+          </Card> */}
         </Stack>
       </Grid>
     </Grid>

@@ -1,6 +1,5 @@
+import { Box, TableCell, TableHead, TableRow, TableSortLabel } from '@mui/material';
 import PropTypes from 'prop-types';
-// @mui
-import { Box, Checkbox, TableRow, TableCell, TableHead, TableSortLabel } from '@mui/material';
 
 // ----------------------------------------------------------------------
 
@@ -26,15 +25,7 @@ BookingTableListHead.propTypes = {
   onSelectAllClick: PropTypes.func,
 };
 
-export default function BookingTableListHead({
-  order,
-  orderBy,
-  rowCount,
-  headLabel,
-  numSelected,
-  onRequestSort,
-  onSelectAllClick,
-}) {
+export default function BookingTableListHead({ order, orderBy, headLabel, onRequestSort }) {
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
   };
@@ -42,13 +33,9 @@ export default function BookingTableListHead({
   return (
     <TableHead>
       <TableRow>
-        {/* <TableCell padding="checkbox">
-          <Checkbox
-            indeterminate={numSelected > 0 && numSelected < rowCount}
-            checked={rowCount > 0 && numSelected === rowCount}
-            onChange={onSelectAllClick}
-          />
-        </TableCell> */}
+        <TableCell align="center">
+          <TableSortLabel hideSortIcon>STT</TableSortLabel>
+        </TableCell>
         {headLabel.map((headCell) => (
           <TableCell
             key={headCell.id}

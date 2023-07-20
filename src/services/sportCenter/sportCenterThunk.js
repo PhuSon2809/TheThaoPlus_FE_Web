@@ -37,6 +37,7 @@ export const getSportCentersOfOwnerThunk = async (_, thunkAPI) => {
 };
 
 export const getSportCenterDetailThunk = async (sportCenterId, thunkAPI) => {
+  console.log('sportCenterId', sportCenterId);
   const accessToken = document.cookie
     .split('; ')
     .find((row) => row.startsWith('accessToken'))
@@ -45,6 +46,7 @@ export const getSportCenterDetailThunk = async (sportCenterId, thunkAPI) => {
     axiosClient.setHeaderAuth(accessToken);
     try {
       const response = await axiosClient.getByUrl(`/sport-center/${sportCenterId}`);
+      console.log(response);
       return response;
     } catch (error) {
       console.log('sport error thunk: ', error);
@@ -63,7 +65,8 @@ export const createNewSportCenterThunk = async (params, thunkAPI) => {
     try {
       const response = await axiosClient.post('/sport-center/', params.newSportCenter);
       if (response) {
-        // params.navigate('/dashboard/sport-center');
+        params.navigate('/dashboard/sport-center');
+        thunkAPI.dispatch(getSportCentersOfOwner());
         thunkAPI.dispatch(setMessageSuccess('Created new sport center successfully'));
       }
       return response;

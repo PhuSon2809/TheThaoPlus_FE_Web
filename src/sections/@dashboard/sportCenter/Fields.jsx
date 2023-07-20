@@ -5,6 +5,7 @@ import NestedFieldArray from './NestedFieldArray';
 import { Button, Card, FormControl, Grid, IconButton, Stack, TextField, Typography } from '@mui/material';
 import AddToPhotosIcon from '@mui/icons-material/AddToPhotos';
 import RefreshIcon from '@mui/icons-material/Refresh';
+import SlotsFieldArray from './SlotsFieldArray';
 
 export default function Fields({ control, register, setValue, getValues, resetForm, defaultValuePrice }) {
   const { fields, remove } = useFieldArray({
@@ -37,8 +38,17 @@ export default function Fields({ control, register, setValue, getValues, resetFo
                       color="main"
                     />
                   </FormControl>
+                  <FormControl fullWidth sx={{ mt: 1.5 }}>
+                    <TextField
+                      {...register(`priceOption.${index}.quantity`, { require: true })}
+                      label="Số lượng"
+                      color="main"
+                      type="number"
+                    />
+                  </FormControl>
 
                   <NestedFieldArray nestIndex={index} {...{ control, register }} />
+                  <SlotsFieldArray nestIndex={index} {...{ control, register }} />
                 </Stack>
               </Card>
             </Grid>

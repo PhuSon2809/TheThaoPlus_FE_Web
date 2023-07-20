@@ -90,6 +90,7 @@ const sportCenterSlice = createSlice({
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
+        console.log(action.payload);
         state.sportCenter = { ...action.payload?.getSportCenter };
       })
       .addCase(getSportCenterDetail.rejected, (state) => {

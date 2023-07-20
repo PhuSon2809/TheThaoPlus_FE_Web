@@ -6,7 +6,6 @@ import MapIcon from '@mui/icons-material/Map';
 import {
   Button,
   Card,
-  CircularProgress,
   Container,
   Dialog,
   DialogActions,
@@ -45,6 +44,7 @@ import Iconify from '../../components/iconify';
 import Label from '../../components/label';
 import Scrollbar from '../../components/scrollbar';
 import { TableListHead, UserListToolbar } from '../../sections/@dashboard/table';
+import moment from 'moment';
 
 // ----------------------------------------------------------------------
 
@@ -53,8 +53,8 @@ const TABLE_HEAD = [
   { id: 'address', label: 'Địa Chỉ', alignRight: false },
   { id: 'openTime', label: 'Giờ Mở Cửa', alignRight: false },
   { id: 'closeTime', label: 'Giờ Đóng Cửa', alignRight: false },
+  { id: 'quantity', label: 'Số lượng', alignRight: false },
   { id: 'sport', label: 'Môn Thể Thao', alignRight: false },
-  { id: 'quantity', label: 'Số Lượng', alignRight: false },
   { id: 'status', label: 'Trang Thái', alignRight: false },
   { id: '' },
 ];
@@ -197,42 +197,24 @@ function SportCenterPage() {
                   headLabel={TABLE_HEAD}
                   onRequestSort={handleRequestSort}
                 />
-                {isLoading ? (
+
+                {filteredUsers.length === 0 && (
                   <TableBody>
-                    {filteredUsers.length === 0 && (
-                      <TableRow style={{ height: 53 * emptyRows }}>
-                        <TableCell colSpan={6}>
-                          <Paper
-                            sx={{
-                              textAlign: 'center',
-                              py: 15,
-                            }}
-                          >
-                            <CircularProgress color="main" />
-                          </Paper>
-                        </TableCell>
-                      </TableRow>
-                    )}
-                  </TableBody>
-                ) : (
-                  <TableBody>
-                    {filteredUsers.length === 0 && (
-                      <TableRow style={{ height: 53 * emptyRows }}>
-                        <TableCell colSpan={6}>
-                          <Paper
-                            sx={{
-                              textAlign: 'center',
-                              py: 10,
-                            }}
-                          >
-                            <IconButton color="inherit">
-                              <CommentIcon sx={{ fontSize: 80 }} />
-                            </IconButton>
-                            <Typography variant="h6">Không có trung tâm thể thao nào trong danh sách</Typography>
-                          </Paper>
-                        </TableCell>
-                      </TableRow>
-                    )}
+                    <TableRow style={{ height: 53 * emptyRows }}>
+                      <TableCell colSpan={9}>
+                        <Paper
+                          sx={{
+                            textAlign: 'center',
+                            py: 10,
+                          }}
+                        >
+                          <IconButton color="inherit">
+                            <CommentIcon sx={{ fontSize: 80 }} />
+                          </IconButton>
+                          <Typography variant="h6">Không có trung tâm thể thao nào trong danh sách</Typography>
+                        </Paper>
+                      </TableCell>
+                    </TableRow>
                   </TableBody>
                 )}
 
@@ -241,7 +223,7 @@ function SportCenterPage() {
                 ) : (
                   <TableBody>
                     {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
-                      const { _id, name, address, closeTime, openTime, sport, sportFields, status } = row;
+                      const { _id, name, address, closeTime, openTime, sport, status } = row;
 
                       return (
                         <TableRow hover key={_id} tabIndex={-1} role="checkbox">
@@ -266,8 +248,9 @@ function SportCenterPage() {
                               {address}
                             </Typography>
                           </TableCell>
-                          <TableCell align="left">{openTime}</TableCell>
-                          <TableCell align="left">{closeTime}</TableCell>
+                          <TableCell align="left">{moment(openTime).format('HH:mm')}</TableCell>
+                          <TableCell align="left">{moment(closeTime).format('HH:mm')}</TableCell>
+                          <TableCell align="left">{1} sân</TableCell>
 
                           <TableCell align="left">
                             <Label
@@ -278,6 +261,8 @@ function SportCenterPage() {
                                   ? 'warning'
                                   : sport.name === 'cầu lông'
                                   ? 'primary'
+                                  : sport.name === 'bóng chuyền'
+                                  ? 'info'
                                   : 'error'
                               }
                               sx={{ textTransform: 'capitalize' }}
@@ -285,8 +270,6 @@ function SportCenterPage() {
                               {sport.name}
                             </Label>
                           </TableCell>
-
-                          <TableCell align="left">{sportFields.length} sân</TableCell>
 
                           <TableCell align="left" width={195}>
                             <FormControlLabel

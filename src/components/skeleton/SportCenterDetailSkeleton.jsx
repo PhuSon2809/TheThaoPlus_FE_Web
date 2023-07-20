@@ -48,16 +48,16 @@ function SportCenterDetailSkeleton() {
           <Skeleton variant="text" sx={{ width: '100px' }} />
 
           <Stack direction="row" alignItems="center" flexWrap="wrap" gap={2}>
-            {Array.from({ length: 5 }).map((item) => (
-              <Skeleton variant="rounded" sx={{ width: '250px', height: '24px' }} />
+            {Array.from({ length: 5 }).map((item, index) => (
+              <Skeleton key={index} variant="rounded" sx={{ width: '250px', height: '24px' }} />
             ))}
           </Stack>
 
           <Skeleton variant="text" sx={{ width: '100px', mt: 2 }} />
 
           <Stack direction="row" alignItems="center" flexWrap="wrap" gap={2}>
-            {Array.from({ length: 2 }).map((item) => (
-              <Skeleton variant="rounded" sx={{ width: '250px', height: '24px' }} />
+            {Array.from({ length: 2 }).map((item, index) => (
+              <Skeleton key={index} variant="rounded" sx={{ width: '250px', height: '24px' }} />
             ))}
           </Stack>
         </Stack>

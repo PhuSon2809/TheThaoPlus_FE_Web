@@ -1,6 +1,7 @@
+import BlurOnIcon from '@mui/icons-material/BlurOn';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import MapIcon from '@mui/icons-material/Map';
-import { Button, Container, Divider, Stack, Typography } from '@mui/material';
+import { Box, Button, Card, Container, Divider, ImageList, ImageListItem, Stack, Typography } from '@mui/material';
 import GoogleMapReact from 'google-map-react';
 import { useEffect, useState } from 'react';
 import { geocodeByAddress, getLatLng } from 'react-google-places-autocomplete';
@@ -10,33 +11,30 @@ import { useNavigate, useParams } from 'react-router-dom';
 import SportCenterDetailSkeleton from 'src/components/skeleton/SportCenterDetailSkeleton';
 import DetailSportCenter from 'src/sections/@dashboard/sportCenter/DetailSportCenter';
 import { getSportCenterDetail } from 'src/services/sportCenter/sportCenterSlice';
-import { getAllSportFields } from 'src/services/sportField/sportFieldSlice';
 
 const AnyReactComponent = ({ text }) => <div>{text}</div>;
 
 function SportCenterDetailPage() {
   const { id } = useParams();
+  console.log(id);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const { sportCenter, isLoading } = useSelector((state) => state.sportCenter);
+  console.log('sportCenter', sportCenter);
 
   useEffect(() => {
     dispatch(getSportCenterDetail(id));
   }, [dispatch, id]);
 
-  useEffect(() => {
-    dispatch(getAllSportFields(id));
-  }, [dispatch, id]);
-
   const [coords, setCoords] = useState(null);
-  console.log(coords);
+  // console.log(coords);
 
   useEffect(() => {
     const getCoords = async () => {
       const results = await geocodeByAddress(sportCenter?.address);
       const latLong = await getLatLng(results[0]);
-      console.log(latLong);
+      console.log('latLong', latLong);
       setCoords(latLong);
     };
     sportCenter && getCoords();
@@ -82,32 +80,53 @@ function SportCenterDetailPage() {
           </GoogleMapReact>
         </div>
 
-        {/* List sport field section */}
-        {/* <Stack sx={{ mt: 15 }}>
-          <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-            <Typography variant="h4" gutterBottom>
-              Danh sách các sân thể thao
-            </Typography>
-            <Button
-              variant="contained"
-              startIcon={<AddRoundedIcon />}
+        <Divider sx={{ my: 3 }}></Divider>
+
+        <Box>
+          {!sportCenter.image ? (
+            <Card
               sx={{
-                backgroundColor: '#00C187',
-                '&:hover': {
-                  backgroundColor: '#30ca9c',
-                },
-              }}
-              onClick={() => {
-                dispatch(setAddSportField());
-                navigate(`/dashboard/add-sport-field/${id}`);
+                py: 14,
+                mb: 2,
+                boxShadow: 0,
+                textAlign: 'center',
+                color: (theme) => theme.palette['main'].darker,
+                borderColor: (theme) => theme.palette['main'].lighter,
+                borderWidth: 2,
+                borderStyle: 'dashed',
               }}
             >
-              Thêm mới
-            </Button>
-          </Stack>
-
-          <ListSportField />
-        </Stack> */}
+              <BlurOnIcon fontSize="large" />
+              <Typography variant="subtitle2">Chưa có hình ảnh</Typography>
+            </Card>
+          ) : (
+            <Card
+              sx={{
+                p: 2,
+                mb: 2,
+                boxShadow: 0,
+                textAlign: 'center',
+                color: (theme) => theme.palette['main'].darker,
+                borderColor: (theme) => theme.palette['main'].lighter,
+                borderWidth: 2,
+                borderStyle: 'dashed',
+              }}
+            >
+              <ImageList sx={{ width: '100%' }} cols={3}>
+                {sportCenter.image?.map((item) => (
+                  <ImageListItem key={item}>
+                    <img
+                      src={`${item}?w=164&h=164&fit=crop&auto=format`}
+                      srcSet={`${item}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+                      alt={item}
+                      loading="lazy"
+                    />
+                  </ImageListItem>
+                ))}
+              </ImageList>
+            </Card>
+          )}
+        </Box>
 
         <Stack direction="row" flexWrap="wrap-reverse" alignItems="center" justifyContent="flex-end" sx={{ mt: 10 }}>
           <Button

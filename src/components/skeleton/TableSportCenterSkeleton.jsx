@@ -27,11 +27,11 @@ function TableSportCenterSkeleton({ length }) {
           </TableCell>
 
           <TableCell align="left">
-            <Skeleton variant="rounded" width={77} height={20} />
+            <Skeleton />
           </TableCell>
 
           <TableCell align="left">
-            <Skeleton />
+            <Skeleton variant="rounded" width={77} height={20} />
           </TableCell>
 
           <TableCell align="left">
