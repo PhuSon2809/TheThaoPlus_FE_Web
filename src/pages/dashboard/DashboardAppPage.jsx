@@ -35,7 +35,7 @@ export default function DashboardAppPage() {
   const { sportsOfOwner, isLoading: isLoadingSport } = useSelector((state) => state.sport);
   const { sportCenterOfOwner, isLoading: isLoadingSportCenter } = useSelector((state) => state.sportCenter);
   const { bookings, isLoading: isLoadingBooking } = useSelector((state) => state.booking);
-  console.log(sportsOfOwner);
+  console.log(bookings);
 
   useEffect(() => {
     dispatch(getSportOfOwner());
@@ -228,7 +228,7 @@ export default function DashboardAppPage() {
               list={bookings.slice(-5).map((booking, index) => ({
                 id: booking._id,
                 title: booking.sportCenter.name,
-                description: booking.sportField.name,
+                description: booking.sportField.fieldType,
                 image: booking.sportCenter.image,
                 postedAt: moment(booking.createdAt),
               }))}

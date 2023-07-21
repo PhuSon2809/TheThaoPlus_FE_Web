@@ -1,133 +1,25 @@
+import { Avatar, Button, Dialog, DialogActions, DialogContent, Grid, Stack, Typography } from '@mui/material';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import {
-  Avatar,
-  Button,
-  Card,
-  Container,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  Grid,
-  Stack,
-  Typography,
-} from '@mui/material';
-import format from 'date-fns/format';
-import getDay from 'date-fns/getDay';
-import enUS from 'date-fns/locale/en-US';
-import parse from 'date-fns/parse';
-import startOfWeek from 'date-fns/startOfWeek';
+
 import moment from 'moment';
-import { useEffect, useState } from 'react';
-import { Calendar, dateFnsLocalizer } from 'react-big-calendar';
-import { Helmet } from 'react-helmet-async';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Label from 'src/components/label/Label';
-import BookingDetailSkeleton from 'src/components/skeleton/BookingDetailSkeleton';
-import { useModal } from 'src/hooks/useModal';
-import { getAllBookings, getBookingDetail } from 'src/services/booking/bookingSlice';
+import { getBookingDetail } from 'src/services/booking/bookingSlice';
 import formatCurrency from 'src/utils/formatPrice';
+import BookingDetailSkeleton from 'src/components/skeleton/BookingDetailSkeleton';
 
-const locales = {
-  'en-US': enUS,
-};
-
-const localizer = dateFnsLocalizer({
-  format,
-  parse,
-  startOfWeek,
-  getDay,
-  locales,
-});
-
-// const events = [
-//   {
-//     title: 'MRI Registration',
-//     start: moment('2023-06-05T10:00:00').toDate(),
-//     end: moment('2023-06-05T11:00:00').toDate(),
-//   },
-//   {
-//     title: 'ENT Appointment',
-//     start: moment('2023-06-05T14:00:00').toDate(),
-//     end: moment('2023-06-05T15:30:00').toDate(),
-//   },
-// ];
-
-function BookingCalendarPage() {
+function BookingDetailModal({ isOpenDetail, toogleOpenDetail, idToDetail }) {
   const dispatch = useDispatch();
 
-  const { toogleOpen: toogleOpenDetail, isOpen: isOpenDetail } = useModal();
-
-  const { booking, bookings, isLoading } = useSelector((state) => state.booking);
-
-  console.log('bookingCalendar', bookings);
-
-  const [list, setList] = useState([]);
-
-  let listBooking = [];
-  useEffect(() => {
-    for (let booking of bookings) {
-      let date = booking.date.split('T', 1);
-      let start = booking.start.split(' ', 1);
-      let end = booking.end.split(' ', 1);
-      let plusDate = date[0].split('-', 3);
-      let finalDate = Number(plusDate[2]) + 1;
-      let startDate = plusDate[0] + '-' + plusDate[1] + '-' + finalDate + 'T' + start + ':00';
-      let endDate = plusDate[0] + '-' + plusDate[1] + '-' + finalDate + 'T' + end + ':00';
-      console.log('start', startDate);
-      console.log('end', endDate);
-      const newBookings = {
-        ...booking,
-        start: moment(startDate).toDate(),
-        end: moment(endDate).toDate(),
-        title: `${booking.sportCenter?.name}, ${booking.sportField?.fieldType}`,
-      };
-      listBooking.push(newBookings);
-    }
-    setList(listBooking);
-    console.log('listBooking', listBooking);
-  }, [dispatch, bookings, booking, listBooking]);
-
-  const handleGetDetail = (event) => {
-    if (event._id) {
-      dispatch(getBookingDetail(event._id));
-      toogleOpenDetail();
-    }
-  };
+  const { booking, isLoading } = useSelector((state) => state.booking);
 
   useEffect(() => {
-    dispatch(getAllBookings());
-  }, [dispatch]);
+    dispatch(getBookingDetail(idToDetail));
+  }, [dispatch, idToDetail]);
 
   return (
     <>
-      <Helmet>
-        <title> Thông tin đặt sân | TheThaoPlus </title>
-      </Helmet>
-
-      <Container>
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Typography variant="h4" gutterBottom>
-            Thông tin đặt sân dạng lịch
-          </Typography>
-        </Stack>
-
-        <Card sx={{ p: 2 }}>
-          <Calendar
-            localizer={localizer}
-            events={list}
-            startAccessor="start"
-            endAccessor="end"
-            eventPropGetter={(myEventsList) => {
-              const backgroundColor = '#00C187';
-              const color = 'white';
-              const border = 'solid 1px white';
-              return { style: { backgroundColor, color, border } };
-            }}
-            onSelectEvent={handleGetDetail}
-          />
-        </Card>
-      </Container>
-
       {isOpenDetail && (
         <Dialog maxWidth="md" open={isOpenDetail} onClose={toogleOpenDetail}>
           <DialogContent sx={{ width: '100%' }}>
@@ -155,7 +47,7 @@ function BookingCalendarPage() {
 
                       <Stack>
                         <Typography variant="subtitle1">{booking.userBooking}</Typography>
-                        <Typography>{booking.phoneBooking}</Typography>
+                        <Typography>0{booking.phoneBooking}</Typography>
                       </Stack>
                     </Stack>
                   </Stack>
@@ -237,4 +129,4 @@ function BookingCalendarPage() {
   );
 }
 
-export default BookingCalendarPage;
+export default BookingDetailModal;

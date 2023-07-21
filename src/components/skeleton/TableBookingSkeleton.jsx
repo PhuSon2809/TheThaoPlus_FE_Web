@@ -1,5 +1,4 @@
-import { IconButton, Skeleton, Stack, TableBody, TableCell, TableRow } from '@mui/material';
-import Iconify from '../iconify';
+import { Skeleton, Stack, TableBody, TableCell, TableRow } from '@mui/material';
 
 function TableBookingSkeleton({ length }) {
   return (
@@ -16,32 +15,29 @@ function TableBookingSkeleton({ length }) {
             <Skeleton />
           </TableCell>
 
-          <TableCell align="left" width={182.72}>
-            <Skeleton />
-          </TableCell>
           <TableCell align="left">
             <Skeleton width={60} />
           </TableCell>
           <TableCell align="left">
-            <Skeleton width={60} />
-          </TableCell>
-
-          <TableCell align="left">
-            <Skeleton variant="rounded" width={77} height={20} />
-          </TableCell>
-
-          <TableCell align="left">
             <Skeleton />
+          </TableCell>
+          <TableCell align="left">
+            <Skeleton width={100} />
+          </TableCell>
+
+          <TableCell align="left">
+            <Skeleton width={80} />
+          </TableCell>
+
+          <TableCell align="left">
+            <Skeleton width={80} />
           </TableCell>
 
           <TableCell align="left">
             <Skeleton variant="rounded" width={90} height={20} />
           </TableCell>
-
-          <TableCell align="right">
-            <IconButton size="large" color="inherit">
-              <Iconify icon={'eva:more-vertical-fill'} />
-            </IconButton>
+          <TableCell align="left">
+            <Skeleton variant="rounded" width={90} height={20} />
           </TableCell>
         </TableRow>
       ))}
